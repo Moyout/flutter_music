@@ -6,3 +6,7 @@ export 'package:flutter_music/util/screen_util.dart';
 export 'package:flutter_music/util/app_util.dart';
 export 'package:flutter_music/common/http/base_request.dart';
 export 'package:flutter_music/config/app_config.dart';
+export 'package:flutter_music/util/sp_util.dart';
+export 'package:flutter_music/widget/common/unripple.dart';
+export 'package:flutter_music/widget/common/route_animation.dart';
+export 'package:flutter_music/util/route_util.dart';

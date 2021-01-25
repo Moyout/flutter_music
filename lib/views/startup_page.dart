@@ -1,34 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_music/util/app_util.dart';
-import 'package:flutter_music/util/sp_util.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/startup_viewmodel.dart';
 
-class StartUpPage extends StatefulWidget {
-  @override
-  _StartUpPageState createState() => _StartUpPageState();
-}
-
-class _StartUpPageState extends State<StartUpPage> {
-  @override
-  void initState() {
-    // SystemUiOverlayStyle systemUiOverlayStyle =
-    // SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-    // SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-    super.initState();
-  }
-
+class StartUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    StartUpViewModel state = context.read<StartUpViewModel>();
+    state.initViewModel();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage(
-              "https://bing.ioliu.cn/v1/rand",
+            image: NetworkImage("https://bing.ioliu.cn/v1/rand"),
+            colorFilter: ColorFilter.mode(
+              Colors.white.withOpacity(0.5),
+              BlendMode.srcOver,
             ),
-            colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.5), BlendMode.srcOver)
           ),
         ),
         width: AppUtils.getScreenWidth(),
@@ -52,9 +40,26 @@ class _StartUpPageState extends State<StartUpPage> {
               ),
             ),
             Spacer(),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Text('ss'),
+            Padding(
+              padding: EdgeInsets.only(bottom: 10.w, right: 30.w),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: RawChip(
+                  backgroundColor: Colors.transparent,
+                  label: Consumer<StartUpViewModel>(
+                    builder: (_, StartUpViewModel stModel, __) {
+                      return Text(
+                        "${stModel.times.toString()}跳过",
+                        style: TextStyle(
+                          fontFamily: "FZKT",
+                          fontSize: 14.sp,
+                        ),
+                      );
+                    },
+                  ),
+                  onPressed: () => state.pushNewPage(),
+                ),
+              ),
             ),
           ],
         ),
