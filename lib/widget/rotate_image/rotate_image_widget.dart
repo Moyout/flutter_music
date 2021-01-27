@@ -14,10 +14,9 @@ class _RotateImageWidgetState extends State<RotateImageWidget>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<PlayBarViewModel>().controller =
           AnimationController(duration: Duration(seconds: 10), vsync: this);
-      context.read<PlayBarViewModel>().initViewModel();
+      context.read<PlayBarViewModel>().initRotateImage();
       setState(() {});
     });
-
   }
 
   @override

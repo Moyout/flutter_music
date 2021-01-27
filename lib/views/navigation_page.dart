@@ -1,5 +1,6 @@
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
+import 'package:flutter_music/views/music_hall/music_hall_page.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
 class NavigationPage extends StatelessWidget {
@@ -16,7 +17,11 @@ class NavigationPage extends StatelessWidget {
               controller: context.watch<NavViewModel>().pageController,
               onPageChanged: (i) => navModel.pageTo(i),
               children: <Widget>[
-                Container(color: Colors.teal),
+                GestureDetector(
+                    onTap: () {
+                      RouteUtil.push(CustomRoute(MusicHallPage()));
+                    },
+                    child: Container(color: Colors.teal)),
                 Container(color: Colors.purple),
                 Container(color: Colors.purpleAccent),
                 // MusicHallPage(model, widget.model),
@@ -37,74 +42,71 @@ class NavigationPage extends StatelessWidget {
   Widget bottomBar(NavViewModel navModel) {
     return Positioned(
       bottom: 35.w,
-      child: AnimatedOpacity(
-        duration: Duration(milliseconds: 1000),
-        opacity: navModel.isOnTap ? 0 : 1,
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(25.px),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.3), offset: Offset(0, 3)),
-              ]),
-          padding: EdgeInsets.all(1.5.w),
-          width: AppUtils.getScreenWidth() - 80.w,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              AnimatedContainer(
-                alignment: navModel.navIndex == 0
-                    ? Alignment.centerLeft
-                    : navModel.navIndex == 1
-                        ? Alignment.center
-                        : Alignment.centerRight,
-                duration: Duration(milliseconds: 300),
-                child: Container(
-                  width: 130.w,
-                  height: 45.w,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(14.px),
-                  ),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25.px),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2)),
+            ]),
+        padding: EdgeInsets.all(1.5.w),
+        width: AppUtils.getScreenWidth() - 80.w,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            AnimatedContainer(
+              alignment: navModel.navIndex == 0
+                  ? Alignment.centerLeft
+                  : navModel.navIndex == 1
+                      ? Alignment.center
+                      : Alignment.centerRight,
+              duration: Duration(milliseconds: 300),
+              child: Container(
+                width: 130.w,
+                height: 45.w,
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(14.px),
                 ),
               ),
-              ...List.generate(navModel.itemList.length, (index) {
-                return Positioned(
-                  width: (AppUtils.getScreenWidth() - 80.w) / 3,
-                  left: index == 0 ? 0 : null,
-                  right: index == 2 ? 0 : null,
-                  child: InkWell(
-                    onTap: () => navModel.pageTo(index),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          navModel.itemList[index].icon,
-                          color: navModel.itemList[index].isActive
-                              ? Colors.white
-                              : Colors.grey,
-                          size: 22.sp,
-                        ),
-                        SizedBox(width: 10.w),
-                        Offstage(
-                          offstage: !navModel.itemList[index].isActive,
-                          child: Text(
-                            navModel.itemList[index].title,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: Colors.white,
-                              fontFamily: "FZKT",
-                            ),
+            ),
+            ...List.generate(navModel.itemList.length, (index) {
+              return Positioned(
+                width: (AppUtils.getScreenWidth() - 80.w) / 3,
+                left: index == 0 ? 0 : null,
+                right: index == 2 ? 0 : null,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => navModel.pageTo(index),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        navModel.itemList[index].icon,
+                        color: navModel.itemList[index].isActive
+                            ? Colors.white
+                            : Colors.grey,
+                        size: 22.sp,
+                      ),
+                      SizedBox(width: 10.w, height: 45.w),
+                      Offstage(
+                        offstage: !navModel.itemList[index].isActive,
+                        child: Text(
+                          navModel.itemList[index].title,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.white,
+                            fontFamily: "FZKT",
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              }),
-            ],
-          ),
+                ),
+              );
+            }),
+          ],
         ),
       ),
     );

@@ -44,6 +44,8 @@ dependencies:
   flutter_launcher_icons: ^0.8.1
   # 异步锁
   synchronized: ^2.2.0
+  # 播放器
+  audioplayers: ^0.15.1
 
 flutter_icons:
   # use "flutter pub run flutter_launcher_icons:main"
