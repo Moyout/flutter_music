@@ -5,26 +5,30 @@ import 'package:flutter_music/widget/rotate_image/rotate_image_widget.dart';
 class PlayBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
+    return Hero(
+      tag: "playBar",
       child: Container(
-        height: 60.w,
+        height: 50.w,
+        width: MediaQuery.of(context).size.width - 120.w,
         padding: EdgeInsets.only(left: 5.w, right: 10.w),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10.w)),
+          borderRadius: BorderRadius.circular(25.w),
           color: Colors.white,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             RotateImageWidget(),
-            Spacer(),
+            marquee(),
             playButton(context),
           ],
         ),
       ),
     );
+  }
+
+  Widget marquee() {
+    return Container();
   }
 
   Widget playButton(BuildContext context) {

@@ -13,14 +13,14 @@ class NavViewModel extends ChangeNotifier {
   PageController pageController = PageController();
 
   void pageTo(int index) {
-    pageController.jumpToPage(index);
-    itemList.forEach((element) {
-      element.isActive = false;
-    });
-    itemList[index].isActive = true;
-    navIndex = index;
-    notifyListeners();
+    if (index != navIndex) {
+      pageController.jumpToPage(index);
+      itemList.forEach((element) {
+        element.isActive = false;
+      });
+      itemList[index].isActive = true;
+      navIndex = index;
+      notifyListeners();
+    }
   }
-
-
 }

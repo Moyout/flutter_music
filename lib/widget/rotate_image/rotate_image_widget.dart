@@ -12,31 +12,39 @@ class _RotateImageWidgetState extends State<RotateImageWidget>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PlayBarViewModel>().controller =
-          AnimationController(duration: Duration(seconds: 10), vsync: this);
-      context.read<PlayBarViewModel>().initRotateImage();
-      setState(() {});
+      if (context.read<PlayBarViewModel>().controller == null) {
+        context.read<PlayBarViewModel>().controller =
+            AnimationController(duration: Duration(seconds: 10), vsync: this);
+        context.read<PlayBarViewModel>().initRotateImage();
+        setState(() {});
+      }
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return context.read<PlayBarViewModel>().controller == null
-        ? Container()
+        ? const SizedBox()
         : GestureDetector(
             onTap: () {},
-            child: RotationTransition(
-              turns: Tween(begin: 0.0, end: 1.0)
-                  .animate(context.watch<PlayBarViewModel>().controller),
-              child: ClipOval(
-                child: FadeInImage.assetNetwork(
-                  placeholder: "assets/images/0.gif",
-                  image: "https://bing.ioliu.cn/v1/rand",
-                  width: 40.w,
-                  height: 40.w,
-                  fit: BoxFit.cover,
-                ),
-              ),
+            child: Consumer<PlayBarViewModel>(
+              builder: (_, PlayBarViewModel pbModel, __) {
+                return RotationTransition(
+                  turns:
+                      Tween(begin: 0.0, end: 1.0).animate(pbModel.controller),
+                  child: ClipOval(
+                    child: FadeInImage.assetNetwork(
+                      placeholder: "assets/images/0.gif",
+                      image: pbModel.picUrl,
+                      width: 40.w,
+                      height: 40.w,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              },
             ),
           );
   }

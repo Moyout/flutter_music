@@ -12,7 +12,6 @@ class StartUpViewModel extends ChangeNotifier {
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-
     if (_timer == null)
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         times--;
@@ -25,6 +24,7 @@ class StartUpViewModel extends ChangeNotifier {
   }
 
   void pushNewPage() {
+    _timer?.cancel();
     RouteUtil.pushReplacement(CustomRoute(NavigationPage()));
   }
 }

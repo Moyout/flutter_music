@@ -1,9 +1,12 @@
 import 'package:flutter_music/util/tools.dart';
 
 class PlayBarViewModel extends ChangeNotifier {
+  String picUrl =
+      "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"; //旋转头像
   bool isPlay = false; //是否播放
   AnimationController controller; //旋转图片控制器
   AudioPlayer audioPlayer; //播放器
+  String playUrl = ""; //播放音频地址
   Duration duration;
   Duration position;
 
@@ -49,9 +52,20 @@ class PlayBarViewModel extends ChangeNotifier {
   }
 
   ///播放操作
-  onPlay() {
-    isPlay = !isPlay;
-    isPlay ?controller.forward():controller.stop();
+  void onPlay() async {
+    if (isPlay) {
+      isPlay = false;
+      controller.stop();
+    } else {
+      isPlay = true;
+      controller.forward();
+    }
     notifyListeners();
+    // // if (playUrl != "") {
+    //   isPlay = !isPlay;
+    //   isPlay ? controller.forward() : controller.stop();
+    //   // await audioPlayer.play(playUrl);
+    //   notifyListeners();
+    // // }
   }
 }
