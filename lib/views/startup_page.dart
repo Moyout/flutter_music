@@ -1,3 +1,4 @@
+
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/startup_viewmodel.dart';
 
@@ -5,7 +6,7 @@ class StartUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StartUpViewModel state = context.read<StartUpViewModel>();
-    state.initViewModel();
+    state.initViewModel(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -19,7 +20,7 @@ class StartUpPage extends StatelessWidget {
             ),
           ),
         ),
-        width: AppUtils.getScreenWidth(),
+        width: AppUtils.getScreenWidth(context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -29,14 +30,14 @@ class StartUpPage extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 50.w),
               child: Image.asset(
                 "assets/images/logo.png",
-                width: AppUtils.getScreenWidth() / 2 - 40.w,
+                width: AppUtils.getScreenWidth(context) / 2 - 40.w,
                 fit: BoxFit.contain,
               ),
             ),
             Container(
               child: Image.asset(
                 "assets/images/logo2.png",
-                width: AppUtils.getScreenWidth() / 2 - 20.w,
+                width: AppUtils.getScreenWidth(context) / 2 - 20.w,
               ),
             ),
             Spacer(),
@@ -57,7 +58,7 @@ class StartUpPage extends StatelessWidget {
                       );
                     },
                   ),
-                  onPressed: () => state.pushNewPage(),
+                  onPressed: () => state.pushNewPage(context),
                 ),
               ),
             ),

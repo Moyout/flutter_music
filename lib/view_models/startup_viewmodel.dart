@@ -8,7 +8,7 @@ class StartUpViewModel extends ChangeNotifier {
   int times = 4; //秒数
 
   ///初始化ViewModel
-  void initViewModel() {
+  void initViewModel(BuildContext context) {
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
@@ -17,14 +17,14 @@ class StartUpViewModel extends ChangeNotifier {
         times--;
         if (times == 0) {
           _timer.cancel();
-          pushNewPage();
+          pushNewPage(context);
         }
         notifyListeners();
       });
   }
 
-  void pushNewPage() {
+  void pushNewPage(BuildContext context) {
     _timer?.cancel();
-    RouteUtil.pushReplacement(CustomRoute(NavigationPage()));
+    RouteUtil.pushReplacement(context,NavigationPage());
   }
 }

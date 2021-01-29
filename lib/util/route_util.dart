@@ -2,15 +2,18 @@ import 'package:flutter_music/util/tools.dart';
 
 ///路由
 class RouteUtil {
-  static void push(CustomRoute customRoute) {
-    Navigator.push(AppUtils.getContext(), customRoute);
+  static void push(BuildContext context, Widget widget,
+      {RouteAnimation animation}) {
+    Navigator.push(context, CustomRoute(widget, routeAnimation: animation));
   }
 
-  static void pop<T extends Object>([T result]) {
-    Navigator.of(AppUtils.getContext()).pop<T>(result);
+  static void pop<T extends Object>(BuildContext context, [T result]) {
+    Navigator.of(context).pop<T>(result);
   }
 
-  static void pushReplacement(CustomRoute customRoute) {
-    Navigator.pushReplacement(AppUtils.getContext(), customRoute);
+  static void pushReplacement(BuildContext context, Widget widget,
+      {RouteAnimation animation}) {
+    Navigator.pushReplacement(
+        context, CustomRoute(widget, routeAnimation: animation));
   }
 }

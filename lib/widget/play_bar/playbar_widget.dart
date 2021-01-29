@@ -8,11 +8,11 @@ class PlayBarWidget extends StatelessWidget {
     return Hero(
       tag: "playBar",
       child: Container(
-        height: 50.w,
+        height: 45.w,
         width: MediaQuery.of(context).size.width - 120.w,
-        padding: EdgeInsets.only(left: 5.w, right: 10.w),
+        padding: EdgeInsets.only(left: 2.5.w, right: 10.w),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.w),
+          borderRadius: BorderRadius.circular(45.w / 2),
           color: Colors.white,
         ),
         child: Row(

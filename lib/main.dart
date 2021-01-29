@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Player',
           home: StartUpPage(),
-          navigatorKey: AppUtils.navigatorKey,
+          // navigatorKey: AppUtils.navigatorKey,
           initialRoute: '/',
           routes: {},
         ),
