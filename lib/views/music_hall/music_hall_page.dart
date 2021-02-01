@@ -9,7 +9,10 @@ class MusicHallPage extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned(bottom: 5.w, child: PlayBarWidget()),
+          Positioned(
+            bottom: 5.w,
+            child: PlayBarWidget(),
+          ),
         ],
       ),
     );

@@ -4,29 +4,11 @@ import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/views/music_hall/music_hall_page.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
-class NavigationPage extends StatefulWidget {
-  @override
-  _NavigationPageState createState() => _NavigationPageState();
-}
-
-class _NavigationPageState extends State<NavigationPage> {
-  ScrollController sc = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    sc.addListener(() {
-      // print(sc.offset);
-      print(sc.position.userScrollDirection);
-      if (sc.position.userScrollDirection == ScrollDirection.reverse) {
-        sc.animateTo(350.w, duration: Duration(milliseconds:500), curve: Curves.bounceIn);
-      }
-     });
-  }
-
+class NavigationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NavViewModel navModel = context.read<NavViewModel>();
+    navModel.initSC(context);
     return Scaffold(
       body: ScrollConfiguration(
         behavior: OverScrollBehavior(),
@@ -54,17 +36,30 @@ class _NavigationPageState extends State<NavigationPage> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45.w,
-                child: ListView(
-                  controller: sc,
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Container(width: 60.w),
-                    PlayBarWidget(),
-                    Container(
-                      width: 500.w,
-                    )
-                  ],
+                child: Consumer<NavViewModel>(
+                  builder: (_, NavViewModel navModel, __) {
+                    return ListView(
+                      controller: navModel.sc,
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        Container(
+                            width: MediaQuery.of(context).size.width - 50.w),
+                        PlayBarWidget(),
+                        Container(width: 60.w),
+                      ],
+                    );
+                  },
+                  // child: ListView(
+                  //   controller: sc,
+                  //   physics: BouncingScrollPhysics(),
+                  //   scrollDirection: Axis.horizontal,
+                  //   children: [
+                  //     Container(width: MediaQuery.of(context).size.width - 50.w),
+                  //     PlayBarWidget(),
+                  //     Container(width: 60.w),
+                  //   ],
+                  // ),
                 ),
               ),
             ),
@@ -90,7 +85,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2)),
               ]),
           padding: EdgeInsets.all(1.5.w),
-          width: AppUtils.getScreenWidth(context),
+          width: AppUtils.getWidth(context),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -112,7 +107,7 @@ class _NavigationPageState extends State<NavigationPage> {
               ),
               ...List.generate(navModel.itemList.length, (index) {
                 return Positioned(
-                  width: (AppUtils.getScreenWidth(context) - 80.w) / 3,
+                  width: (AppUtils.getWidth(context) - 80.w) / 3,
                   left: index == 0 ? 0 : null,
                   right: index == 2 ? 0 : null,
                   child: GestureDetector(

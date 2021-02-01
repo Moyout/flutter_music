@@ -8,6 +8,7 @@ class PlayBarWidget extends StatelessWidget {
     return Hero(
       tag: "playBar",
       child: Container(
+        key: UniqueKey(),
         height: 45.w,
         width: MediaQuery.of(context).size.width - 120.w,
         padding: EdgeInsets.only(left: 2.5.w, right: 10.w),

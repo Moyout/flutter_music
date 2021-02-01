@@ -16,6 +16,18 @@ class PlayBarViewModel extends ChangeNotifier {
     initAudioPlayer();
   }
 
+  abc(TickerProvider tickerProvider) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller == null) {
+        controller = AnimationController(
+            duration: Duration(seconds: 10), vsync: tickerProvider);
+        initRotateImage();
+        notifyListeners();
+      }
+    });
+
+  }
+
   ///初始化旋转图片
   void initRotateImage() {
     if (controller != null) {
@@ -25,6 +37,7 @@ class PlayBarViewModel extends ChangeNotifier {
           controller.forward();
         }
       });
+      notifyListeners();
     }
   }
 

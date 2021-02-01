@@ -14,12 +14,12 @@ class AppUtils {
   // }
 
   //获取屏幕宽度
-  static double getScreenWidth(BuildContext context) {
+  static double getWidth(BuildContext context) {
     return MediaQuery.of(context).size.width;
   }
 
   //获取屏幕高度
-  static double getScreenHeight(BuildContext context) {
+  static double getHeight(BuildContext context) {
     return MediaQuery.of(context).size.height;
   }
 }
