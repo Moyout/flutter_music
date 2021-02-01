@@ -19,11 +19,12 @@ class NavigationPage extends StatelessWidget {
               controller: context.watch<NavViewModel>().pageController,
               onPageChanged: (i) => navModel.pageTo(i),
               children: <Widget>[
-                GestureDetector(
-                    onTap: () {
-                      RouteUtil.push(context, MusicHallPage());
-                    },
-                    child: Container(color: Colors.teal)),
+                MusicHallPage(),
+                // GestureDetector(
+                //     onTap: () {
+                //       RouteUtil.push(context, MusicHallPage());
+                //     },
+                //     child: Container(color: Colors.teal)),
                 Container(color: Colors.purple),
                 Container(color: Colors.purpleAccent),
                 // MusicHallPage(model, widget.model),
@@ -128,11 +129,8 @@ class NavigationPage extends StatelessWidget {
                           offstage: !navModel.itemList[index].isActive,
                           child: Text(
                             navModel.itemList[index].title,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: Colors.white,
-                              fontFamily: "FZKT",
-                            ),
+                            style:
+                                TextStyle(fontSize: 16.sp, color: Colors.white),
                           ),
                         ),
                       ],

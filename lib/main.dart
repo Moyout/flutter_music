@@ -5,7 +5,7 @@ import 'package:flutter_music/views/startup_page.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); //禁止provider红屏
   ScreenUtil.initialize(); //初始化屏幕适配
-  AppConfig.initSp();//初始化SP
+  AppConfig.initSp(); //初始化SP
   runApp(MyApp());
 }
 
@@ -23,6 +23,9 @@ class MyApp extends StatelessWidget {
           // navigatorKey: AppUtils.navigatorKey,
           initialRoute: '/',
           routes: {},
+          theme: ThemeData(
+            textTheme: TextTheme(bodyText2: TextStyle(fontFamily: "FZKT")),
+          ),
         ),
       ),
     );
