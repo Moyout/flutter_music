@@ -1,7 +1,7 @@
 import 'package:flutter_music/util/tools.dart';
 
 class BannerWidget extends StatelessWidget {
- final List _list = [
+  final List _list = [
     // "",
     // "",
     // ""
@@ -16,7 +16,6 @@ class BannerWidget extends StatelessWidget {
       width: AppUtils.getWidth(context) * 0.8.w,
       height: AppUtils.getHeight(context) * 0.2.w,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12.w),
         child: Swiper(
           onTap: (v) {
             switch (v) {

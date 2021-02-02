@@ -1,4 +1,5 @@
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/views/search_page/search_page.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final String title;
@@ -19,13 +20,12 @@ class SearchBarWidget extends StatelessWidget {
             "$title",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontSize: 18.sp,
+              fontSize: Theme.of(context).textTheme.bodyText2.fontSize + 4.sp,
             ),
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () => RouteUtil.push(context, SearchPage()),
               child: Container(
                 margin: EdgeInsets.only(left: 20.w, right: 20.w),
                 height: 30.w,
@@ -43,7 +43,6 @@ class SearchBarWidget extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 13.sp,
-                        // fontFamily: "FZKT",
                       ),
                     ),
                   ],

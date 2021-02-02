@@ -63,7 +63,7 @@ class PlayBarWidget extends StatelessWidget {
                 ? Icons.pause_circle_outline
                 : Icons.play_circle_outline,
             color: BLUE_COLOR,
-            size: 30.sp,
+            size: 32.w,
           ),
         ],
       ),

@@ -7,19 +7,18 @@ class MusicHallPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blueGrey,
+        // color: Colors.blueGrey,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           children: [
-            SafeArea(child: SearchBarWidget()),
+            SafeArea(child: SearchBarWidget(title: "音乐馆")),
             Expanded(
               child: Container(
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
                     BannerWidget(),
-                    Container(
-                      height: 800,
-                    )
+                    Container(height: 800),
                   ],
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/rendering.dart';
+import 'package:flutter_music/util/theme_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/views/music_hall/music_hall_page.dart';
@@ -10,6 +11,7 @@ class NavigationPage extends StatelessWidget {
     NavViewModel navModel = context.read<NavViewModel>();
     navModel.initSC(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: ScrollConfiguration(
         behavior: OverScrollBehavior(),
         child: Stack(
@@ -20,16 +22,8 @@ class NavigationPage extends StatelessWidget {
               onPageChanged: (i) => navModel.pageTo(i),
               children: <Widget>[
                 MusicHallPage(),
-                // GestureDetector(
-                //     onTap: () {
-                //       RouteUtil.push(context, MusicHallPage());
-                //     },
-                //     child: Container(color: Colors.teal)),
                 Container(color: Colors.purple),
                 Container(color: Colors.purpleAccent),
-                // MusicHallPage(model, widget.model),
-                // HomePage(model, widget.model),
-                // MinePage(model, widget.model),
               ],
             ),
             Positioned(
@@ -51,16 +45,6 @@ class NavigationPage extends StatelessWidget {
                       ],
                     );
                   },
-                  // child: ListView(
-                  //   controller: sc,
-                  //   physics: BouncingScrollPhysics(),
-                  //   scrollDirection: Axis.horizontal,
-                  //   children: [
-                  //     Container(width: MediaQuery.of(context).size.width - 50.w),
-                  //     PlayBarWidget(),
-                  //     Container(width: 60.w),
-                  //   ],
-                  // ),
                 ),
               ),
             ),
@@ -79,12 +63,14 @@ class NavigationPage extends StatelessWidget {
       child: SafeArea(
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2)),
-              ]),
+            // color: Colors.white,
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2))
+            ],
+          ),
           padding: EdgeInsets.all(1.5.w),
           width: AppUtils.getWidth(context),
           child: Stack(
@@ -129,8 +115,7 @@ class NavigationPage extends StatelessWidget {
                           offstage: !navModel.itemList[index].isActive,
                           child: Text(
                             navModel.itemList[index].title,
-                            style:
-                                TextStyle(fontSize: 16.sp, color: Colors.white),
+                            style: TextStyle(fontSize: 16.sp),
                           ),
                         ),
                       ],

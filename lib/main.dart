@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_music/provider/provider_list.dart';
+import 'package:flutter_music/util/theme_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/views/startup_page.dart';
 
 void main() {
+  Provider.debugCheckInvalidValueType = null;//禁止provider红屏
   WidgetsFlutterBinding.ensureInitialized(); //禁止provider红屏
   ScreenUtil.initialize(); //初始化屏幕适配
   AppConfig.initSp(); //初始化SP
@@ -18,14 +21,13 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           navigatorObservers: [BotToastNavigatorObserver()],
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Player',
+          title: 'Simple Music',
           home: StartUpPage(),
-          // navigatorKey: AppUtils.navigatorKey,
           initialRoute: '/',
           routes: {},
-          theme: ThemeData(
-            textTheme: TextTheme(bodyText2: TextStyle(fontFamily: "FZKT")),
-          ),
+          themeMode: ThemeMode.light,
+          theme: ThemeUtil.lightTheme(),
+          darkTheme: ThemeUtil.darkTheme(),
         ),
       ),
     );
