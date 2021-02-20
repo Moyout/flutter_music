@@ -6,7 +6,7 @@ class ThemeUtil {
     return ThemeData(
       fontFamily: "FZKT",
       primaryColor: Colors.white,
-      scaffoldBackgroundColor: Colors.grey[300],
+      scaffoldBackgroundColor: Colors.grey[200],
       textTheme: TextTheme(
         bodyText2: TextStyle(
           fontSize: 14.sp,

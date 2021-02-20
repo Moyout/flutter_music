@@ -27,7 +27,7 @@ class NavigationPage extends StatelessWidget {
               ],
             ),
             Positioned(
-              bottom: 42.w,
+              bottom: 42.w + MediaQuery.of(context).viewPadding.bottom ?? 0,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45.w,
@@ -60,71 +60,69 @@ class NavigationPage extends StatelessWidget {
   Widget bottomBar(NavViewModel navModel, BuildContext context) {
     return Positioned(
       bottom: 0.w,
-      child: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            // color: Colors.white,
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2))
-            ],
-          ),
-          padding: EdgeInsets.all(1.5.w),
-          width: AppUtils.getWidth(context),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              AnimatedContainer(
-                alignment: navModel.navIndex == 0
-                    ? Alignment.centerLeft
-                    : navModel.navIndex == 1
-                        ? Alignment.center
-                        : Alignment.centerRight,
-                duration: Duration(milliseconds: 300),
-                child: Container(
-                  width: 130.w,
-                  height: 45.w,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(14.px),
-                  ),
+      child: Container(
+        decoration: BoxDecoration(
+          // color: Colors.white,
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
+          boxShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2))
+          ],
+        ),
+        padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom.w ?? 0)),
+        width: AppUtils.getWidth(context),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            AnimatedContainer(
+              alignment: navModel.navIndex == 0
+                  ? Alignment.centerLeft
+                  : navModel.navIndex == 1
+                      ? Alignment.center
+                      : Alignment.centerRight,
+              duration: Duration(milliseconds: 300),
+              child: Container(
+                width: 130.w,
+                height: 45.w,
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(14.px),
                 ),
               ),
-              ...List.generate(navModel.itemList.length, (index) {
-                return Positioned(
-                  width: (AppUtils.getWidth(context) - 80.w) / 3,
-                  left: index == 0 ? 0 : null,
-                  right: index == 2 ? 0 : null,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => navModel.pageTo(index),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          navModel.itemList[index].icon,
-                          color: navModel.itemList[index].isActive
-                              ? Colors.white
-                              : Colors.grey,
-                          size: 22.sp,
+            ),
+            ...List.generate(navModel.itemList.length, (index) {
+              return Positioned(
+                width: (AppUtils.getWidth(context) - 80.w) / 3,
+                left: index == 0 ? 0 : null,
+                right: index == 2 ? 0 : null,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => navModel.pageTo(index),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        navModel.itemList[index].icon,
+                        color: navModel.itemList[index].isActive
+                            ? Colors.white
+                            : Colors.grey,
+                        size: 22.sp,
+                      ),
+                      SizedBox(width: 10.w, height: 45.w),
+                      Offstage(
+                        offstage: !navModel.itemList[index].isActive,
+                        child: Text(
+                          navModel.itemList[index].title,
+                          style: TextStyle(fontSize: 16.sp),
                         ),
-                        SizedBox(width: 10.w, height: 45.w),
-                        Offstage(
-                          offstage: !navModel.itemList[index].isActive,
-                          child: Text(
-                            navModel.itemList[index].title,
-                            style: TextStyle(fontSize: 16.sp),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              }),
-            ],
-          ),
+                ),
+              );
+            }),
+          ],
         ),
       ),
     );

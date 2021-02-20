@@ -1,4 +1,3 @@
-
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/startup_viewmodel.dart';
 

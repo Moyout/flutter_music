@@ -5,7 +5,7 @@ import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/views/startup_page.dart';
 
 void main() {
-  Provider.debugCheckInvalidValueType = null;//禁止provider红屏
+  Provider.debugCheckInvalidValueType = null; //禁止provider红屏
   WidgetsFlutterBinding.ensureInitialized(); //禁止provider红屏
   ScreenUtil.initialize(); //初始化屏幕适配
   AppConfig.initSp(); //初始化SP
