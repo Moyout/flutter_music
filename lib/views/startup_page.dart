@@ -7,7 +7,6 @@ class StartUpPage extends StatelessWidget {
     StartUpViewModel state = context.read<StartUpViewModel>();
     state.initViewModel(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

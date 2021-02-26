@@ -15,24 +15,26 @@ class ThemeUtil {
         ),
       ),
       iconTheme: IconThemeData(color: Colors.black),
+      dividerColor: Colors.blueGrey,
+      brightness: Brightness.dark
     );
   }
 
   ///深夜模式
   static ThemeData darkTheme() {
     return ThemeData(
-      fontFamily: "FZKT",
-      primaryColor: Colors.white,
-      scaffoldBackgroundColor: Colors.blueGrey,
-      textTheme: TextTheme(
-        bodyText2: TextStyle(
-          fontSize: 14.sp,
-          color: Colors.white,
-          fontFamily: "FZKT",
+        fontFamily: "FZKT",
+        primaryColor: Colors.white,
+        scaffoldBackgroundColor: Colors.blueGrey,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            fontSize: 14.sp,
+            color: Colors.white,
+            fontFamily: "FZKT",
+          ),
         ),
-      ),
-      iconTheme: IconThemeData(color: Colors.white),
-    );
+        iconTheme: IconThemeData(color: Colors.white),
+        dividerColor: Colors.white);
   }
 
   static Color primaryColor(BuildContext context) {

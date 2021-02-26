@@ -32,6 +32,12 @@ class SpUtil {
     return _prefs.setString(key, value);
   }
 
+  ///存储StringList
+  static Future<bool> setStringList(String key, List<String> value) {
+    if (_prefs == null) return null;
+    return _prefs.setStringList(key, value);
+  }
+
   ///存储bool
   static Future<bool> setBool(String key, bool value) {
     if (_prefs == null) return null;
@@ -45,8 +51,19 @@ class SpUtil {
     if (status == null) return "";
     return status;
   }
+
+  ///获取String
+  static List<String> getStringList(String key) {
+    if (_prefs == null) return null;
+    List status = _prefs.getStringList(key);
+    if (status == null) return [];
+    return status;
+  }
+
   ///获取value
   static dynamic getValue(String key) {
+    print("取值${_prefs.getStringList(key)}");
+
     if (_prefs == null) return null;
     return _prefs.get(key);
   }
