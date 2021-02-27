@@ -19,7 +19,7 @@ class _RotateImageWidgetState extends State<RotateImageWidget>
     //     setState(() {});
     //   }
     // });
-    context.read<PlayBarViewModel>().abc(this);
+    context.read<PlayBarViewModel>().init(this);
   }
 
   @override

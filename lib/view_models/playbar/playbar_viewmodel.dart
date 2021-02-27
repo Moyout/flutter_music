@@ -12,11 +12,11 @@ class PlayBarViewModel extends ChangeNotifier {
 
   ///初始化ViewModel
   void initViewModel() {
-    initRotateImage();
+    // initRotateImage();
     initAudioPlayer();
   }
 
-  abc(TickerProvider tickerProvider) {
+  init(TickerProvider tickerProvider) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (controller == null) {
         controller = AnimationController(

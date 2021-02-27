@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/keyboard_util.dart';
+import 'package:flutter_music/util/theme_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
+import 'package:flutter_music/views/search_page/search_list.dart';
 import 'package:flutter_music/widget/common/cuper_dialog.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
@@ -16,8 +18,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<SearchViewModel>().clearText();
-      context.read<SearchViewModel>().initViewModel();
+       context.read<SearchViewModel>().initViewModel();
     });
     super.initState();
   }
@@ -43,7 +44,8 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget bodyWidget() {
-
+    SearchViewModel svModelR = context.read<SearchViewModel>();
+    SearchViewModel svModelW = context.watch<SearchViewModel>();
     return Container(
       margin: EdgeInsets.only(top: 70.w, bottom: 40.w),
       padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -51,71 +53,71 @@ class _SearchPageState extends State<SearchPage> {
         behavior: OverScrollBehavior(),
         child: ListView(
           children: [
-            Row(
-              children: <Widget>[
-                Text(
-                  "搜索历史",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    showCupertinoDialog(
-                      context: context,
-                      builder: (_) {
-                        return MyCupertinoDialog(
-                          () {},
+            if (svModelW.searchHistoryList.length > 0) ...[
+              Row(
+                children: <Widget>[
+                  const Text(
+                    "搜索历史",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      showCupertinoDialog(
+                        context: context,
+                        builder: (_) => MyCupertinoDialog(
+                          () => setState(() => svModelR.clearSearchHistory()),
                           title: "是否清除搜索历史",
-                        );
-                      },
-                    );
-                  },
-                  child: const Icon(Icons.delete_outline),
-                ),
-              ],
-            ),
-            Divider(),
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.delete_outline),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.w),
+            ],
             Container(
               child: Wrap(
                 spacing: 20.w,
                 runSpacing: 10.w,
-                children: List.generate(
-                    context.watch<SearchViewModel>().searchHistoryList.length,
-                    (index) {
+                children:
+                    List.generate(svModelW.searchHistoryList.length, (index) {
                   return GestureDetector(
-                    onPanDown: (_) =>
-                        context.read<SearchViewModel>().onPanDown(index),
-                    onPanCancel: () {
-                      context.read<SearchViewModel>().onPanCancel(index);
-                    },
+                    onPanDown: (_) => svModelR.onPanDown(index),
+                    onPanCancel: () => svModelR.onPanCancel(index),
                     onHorizontalDragCancel: () => false,
                     child: Chip(
-                      backgroundColor: context
-                              .watch<SearchViewModel>()
-                              .searchHistoryListBool[index]
-                          ? Colors.blueGrey
-                          : Theme.of(context).brightness != Brightness.dark
-                              ? Colors.grey
-                              : Colors.white,
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? svModelW.searchHistoryListBool[index]
+                                  ? Colors.white
+                                  : Colors.grey
+                              : svModelW.searchHistoryListBool[index]
+                                  ? Colors.blueGrey
+                                  : Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 5.w),
                       label: Text(
-                        "${context.read<SearchViewModel>().searchHistoryList[index]}",
+                        "${svModelR.searchHistoryList[index]}",
                         style: TextStyle(
-                            fontFamily: "",
-                            color: context
-                                    .watch<SearchViewModel>()
-                                    .searchHistoryListBool[index]
-                                ? Colors.white
-                                : Colors.black,
-                            fontSize: 14.w,
-                            letterSpacing: 1.2),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? svModelW.searchHistoryListBool[index]
+                                  ? Colors.grey
+                                  : Colors.white
+                              : svModelW.searchHistoryListBool[index]
+                                  ? Colors.white
+                                  : Colors.blueGrey,
+                          fontSize: 14.w,
+                          letterSpacing: 1.2,
+                        ),
                       ),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                   );
                 }),
               ),
-            )
+            ),
+            SearchList(svModel: svModelW)
           ],
         ),
       ),
@@ -127,6 +129,7 @@ class _SearchPageState extends State<SearchPage> {
     return Positioned(
       top: MediaQueryData.fromWindow(window).padding.top,
       child: Container(
+        color: ThemeUtil.scaffoldColor(context),
         width: AppUtils.getWidth(context),
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.w),
         height: 44.w,
@@ -137,7 +140,7 @@ class _SearchPageState extends State<SearchPage> {
               children: <Widget>[
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: Icon(Icons.arrow_back),
+                  child: const Icon(Icons.arrow_back),
                 ),
                 Expanded(
                   child: Container(
@@ -155,11 +158,8 @@ class _SearchPageState extends State<SearchPage> {
                             fontSize: 13.sp,
                           ),
                           textInputAction: TextInputAction.search,
-                          onSubmitted: (value) {
-                            context
-                                .read<SearchViewModel>()
-                                .saveHistorySearch(value);
-                          },
+                          onSubmitted: (value) =>
+                              svModel.saveHistorySearch(value),
                           onChanged: (value) => setState(() {}),
                           controller: svModel.textC,
                           decoration: InputDecoration(

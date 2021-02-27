@@ -16,7 +16,7 @@ class ThemeUtil {
       ),
       iconTheme: IconThemeData(color: Colors.black),
       dividerColor: Colors.blueGrey,
-      brightness: Brightness.dark
+      brightness: Brightness.light,
     );
   }
 
@@ -34,10 +34,16 @@ class ThemeUtil {
           ),
         ),
         iconTheme: IconThemeData(color: Colors.white),
-        dividerColor: Colors.white);
+        dividerColor: Colors.white,
+        brightness: Brightness.dark,
+        dialogTheme: DialogTheme());
   }
 
   static Color primaryColor(BuildContext context) {
     return Theme.of(context).primaryColor;
+  }
+
+  static Color scaffoldColor(BuildContext context) {
+    return Theme.of(context).scaffoldBackgroundColor;
   }
 }
