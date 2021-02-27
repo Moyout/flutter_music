@@ -15,23 +15,37 @@ class _SearchListState extends State<SearchList>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    widget.svModel.initTabController(this);
+    context.read<SearchViewModel>().initTabController(this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
           width: AppUtils.getWidth(context),
-          padding: EdgeInsets.symmetric(vertical: 12.w),
+          padding: EdgeInsets.symmetric(vertical: 12.w,horizontal: 15.w),
           child: Text(
             "热门音乐TOP",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
+        if (widget.svModel.tabController != null)
+          Container(
+            height: 500.w,
+            child: TabBarView(
+              controller: widget.svModel?.tabController,
+              children: [
+                hotMusic(),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  height: 200,
+                  color: Colors.red,
+                ),
+              ],
+            ),
+          ),
         // Material(
         //   clipBehavior: Clip.antiAlias,
         //   borderRadius: BorderRadius.circular(12.w),
@@ -81,39 +95,42 @@ class _SearchListState extends State<SearchList>
         //           }),
         //         ),
         // ),
-        Material(
-          clipBehavior: Clip.antiAlias,
-          borderRadius: BorderRadius.circular(12.w),
-          child: widget.svModel.hmModel?.songlist == null
-              ? Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 20.w, horizontal: 20.w),
-                  child: CupertinoActivityIndicator(),
-                )
-              : Column(
+      ],
+    );
+  }
+
+  Widget hotMusic() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      child: Material(
+
+        clipBehavior: Clip.antiAlias,
+        borderRadius: BorderRadius.circular(12.w),
+        child: widget.svModel.hmModel?.songlist == null
+            ? Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
+                child: CupertinoActivityIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Column(
                   children: List.generate(10, (index) {
                     return ListTile(
                       contentPadding: EdgeInsets.all(0),
                       leading: Container(
-                        padding:
-                            EdgeInsets.only(left: 20.w, top: 10.w),
+                        padding: EdgeInsets.only(left: 20.w, top: 10.w),
                         child: Text(
                           "${index + 1}",
                           style: TextStyle(
-                            color: index == 0 ||
-                                    index == 1 ||
-                                    index == 2
+                            color: index == 0 || index == 1 || index == 2
                                 ? Colors.deepOrange
                                 : Colors.grey,
                           ),
                         ),
                       ),
                       title: Text(
-                        widget.svModel.hmModel.songlist[index].data
-                            .songname,
+                        widget.svModel.hmModel.songlist[index].data.songname,
                         style: TextStyle(
-                          color: Theme.of(context).brightness ==
-                                  Brightness.light
+                          color: Theme.of(context).brightness == Brightness.light
                               ? Colors.black
                               : Colors.white,
                           fontSize: 14.sp,
@@ -121,11 +138,7 @@ class _SearchListState extends State<SearchList>
                       ),
                       subtitle: Text(
                         "${widget.svModel.hmModel.songlist[index].data.singer[0].name}" +
-                                widget
-                                    .svModel
-                                    .hmModel
-                                    .songlist[index]
-                                    .data
+                                widget.svModel.hmModel.songlist[index].data
                                     .albumdesc ??
                             "",
                         style: TextStyle(fontSize: 12.sp),
@@ -137,9 +150,8 @@ class _SearchListState extends State<SearchList>
                     );
                   }),
                 ),
-        ),
-        Container(color: Colors.brown)
-      ],
+              ),
+      ),
     );
   }
 }

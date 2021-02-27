@@ -48,36 +48,41 @@ class _SearchPageState extends State<SearchPage> {
     SearchViewModel svModelW = context.watch<SearchViewModel>();
     return Container(
       margin: EdgeInsets.only(top: 70.w, bottom: 40.w),
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      // padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: ScrollConfiguration(
         behavior: OverScrollBehavior(),
         child: ListView(
           children: [
+
             if (svModelW.searchHistoryList.length > 0) ...[
-              Row(
-                children: <Widget>[
-                  const Text(
-                    "搜索历史",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      showCupertinoDialog(
-                        context: context,
-                        builder: (_) => MyCupertinoDialog(
-                          () => setState(() => svModelR.clearSearchHistory()),
-                          title: "是否清除搜索历史",
-                        ),
-                      );
-                    },
-                    child: const Icon(Icons.delete_outline),
-                  ),
-                ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: <Widget>[
+                    const Text(
+                      "搜索历史",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (_) => MyCupertinoDialog(
+                            () => setState(() => svModelR.clearSearchHistory()),
+                            title: "是否清除搜索历史",
+                          ),
+                        );
+                      },
+                      child: const Icon(Icons.delete_outline),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 10.w),
             ],
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: Wrap(
                 spacing: 20.w,
                 runSpacing: 10.w,
