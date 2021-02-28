@@ -18,7 +18,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-       context.read<SearchViewModel>().initViewModel();
+      context.read<SearchViewModel>().initViewModel();
     });
     super.initState();
   }
@@ -47,13 +47,14 @@ class _SearchPageState extends State<SearchPage> {
     SearchViewModel svModelR = context.read<SearchViewModel>();
     SearchViewModel svModelW = context.watch<SearchViewModel>();
     return Container(
-      margin: EdgeInsets.only(top: 70.w, bottom: 40.w),
+      margin: EdgeInsets.only(top: 80.w, bottom: 40.w),
       // padding: EdgeInsets.symmetric(horizontal: 15.w),
+
       child: ScrollConfiguration(
         behavior: OverScrollBehavior(),
         child: ListView(
+          physics: BouncingScrollPhysics(),
           children: [
-
             if (svModelW.searchHistoryList.length > 0) ...[
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),

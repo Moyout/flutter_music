@@ -20,12 +20,17 @@ class _SearchListState extends State<SearchList>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(
           width: AppUtils.getWidth(context),
-          padding: EdgeInsets.symmetric(vertical: 12.w,horizontal: 15.w),
+          padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 15.w),
           child: Text(
             "热门音乐TOP",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -33,7 +38,7 @@ class _SearchListState extends State<SearchList>
         ),
         if (widget.svModel.tabController != null)
           Container(
-            height: 500.w,
+            height: 800.w,
             child: TabBarView(
               controller: widget.svModel?.tabController,
               children: [
@@ -103,7 +108,6 @@ class _SearchListState extends State<SearchList>
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: Material(
-
         clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.circular(12.w),
         child: widget.svModel.hmModel?.songlist == null
@@ -111,45 +115,47 @@ class _SearchListState extends State<SearchList>
                 padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
                 child: CupertinoActivityIndicator(),
               )
-            : SingleChildScrollView(
-                child: Column(
-                  children: List.generate(10, (index) {
-                    return ListTile(
-                      contentPadding: EdgeInsets.all(0),
-                      leading: Container(
-                        padding: EdgeInsets.only(left: 20.w, top: 10.w),
-                        child: Text(
-                          "${index + 1}",
-                          style: TextStyle(
-                            color: index == 0 || index == 1 || index == 2
-                                ? Colors.deepOrange
-                                : Colors.grey,
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        widget.svModel.hmModel.songlist[index].data.songname,
+            : ListView(
+                physics: NeverScrollableScrollPhysics(),
+                itemExtent: 80.w,
+                controller: widget.svModel.listController,
+                children: List.generate(10, (index) {
+                  return ListTile(
+                    contentPadding: EdgeInsets.all(0),
+                    leading: Container(
+                      padding: EdgeInsets.only(left: 20.w, top: 10.w),
+                      child: Text(
+                        "${index + 1}",
                         style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.white,
-                          fontSize: 14.sp,
+                          color: index == 0 || index == 1 || index == 2
+                              ? Colors.deepOrange
+                              : Colors.grey,
                         ),
                       ),
-                      subtitle: Text(
-                        "${widget.svModel.hmModel.songlist[index].data.singer[0].name}" +
-                                widget.svModel.hmModel.songlist[index].data
-                                    .albumdesc ??
-                            "",
-                        style: TextStyle(fontSize: 12.sp),
+                    ),
+                    title: Text(
+                      widget.svModel.hmModel.songlist[index].data.songname,
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
+                        fontSize: 14.sp,
                       ),
-                      onTap: () {
-                        // model.onSongItem(
-                        //     model.hotMusic.songlist[index].data.songname);
-                      },
-                    );
-                  }),
-                ),
+                    ),
+                    subtitle: Text(
+                      "${widget.svModel.hmModel.songlist[index].data.singer[0].name}" +
+                              widget.svModel.hmModel.songlist[index].data
+                                  .albumdesc ??
+                          "",
+                      style: TextStyle(fontSize: 12.sp),
+                    ),
+                    onTap: () {
+                      setState(() {});
+                      // model.onSongItem(
+                      //     model.hotMusic.songlist[index].data.songname);
+                    },
+                  );
+                }),
               ),
       ),
     );

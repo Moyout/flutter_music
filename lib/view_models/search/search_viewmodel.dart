@@ -7,6 +7,8 @@ class SearchViewModel extends ChangeNotifier {
   List<bool> searchHistoryListBool = [];
   HotMusicModel hmModel;
   TabController tabController;
+  ScrollController listController = ScrollController();
+  bool isScroll = true;
 
   ///初始化ViewModel
   Future<void> initViewModel() async {
@@ -17,6 +19,21 @@ class SearchViewModel extends ChangeNotifier {
       searchHistoryListBool.add(false);
     }
     hmModel = await HotMusicRequest.getHotMusic();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      listController.addListener(() {
+        if (listController.hasClients) {
+          if (listController.offset ==
+              listController.position.maxScrollExtent) {
+            // isScroll = false;
+          }
+        }
+        print(listController.offset.px);
+        print(listController.position);
+        print(listController.position.physics.minFlingVelocity);
+        notifyListeners();
+      });
+    });
+
     notifyListeners();
   }
 
