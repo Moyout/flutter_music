@@ -1,4 +1,5 @@
 import 'package:flutter_music/models/search/hot_music_model.dart';
+import 'package:flutter_music/util/keyboard_util.dart';
 import 'package:flutter_music/util/tools.dart';
 
 class SearchViewModel extends ChangeNotifier {
@@ -8,10 +9,12 @@ class SearchViewModel extends ChangeNotifier {
   HotMusicModel hmModel;
   TabController tabController;
   ScrollController listController = ScrollController();
+  ScrollController listExternalController = ScrollController();
   bool isScroll = true;
 
   ///初始化ViewModel
   Future<void> initViewModel() async {
+    textC?.clear();
     searchHistoryList =
         SpUtil.getStringList(PublicKeys.searchHistoryList) ?? [];
     searchHistoryListBool.clear();
@@ -19,20 +22,6 @@ class SearchViewModel extends ChangeNotifier {
       searchHistoryListBool.add(false);
     }
     hmModel = await HotMusicRequest.getHotMusic();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      listController.addListener(() {
-        if (listController.hasClients) {
-          if (listController.offset ==
-              listController.position.maxScrollExtent) {
-            // isScroll = false;
-          }
-        }
-        print(listController.offset.px);
-        print(listController.position);
-        print(listController.position.physics.minFlingVelocity);
-        notifyListeners();
-      });
-    });
 
     notifyListeners();
   }
@@ -41,20 +30,30 @@ class SearchViewModel extends ChangeNotifier {
   void initTabController(TickerProvider tickerProvider) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (tabController == null) {
-        tabController = TabController(length: 2, vsync: tickerProvider);
+        tabController =
+            TabController(initialIndex: 0, length: 2, vsync: tickerProvider);
         notifyListeners();
+      } else {
+        if (tabController.index != 0) tabController.animateTo(0);
+
       }
     });
   }
 
   ///清除搜索框
   void clearText() {
-    textC.clear();
+    textC?.clear();
+    tabController.animateTo(0);
     notifyListeners();
   }
 
   void onPanDown(int index) {
     searchHistoryListBool[index] = true;
+    textC.text = searchHistoryList[index];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      tabController.animateTo(1);
+    });
+
     notifyListeners();
   }
 
@@ -65,15 +64,45 @@ class SearchViewModel extends ChangeNotifier {
 
   ///存储搜索历史
   void saveHistorySearch(String value) {
-    if (!searchHistoryList.contains(value) && textC.text.length > 0) {
+    if (value.trim().length > 0) {
+      if (!searchHistoryList.contains(value)) {
+        if (searchHistoryList.length >= 10) {
+          searchHistoryList.removeLast();
+          searchHistoryListBool.removeLast();
+        }
+        searchHistoryList.insert(0, value.trim());
+        searchHistoryListBool.add(false);
+        SpUtil.setStringList(PublicKeys.searchHistoryList, searchHistoryList);
+      }
+
+      ///搜索列表
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        tabController.animateTo(1);
+      });
+    }
+
+    notifyListeners();
+  }
+
+  ///点击每条热搜
+  void onHotSearchItem(String songName) {
+    textC.text = songName;
+    KeyboardUtil.closeKeyboardUtil();
+    if (!searchHistoryList.contains(songName)) {
       if (searchHistoryList.length >= 10) {
         searchHistoryList.removeLast();
         searchHistoryListBool.removeLast();
       }
-      searchHistoryList.insert(0, value);
+      searchHistoryList.insert(0, songName.trim());
       searchHistoryListBool.add(false);
       SpUtil.setStringList(PublicKeys.searchHistoryList, searchHistoryList);
     }
+
+    ///搜索列表
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      tabController.animateTo(1);
+      notifyListeners();
+    });
     notifyListeners();
   }
 
@@ -84,4 +113,6 @@ class SearchViewModel extends ChangeNotifier {
     SpUtil.setStringList(PublicKeys.searchHistoryList, []);
     notifyListeners();
   }
+
+
 }
