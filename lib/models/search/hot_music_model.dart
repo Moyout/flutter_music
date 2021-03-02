@@ -5,7 +5,7 @@ class HotMusicRequest {
     var date = await BaseRequest().toGet(
         "https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?format=json&type=top&topid=27");
     HotMusicModel hotMusicModel = HotMusicModel.fromJson(date);
-    return hotMusicModel;
+    return hotMusicModel ?? null;
   }
 }
 

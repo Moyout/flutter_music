@@ -1,16 +1,24 @@
+import 'package:flutter_music/common/toast/toast.dart';
 import 'package:flutter_music/models/search/hot_music_model.dart';
+import 'package:flutter_music/models/search/music_key_model.dart';
+import 'package:flutter_music/models/search/search_list_model.dart';
 import 'package:flutter_music/util/keyboard_util.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
 
 class SearchViewModel extends ChangeNotifier {
-  TextEditingController textC = TextEditingController();
-  List searchHistoryList = [];
-  List<bool> searchHistoryListBool = [];
-  HotMusicModel hmModel;
-  TabController tabController;
   ScrollController listController = ScrollController();
   ScrollController listExternalController = ScrollController();
-  bool isScroll = true;
+  TextEditingController textC = TextEditingController();
+  List<bool> searchHistoryListBool = [];
+  List searchHistoryList = [];
+  HotMusicModel hmModel;
+  SearchMusicModel smModel;
+  MusicKeyModel musicKeyModel;
+  TabController tabController;
+
+  bool isLoading = false;
+  int page = 1;
 
   ///初始化ViewModel
   Future<void> initViewModel() async {
@@ -22,7 +30,18 @@ class SearchViewModel extends ChangeNotifier {
       searchHistoryListBool.add(false);
     }
     hmModel = await HotMusicRequest.getHotMusic();
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      listController.addListener(() {
+        if (listController.position.maxScrollExtent ==
+            listController.position.pixels) {
+          page++;
+          searchRequest(textC.text, page: page);
+          notifyListeners();
+          print("page=============================>$page");
+        }
+      });
+      notifyListeners();
+    });
     notifyListeners();
   }
 
@@ -35,7 +54,6 @@ class SearchViewModel extends ChangeNotifier {
         notifyListeners();
       } else {
         if (tabController.index != 0) tabController.animateTo(0);
-
       }
     });
   }
@@ -43,6 +61,8 @@ class SearchViewModel extends ChangeNotifier {
   ///清除搜索框
   void clearText() {
     textC?.clear();
+    page = 1;
+    smModel = null;
     tabController.animateTo(0);
     notifyListeners();
   }
@@ -53,7 +73,11 @@ class SearchViewModel extends ChangeNotifier {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       tabController.animateTo(1);
     });
-
+    page = 1;
+    smModel = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      searchRequest(searchHistoryList[index]);
+    });
     notifyListeners();
   }
 
@@ -74,11 +98,15 @@ class SearchViewModel extends ChangeNotifier {
         searchHistoryListBool.add(false);
         SpUtil.setStringList(PublicKeys.searchHistoryList, searchHistoryList);
       }
+      page = 1;
+      smModel = null;
+      searchRequest(value);
 
       ///搜索列表
       WidgetsBinding.instance.addPostFrameCallback((_) {
         tabController.animateTo(1);
       });
+      notifyListeners();
     }
 
     notifyListeners();
@@ -97,6 +125,8 @@ class SearchViewModel extends ChangeNotifier {
       searchHistoryListBool.add(false);
       SpUtil.setStringList(PublicKeys.searchHistoryList, searchHistoryList);
     }
+    smModel = null;
+    searchRequest(songName);
 
     ///搜索列表
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -114,5 +144,29 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> searchRequest(String songName, {int page = 1}) async {
+    if (smModel == null) {
+      page = 1;
+      smModel = await SearchMusicRequest.getSearchMusic(songName);
+    } else {
+      isLoading = true;
+      SearchMusicRequest.getSearchMusic(songName, p: page).then((value) {
+        if (value.data.song.list.length > 0) {
+          for (var item in value?.data?.song?.list)
+            smModel.data.song.list.add(item);
+        }
+        isLoading = false;
+        notifyListeners();
+      });
+    }
+    notifyListeners();
+  }
 
+  void getMusicVKey(String songmid, BuildContext context) async {
+    musicKeyModel = await MusicKeyRequest.getMusicVKey(songmid);
+    if (musicKeyModel.req0.data.midurlinfo[0].purl.length == 0)
+      Toast.showBotToast("此歌曲暂不支持播放");
+    else
+      context.read<PlayBarViewModel>().onPlay();
+  }
 }

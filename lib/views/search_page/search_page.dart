@@ -156,7 +156,7 @@ class _SearchPageState extends State<SearchPage>with SingleTickerProviderStateMi
                       controller: svModelW.tabController,
                       children: [
                         HotSearchList(svModelW),
-                        SearchList()
+                        SearchList(svModelW)
                       ],
                     ),
                   ),
