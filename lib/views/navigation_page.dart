@@ -2,6 +2,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_music/util/theme_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
+import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
 import 'package:flutter_music/views/music_hall/music_hall_page.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
@@ -10,6 +11,7 @@ class NavigationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     NavViewModel navModel = context.read<NavViewModel>();
     navModel.initSC(context);
+    context.read<PlayBarViewModel>().initViewModel();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: ScrollConfiguration(

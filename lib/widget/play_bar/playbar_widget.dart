@@ -5,6 +5,7 @@ import 'package:flutter_music/widget/rotate_image/rotate_image_widget.dart';
 class PlayBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    PlayBarViewModel pbModel = context.watch<PlayBarViewModel>();
     return Hero(
       tag: "playBar",
       child: Container(
@@ -21,7 +22,7 @@ class PlayBarWidget extends StatelessWidget {
           children: [
             RotateImageWidget(),
             marquee(),
-            playButton(context),
+            playButton(pbModel),
           ],
         ),
       ),
@@ -32,12 +33,10 @@ class PlayBarWidget extends StatelessWidget {
     return Container();
   }
 
-  Widget playButton(BuildContext context) {
-    PlayBarViewModel pbModel = context.watch<PlayBarViewModel>();
+  Widget playButton(PlayBarViewModel pbModel) {
     return GestureDetector(
-      onTap: () {
-        context.read<PlayBarViewModel>().onPlay();
-      },
+      behavior: HitTestBehavior.opaque,
+      onTap: () => pbModel.getNowPlayMusic(),
       child: Stack(
         alignment: Alignment.center,
         children: [

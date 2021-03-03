@@ -25,7 +25,6 @@ class PlayBarViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-
   }
 
   ///初始化旋转图片
@@ -43,36 +42,62 @@ class PlayBarViewModel extends ChangeNotifier {
 
   ///初始化播放器监听
   void initAudioPlayer() {
-    audioPlayer = AudioPlayer(mode: PlayerMode.MEDIA_PLAYER);
-    audioPlayer.onDurationChanged.listen((value) {
-      duration = value;
-    });
-    //监听音频位置改变
-    audioPlayer.onAudioPositionChanged.listen((p) {
-      position = p;
-    });
-    //完成
-    audioPlayer.onPlayerCompletion.listen((event) {
-      position = duration;
-    });
-    //播放错误操作
-    audioPlayer.onPlayerError.listen((msg) {
-      print('audioPlayer error :::::::::::::::::::::::: $msg');
-      duration = Duration(seconds: 0);
-      position = Duration(seconds: 0);
-    });
-    notifyListeners();
+    if (audioPlayer == null) {
+      audioPlayer = AudioPlayer(mode: PlayerMode.MEDIA_PLAYER);
+      audioPlayer.onDurationChanged.listen((value) {
+        duration = value;
+        notifyListeners();
+      });
+      //监听音频位置改变
+      audioPlayer.onAudioPositionChanged.listen((p) {
+        position = p;
+        notifyListeners();
+      });
+      //完成
+      audioPlayer.onPlayerCompletion.listen((event) {
+        position = duration;
+        notifyListeners();
+      });
+      //播放错误操作
+      audioPlayer.onPlayerError.listen((msg) {
+        print('audioPlayer error :::::::::::::::::::::::: $msg');
+        duration = Duration(seconds: 0);
+        position = Duration(seconds: 0);
+        notifyListeners();
+      });
+    }
+  }
+
+  void getNowPlayMusic() {
+    // print(audioPlayer.state);
+
+    // List<String> details = SpUtil.getStringList(PublicKeys.nowPlaySongDetails);
+    // if (details.length > 0) {
+    //   onPlay(details[0]);
+    // }
+    // print(details);
+    print("来了老弟");
+    String playUrl = SpUtil.getString(PublicKeys.nowPlayURL);
+    if (playUrl.length > 0) onPlay(playUrl);
+    print(playUrl);
   }
 
   ///播放操作
-  void onPlay() async {
+  void onPlay(String playUrl) async {
+    // audioPlayer.stop();
     if (isPlay) {
       isPlay = false;
-      controller.stop();
+      controller?.stop();
+      audioPlayer.pause();
     } else {
+      // if (audioPlayer.state == AudioPlayerState.PAUSED) {
+      //   audioPlayer.resume();
+      // } else
+      await audioPlayer.play("$playUrl", isLocal: false);
       isPlay = true;
-      controller.forward();
+      controller?.forward();
     }
+    print(audioPlayer.state);
     notifyListeners();
     // // if (playUrl != "") {
     //   isPlay = !isPlay;

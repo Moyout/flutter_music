@@ -73,9 +73,7 @@ class SearchList extends StatelessWidget {
                             ),
                           ),
                           onTap: () {
-                            svModel.getMusicVKey(
-                                svModel.smModel.data.song.list[index].songmid,
-                                context);
+                            svModel.getMusicVKey(context, index);
                           },
                         );
                       },

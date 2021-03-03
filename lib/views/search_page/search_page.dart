@@ -15,7 +15,8 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage>with SingleTickerProviderStateMixin {
+class _SearchPageState extends State<SearchPage>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -70,7 +71,7 @@ class _SearchPageState extends State<SearchPage>with SingleTickerProviderStateMi
                     child: Row(
                       children: <Widget>[
                         const Text(
-                          "搜索历史",
+                          "最近搜索",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Spacer(),
@@ -102,6 +103,7 @@ class _SearchPageState extends State<SearchPage>with SingleTickerProviderStateMi
                           onPanDown: (_) => svModelR.onPanDown(index),
                           onPanCancel: () => svModelR.onPanCancel(index),
                           onHorizontalDragCancel: () => false,
+                          onTap: () => false,
                           child: Chip(
                             backgroundColor:
                                 Theme.of(context).brightness == Brightness.dark
@@ -154,10 +156,7 @@ class _SearchPageState extends State<SearchPage>with SingleTickerProviderStateMi
                     child: TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       controller: svModelW.tabController,
-                      children: [
-                        HotSearchList(svModelW),
-                        SearchList(svModelW)
-                      ],
+                      children: [HotSearchList(svModelW), SearchList(svModelW)],
                     ),
                   ),
               ],

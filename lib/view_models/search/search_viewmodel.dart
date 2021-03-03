@@ -70,11 +70,12 @@ class SearchViewModel extends ChangeNotifier {
   void onPanDown(int index) {
     searchHistoryListBool[index] = true;
     textC.text = searchHistoryList[index];
+    page = 1;
+    smModel = null;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       tabController.animateTo(1);
     });
-    page = 1;
-    smModel = null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       searchRequest(searchHistoryList[index]);
     });
@@ -83,7 +84,9 @@ class SearchViewModel extends ChangeNotifier {
 
   void onPanCancel(int index) {
     searchHistoryListBool[index] = false;
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 
   ///存储搜索历史
@@ -162,11 +165,39 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getMusicVKey(String songmid, BuildContext context) async {
-    musicKeyModel = await MusicKeyRequest.getMusicVKey(songmid);
+  ///获取Vkey并播放
+  void getMusicVKey(BuildContext context, int index) async {
+    print("index________________________________________________>$index");
+    String _albumMid = smModel.data.song.list[index].albummid.trim();
+    String _songMid = smModel.data.song.list[index].songmid;
+    String _songName = smModel.data.song.list[index].songname;
+    String _singer =
+        "${smModel.data.song.list[index].singer[0].name} ${smModel.data.song.list[index].singer.length > 1 ? "/${smModel.data.song.list[index].singer[1].name}" : ""}";
+    musicKeyModel = await MusicKeyRequest.getMusicVKey(_songMid);
+
     if (musicKeyModel.req0.data.midurlinfo[0].purl.length == 0)
       Toast.showBotToast("此歌曲暂不支持播放");
-    else
-      context.read<PlayBarViewModel>().onPlay();
+    else {
+      String _playUrl = "http://ws.stream.qqmusic.qq.com/" +
+          musicKeyModel.req0.data.midurlinfo[0].purl;
+
+      await SpUtil.setStringList(PublicKeys.nowPlaySongDetails, [
+        _songMid, //songmid
+        _albumMid.length > 0
+            ? "https://y.gtimg.cn/music/photo_new/T002R300x300M000$_albumMid.jpg"
+            : "", //播放图片
+        _songName, //歌名
+        _singer, //歌手
+      ]);
+      await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
+      if (context.read<PlayBarViewModel>().isPlay) {
+        context.read<PlayBarViewModel>().isPlay = false;
+        context.read<PlayBarViewModel>().audioPlayer.pause();
+      }
+      context.read<PlayBarViewModel>().onPlay(_playUrl);
+      notifyListeners();
+
+    }
+    notifyListeners();
   }
 }
