@@ -23,7 +23,6 @@ class _SearchPageState extends State<SearchPage>
       context.read<SearchViewModel>().initViewModel();
     });
     context.read<SearchViewModel>().initTabController(this);
-
     super.initState();
   }
 
@@ -32,7 +31,7 @@ class _SearchPageState extends State<SearchPage>
     return GestureDetector(
       onTap: () => KeyboardUtil.closeKeyboardUtil(),
       child: Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Container(
           child: Stack(
             alignment: Alignment.center,

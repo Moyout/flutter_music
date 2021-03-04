@@ -15,20 +15,19 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BotToastInit(
-      child: MultiProvider(
-        providers: providers,
-        child: MaterialApp(
-          navigatorObservers: [BotToastNavigatorObserver()],
-          debugShowCheckedModeBanner: false,
-          title: 'Simple Music',
-          home: StartUpPage(),
-          initialRoute: '/',
-          routes: {},
-          themeMode: ThemeMode.dark,
-          theme: ThemeUtil.lightTheme(),
-          darkTheme: ThemeUtil.darkTheme(),
-        ),
+    return MultiProvider(
+      providers: providers,
+      child: MaterialApp(
+        builder: BotToastInit(),
+        navigatorObservers: [BotToastNavigatorObserver()],
+        debugShowCheckedModeBanner: false,
+        title: 'Simple Music',
+        home: StartUpPage(),
+        initialRoute: '/',
+        routes: {},
+        themeMode: ThemeMode.dark,
+        theme: ThemeUtil.lightTheme(),
+        darkTheme: ThemeUtil.darkTheme(),
       ),
     );
   }

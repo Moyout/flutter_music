@@ -173,6 +173,7 @@ class SearchViewModel extends ChangeNotifier {
     String _songName = smModel.data.song.list[index].songname;
     String _singer =
         "${smModel.data.song.list[index].singer[0].name} ${smModel.data.song.list[index].singer.length > 1 ? "/${smModel.data.song.list[index].singer[1].name}" : ""}";
+
     musicKeyModel = await MusicKeyRequest.getMusicVKey(_songMid);
 
     if (musicKeyModel.req0.data.midurlinfo[0].purl.length == 0)
@@ -189,7 +190,9 @@ class SearchViewModel extends ChangeNotifier {
         _songName, //歌名
         _singer, //歌手
       ]);
+
       await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
+
       if (context.read<PlayBarViewModel>().isPlay) {
         context.read<PlayBarViewModel>().isPlay = false;
         context.read<PlayBarViewModel>().audioPlayer.pause();

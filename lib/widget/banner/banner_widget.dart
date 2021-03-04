@@ -29,7 +29,7 @@ class BannerWidget extends StatelessWidget {
           },
           autoplayDelay: 6000,
           duration: 1000,
-          pagination: SwiperPagination(alignment: Alignment.bottomCenter),
+          pagination: const SwiperPagination(alignment: Alignment.bottomCenter),
           autoplay: true,
           scale: 0.9,
           itemCount: _list.length,

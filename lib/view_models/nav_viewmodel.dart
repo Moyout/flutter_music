@@ -15,6 +15,7 @@ class NavViewModel extends ChangeNotifier {
   PageController pageController = PageController();
 
   void pageTo(int index) {
+
     if (index != navIndex) {
       pageController.jumpToPage(index);
       itemList.forEach((element) {
@@ -29,7 +30,7 @@ class NavViewModel extends ChangeNotifier {
   void initSC(BuildContext context) {
     if (sc == null) {
       sc = ScrollController();
-      sc.addListener(() {
+      sc?.addListener(() {
         if (sc.position.userScrollDirection == ScrollDirection.forward) {
           sc.animateTo(
             0,

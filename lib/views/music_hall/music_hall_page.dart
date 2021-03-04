@@ -2,9 +2,16 @@ import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/widget/banner/banner_widget.dart';
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
 
-class MusicHallPage extends StatelessWidget {
+class MusicHallPage extends StatefulWidget {
+  @override
+  _MusicHallPageState createState() => _MusicHallPageState();
+}
+
+class _MusicHallPageState extends State<MusicHallPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         // color: Colors.blueGrey,
@@ -28,4 +35,7 @@ class MusicHallPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
