@@ -1,24 +1,24 @@
 import 'package:flutter_music/util/tools.dart';
 
 class SearchMusicRequest {
-  static Future<SearchMusicModel> getSearchMusic(String songName,
+  static Future<SearchMusicModel?> getSearchMusic(String songName,
       {int p = 1, int limit = 10}) async {
     var response = await BaseRequest().toGet(
       "https://c.y.qq.com/soso/fcgi-bin/client_search_cp?format=json&p=$p&n=$limit&w=$songName",
     );
     SearchMusicModel searchMusicModel = SearchMusicModel.fromJson(response);
-    return searchMusicModel ?? null;
+    return searchMusicModel;
   }
 }
 
 class SearchMusicModel {
-  int code;
-  Data data;
-  String message;
-  String notice;
-  int subcode;
-  int time;
-  String tips;
+  int? code;
+  Data? data;
+  String? message;
+  String? notice;
+  int? subcode;
+  int? time;
+  String? tips;
 
   SearchMusicModel(
       {this.code,
@@ -43,7 +43,7 @@ class SearchMusicModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data?.toJson();
     }
     data['message'] = this.message;
     data['notice'] = this.notice;
@@ -55,15 +55,15 @@ class SearchMusicModel {
 }
 
 class Data {
-  String keyword;
-  int priority;
-  List qc;
-  Semantic semantic;
-  Song song;
-  int tab;
-  List<Null> taglist;
-  int totaltime;
-  Zhida zhida;
+  String? keyword;
+  int? priority;
+  List? qc;
+  Semantic? semantic;
+  Song? song;
+  int? tab;
+  List<Null>? taglist;
+  int? totaltime;
+  Zhida? zhida;
 
   Data(
       {this.keyword,
@@ -99,13 +99,13 @@ class Data {
     data['keyword'] = this.keyword;
     data['priority'] = this.priority;
     if (this.qc != null) {
-      data['qc'] = this.qc.map((v) => v.toJson()).toList();
+      data['qc'] = this.qc?.map((v) => v.toJson()).toList();
     }
     if (this.semantic != null) {
-      data['semantic'] = this.semantic.toJson();
+      data['semantic'] = this.semantic?.toJson();
     }
     if (this.song != null) {
-      data['song'] = this.song.toJson();
+      data['song'] = this.song?.toJson();
     }
     data['tab'] = this.tab;
     if (this.taglist != null) {
@@ -113,17 +113,17 @@ class Data {
     }
     data['totaltime'] = this.totaltime;
     if (this.zhida != null) {
-      data['zhida'] = this.zhida.toJson();
+      data['zhida'] = this.zhida?.toJson();
     }
     return data;
   }
 }
 
 class Semantic {
-  int curnum;
-  int curpage;
-  List list;
-  int totalnum;
+  int? curnum;
+  int? curpage;
+  List? list;
+  int? totalnum;
 
   Semantic({this.curnum, this.curpage, this.list, this.totalnum});
 
@@ -131,9 +131,9 @@ class Semantic {
     curnum = json['curnum'];
     curpage = json['curpage'];
     if (json['list'] != null) {
-      list = new List();
+      list?.clear();
       json['list'].forEach((v) {
-        list.add(Semantic.fromJson(v));
+        list?.add(Semantic.fromJson(v));
       });
     }
     totalnum = json['totalnum'];
@@ -144,7 +144,7 @@ class Semantic {
     data['curnum'] = this.curnum;
     data['curpage'] = this.curpage;
     if (this.list != null) {
-      data['list'] = this.list.map((v) => v.toJson()).toList();
+      data['list'] = this.list?.map((v) => v.toJson()).toList();
     }
     data['totalnum'] = this.totalnum;
     return data;
@@ -152,10 +152,10 @@ class Semantic {
 }
 
 class Song {
-  int curnum;
-  int curpage;
-  List<List1> list;
-  int totalnum;
+  int? curnum;
+  int? curpage;
+  List<List1>? list;
+  int? totalnum;
 
   Song({this.curnum, this.curpage, this.list, this.totalnum});
 
@@ -163,9 +163,10 @@ class Song {
     curnum = json['curnum'];
     curpage = json['curpage'];
     if (json['list'] != null) {
-      list = new List<List1>();
+      list = [];
+      print("--------------------------------------------------->$list");
       json['list'].forEach((v) {
-        list.add(new List1.fromJson(v));
+        list?.add(new List1.fromJson(v));
       });
     }
     totalnum = json['totalnum'];
@@ -176,7 +177,7 @@ class Song {
     data['curnum'] = this.curnum;
     data['curpage'] = this.curpage;
     if (this.list != null) {
-      data['list'] = this.list.map((v) => v.toJson()).toList();
+      data['list'] = this.list?.map((v) => v.toJson()).toList();
     }
     data['totalnum'] = this.totalnum;
     return data;
@@ -184,48 +185,48 @@ class Song {
 }
 
 class List1 {
-  int albumid;
-  String albummid;
-  String albumname;
-  String albumnameHilight;
-  int alertid;
-  int belongCD;
-  int cdIdx;
-  int chinesesinger;
-  String docid;
-  List<Null> grp;
-  int interval;
-  int isonly;
-  String lyric;
-  String lyricHilight;
-  String mediaMid;
-  int msgid;
-  int newStatus;
-  int nt;
-  Pay pay;
-  Preview preview;
-  int pubtime;
-  int pure;
-  List<Singer> singer;
-  int size128;
-  int size320;
-  int sizeape;
-  int sizeflac;
-  int sizeogg;
-  int songid;
-  String songmid;
-  String songname;
-  String songnameHilight;
-  String strMediaMid;
-  int stream;
-  int switch1;
-  int t;
-  int tag;
-  int type;
-  int ver;
-  String vid;
-  String format;
-  String songurl;
+  int? albumid;
+  String? albummid;
+  String? albumname;
+  String? albumnameHilight;
+  int? alertid;
+  int? belongCD;
+  int? cdIdx;
+  int? chinesesinger;
+  String? docid;
+  List<Null>? grp;
+  int? interval;
+  int? isonly;
+  String? lyric;
+  String? lyricHilight;
+  String? mediaMid;
+  int? msgid;
+  int? newStatus;
+  int? nt;
+  Pay? pay;
+  Preview? preview;
+  int? pubtime;
+  int? pure;
+  List<Singer?>? singer;
+  int? size128;
+  int? size320;
+  int? sizeape;
+  int? sizeflac;
+  int? sizeogg;
+  int? songid;
+  String? songmid;
+  String? songname;
+  String? songnameHilight;
+  String? strMediaMid;
+  int? stream;
+  int? switch1;
+  int? t;
+  int? tag;
+  int? type;
+  int? ver;
+  String? vid;
+  String? format;
+  String? songurl;
 
   List1(
       {this.albumid,
@@ -298,9 +299,9 @@ class List1 {
     pubtime = json['pubtime'];
     pure = json['pure'];
     if (json['singer'] != null) {
-      singer = new List<Singer>();
+      singer=[];
       json['singer'].forEach((v) {
-        singer.add(new Singer.fromJson(v));
+        singer?.add(new Singer.fromJson(v));
       });
     }
     size128 = json['size128'];
@@ -347,15 +348,15 @@ class List1 {
     data['newStatus'] = this.newStatus;
     data['nt'] = this.nt;
     if (this.pay != null) {
-      data['pay'] = this.pay.toJson();
+      data['pay'] = this.pay?.toJson();
     }
     if (this.preview != null) {
-      data['preview'] = this.preview.toJson();
+      data['preview'] = this.preview?.toJson();
     }
     data['pubtime'] = this.pubtime;
     data['pure'] = this.pure;
     if (this.singer != null) {
-      data['singer'] = this.singer.map((v) => v.toJson()).toList();
+      data['singer'] = this.singer?.map((v) => v!.toJson()).toList();
     }
     data['size128'] = this.size128;
     data['size320'] = this.size320;
@@ -381,13 +382,13 @@ class List1 {
 }
 
 class Pay {
-  int payalbum;
-  int payalbumprice;
-  int paydownload;
-  int payinfo;
-  int payplay;
-  int paytrackmouth;
-  int paytrackprice;
+  int? payalbum;
+  int? payalbumprice;
+  int? paydownload;
+  int? payinfo;
+  int? payplay;
+  int? paytrackmouth;
+  int? paytrackprice;
 
   Pay(
       {this.payalbum,
@@ -422,9 +423,9 @@ class Pay {
 }
 
 class Preview {
-  int trybegin;
-  int tryend;
-  int trysize;
+  int? trybegin;
+  int? tryend;
+  int? trysize;
 
   Preview({this.trybegin, this.tryend, this.trysize});
 
@@ -444,10 +445,10 @@ class Preview {
 }
 
 class Singer {
-  int id;
-  String mid;
-  String name;
-  String nameHilight;
+  int? id;
+  String? mid;
+  String? name;
+  String? nameHilight;
 
   Singer({this.id, this.mid, this.name, this.nameHilight});
 
@@ -469,8 +470,8 @@ class Singer {
 }
 
 class Zhida {
-  int chinesesinger;
-  int type;
+  int? chinesesinger;
+  int? type;
 
   Zhida({this.chinesesinger, this.type});
 

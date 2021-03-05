@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -31,23 +31,28 @@ dependencies:
   # 提示框
   bot_toast: ^4.0.0+1
   # DIO
-  dio: ^3.0.7
+  dio: ^3.0.10
   # 状态管理
-  provider: ^4.1.3
+  provider: ^5.0.0
   # 存储
-  shared_preferences: ^0.5.7+3
-  # 权限管理
+  shared_preferences: any
+   # 权限管理
   permission_handler: ^5.1.0+2
   # 动画图
   flare_flutter: ^2.0.6
   # app图标
-  flutter_launcher_icons: ^0.8.1
+  flutter_launcher_icons: any
   # 异步锁
-  synchronized: ^2.2.0
+  synchronized: ^3.0.0
   # 播放器
   audioplayers: ^0.17.4
   # 轮播
   flutter_swiper: ^1.1.6
+
+  path_provider: ^1.6.22
+  path_provider_windows: ^0.0.4
+  shared_preferences_windows: any
+#  path_provider_windows: ^2.0.0
 
 flutter_icons:
   # use "flutter pub run flutter_launcher_icons:main"

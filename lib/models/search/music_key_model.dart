@@ -2,21 +2,21 @@ import 'package:dio/dio.dart';
 import 'package:flutter_music/util/tools.dart';
 
 class MusicKeyRequest {
-  static Future<MusicKeyModel> getMusicVKey(String songmid) async {
+  static Future<MusicKeyModel?> getMusicVKey(String songmid) async {
     String dataURL =
         'http://u.y.qq.com/cgi-bin/musicu.fcg?data={"req_0":{"module":"vkey.GetVkeyServer","method":"CgiGetVkey","param":{"guid":"5339940689","songmid":["$songmid"],"songtype":[0],"uin":"","platform":"20"}}}';
     var date = await BaseRequest()
         .toGet(dataURL, options: Options(responseType: ResponseType.plain));
     MusicKeyModel musicKeyModel = MusicKeyModel.fromJson(date);
-    return musicKeyModel ?? null;
+    return musicKeyModel  ;
   }
 }
 
 class MusicKeyModel {
-  int code;
-  int ts;
-  int startTs;
-  Req0 req0;
+  int? code;
+  int? ts;
+  int? startTs;
+  Req0? req0;
 
   MusicKeyModel({this.code, this.ts, this.startTs, this.req0});
 
@@ -33,15 +33,15 @@ class MusicKeyModel {
     data['ts'] = this.ts;
     data['start_ts'] = this.startTs;
     if (this.req0 != null) {
-      data['req_0'] = this.req0.toJson();
+      data['req_0'] = this.req0?.toJson();
     }
     return data;
   }
 }
 
 class Req0 {
-  int code;
-  Data data;
+  int? code;
+  Data? data;
 
   Req0({this.code, this.data});
 
@@ -54,25 +54,25 @@ class Req0 {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['code'] = this.code;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data?.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int expiration;
-  String loginKey;
-  List<Midurlinfo> midurlinfo;
-  String msg;
-  int retcode;
-  String servercheck;
-  List<String> sip;
-  String testfile2g;
-  String testfilewifi;
-  List<String> thirdip;
-  String uin;
-  int verifyType;
+  int? expiration;
+  String? loginKey;
+  List<Midurlinfo>? midurlinfo;
+  String? msg;
+  int? retcode;
+  String? servercheck;
+  List<String>? sip;
+  String? testfile2g;
+  String? testfilewifi;
+  List<String>? thirdip;
+  String? uin;
+  int? verifyType;
 
   Data(
       {this.expiration,
@@ -92,9 +92,9 @@ class Data {
     expiration = json['expiration'];
     loginKey = json['login_key'];
     if (json['midurlinfo'] != null) {
-      midurlinfo = new List<Midurlinfo>();
+      midurlinfo = [];
       json['midurlinfo'].forEach((v) {
-        midurlinfo.add(new Midurlinfo.fromJson(v));
+        midurlinfo?.add(new Midurlinfo.fromJson(v));
       });
     }
     msg = json['msg'];
@@ -113,7 +113,7 @@ class Data {
     data['expiration'] = this.expiration;
     data['login_key'] = this.loginKey;
     if (this.midurlinfo != null) {
-      data['midurlinfo'] = this.midurlinfo.map((v) => v.toJson()).toList();
+      data['midurlinfo'] = this.midurlinfo?.map((v) => v.toJson()).toList();
     }
     data['msg'] = this.msg;
     data['retcode'] = this.retcode;
@@ -129,40 +129,40 @@ class Data {
 }
 
 class Midurlinfo {
-  int authSwitch;
-  int commonDownfromtag;
-  String ekey;
-  String errtype;
-  String filename;
-  String flowfromtag;
-  String flowurl;
-  int hisbuy;
-  int hisdown;
-  int isbuy;
-  int isonly;
-  int onecan;
-  String opi128kurl;
-  String opi192koggurl;
-  String opi192kurl;
-  String opi30surl;
-  String opi48kurl;
-  String opi96kurl;
-  String opiflackurl;
-  int p2pfromtag;
-  int pdl;
-  int pneed;
-  int pneedbuy;
-  int premain;
-  String purl;
-  int qmdlfromtag;
-  int result;
-  String songmid;
-  String tips;
-  int uiAlert;
-  int vipDownfromtag;
-  String vkey;
-  String wififromtag;
-  String wifiurl;
+  int? authSwitch;
+  int? commonDownfromtag;
+  String? ekey;
+  String? errtype;
+  String? filename;
+  String? flowfromtag;
+  String? flowurl;
+  int? hisbuy;
+  int? hisdown;
+  int? isbuy;
+  int? isonly;
+  int? onecan;
+  String? opi128kurl;
+  String? opi192koggurl;
+  String? opi192kurl;
+  String? opi30surl;
+  String? opi48kurl;
+  String? opi96kurl;
+  String? opiflackurl;
+  int? p2pfromtag;
+  int? pdl;
+  int? pneed;
+  int? pneedbuy;
+  int? premain;
+  String? purl;
+  int? qmdlfromtag;
+  int? result;
+  String? songmid;
+  String? tips;
+  int? uiAlert;
+  int? vipDownfromtag;
+  String? vkey;
+  String? wififromtag;
+  String? wifiurl;
 
   Midurlinfo(
       {this.authSwitch,

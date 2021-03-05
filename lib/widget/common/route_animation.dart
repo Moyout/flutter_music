@@ -12,7 +12,7 @@ enum RouteAnimation {
 
 class CustomRoute extends PageRouteBuilder {
   final Widget widget;
-  final RouteAnimation routeAnimation;
+  final RouteAnimation? routeAnimation;
   final int millisecond;
 
   CustomRoute(
@@ -47,8 +47,7 @@ class CustomRoute extends PageRouteBuilder {
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,
                     );
-                    break;
-                  case RouteAnimation.rotation:
+                   case RouteAnimation.rotation:
                     // 旋转加缩放动画效果
                     return RotationTransition(
                       turns:
@@ -64,8 +63,7 @@ class CustomRoute extends PageRouteBuilder {
                         child: child,
                       ),
                     );
-                    break;
-                  case RouteAnimation.popLeft:
+                   case RouteAnimation.popLeft:
                     // 左右滑动动画效果
                     return SlideTransition(
                       position: Tween<Offset>(
@@ -76,8 +74,7 @@ class CustomRoute extends PageRouteBuilder {
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,
                     );
-                    break;
-                  case RouteAnimation.popRight:
+                   case RouteAnimation.popRight:
                     return SlideTransition(
                       position: Tween<Offset>(
                               // 设置滑动的 X , Y 轴
@@ -87,8 +84,7 @@ class CustomRoute extends PageRouteBuilder {
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,
                     );
-                    break;
-                  case RouteAnimation.popDown:
+                   case RouteAnimation.popDown:
                     return SlideTransition(
                       position: Tween<Offset>(
                               // 设置滑动的 X , Y 轴
@@ -98,8 +94,7 @@ class CustomRoute extends PageRouteBuilder {
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,
                     );
-                    break;
-                  case RouteAnimation.popUp:
+                   case RouteAnimation.popUp:
                     return SlideTransition(
                       position: Tween<Offset>(
                               // 设置滑动的 X , Y 轴
@@ -109,8 +104,7 @@ class CustomRoute extends PageRouteBuilder {
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,
                     );
-                    break;
-                  default:
+                   default:
                     // 渐变效果
                     return FadeTransition(
                       // 从0开始到1
@@ -123,11 +117,10 @@ class CustomRoute extends PageRouteBuilder {
                       )),
                       child: child,
                     );
-                    break;
-                }
+                 }
               }
 
-              return select(routeAnimation);
+              return select(routeAnimation!);
               // 渐变效果
 //              return FadeTransition(
 //                // 从0开始到1

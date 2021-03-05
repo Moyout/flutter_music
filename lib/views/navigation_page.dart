@@ -29,7 +29,7 @@ class NavigationPage extends StatelessWidget {
               ],
             ),
             Positioned(
-              bottom: 42.w + MediaQuery.of(context).viewPadding.bottom ?? 0,
+              bottom: 42.w + MediaQuery.of(context).viewPadding.bottom,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45.w,
@@ -72,7 +72,7 @@ class NavigationPage extends StatelessWidget {
           ],
         ),
         padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom.w ?? 0)),
+            bottom: MediaQuery.of(context).padding.bottom.w )),
         width: AppUtils.getWidth(context),
         child: Stack(
           alignment: Alignment.center,
@@ -89,7 +89,7 @@ class NavigationPage extends StatelessWidget {
                 height: 45.w,
                 decoration: BoxDecoration(
                   color: Colors.blueAccent,
-                  borderRadius: BorderRadius.circular(14.px),
+                  borderRadius: BorderRadius.circular(25.w),
                 ),
               ),
             ),

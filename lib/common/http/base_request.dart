@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
+
+
 class BaseRequest {
   static BaseRequest _instance = BaseRequest._internal();
-  Dio dio;
+  Dio? dio;
 
-  Response response;
+  Response? response;
 
   factory BaseRequest() => _instance;
 
@@ -19,8 +21,8 @@ class BaseRequest {
 
   ///拦截器
   void interceptor() {
-    if (dio.interceptors.length == 0)
-      dio.interceptors.add(InterceptorsWrapper(
+    if (dio?.interceptors.length == 0)
+      dio?.interceptors.add(InterceptorsWrapper(
         onRequest: (RequestOptions options) {
           print("\n================== 请求数据 ==========================");
           print("url = ${options.uri.toString()}");
@@ -43,16 +45,16 @@ class BaseRequest {
   }
 
   ///get请求
-  Future toGet(url, {Map<String, dynamic> parameters, Options options}) async {
+  Future toGet(url, {Map<String, dynamic>? parameters, Options? options}) async {
     interceptor();
     var result;
     response =
-        await dio.get(url, queryParameters: parameters, options: options);
+        await dio!.get(url, queryParameters: parameters, options: options);
     try {
-      result = await jsonDecode(response.data);
+      result = await jsonDecode(response?.data);
     } catch (e) {
       print("=========jsonDecode 错误" + e.toString());
-      result = response.data;
+      result = response?.data;
     }
 
     return result;
@@ -60,15 +62,15 @@ class BaseRequest {
 
   ///post请求
   Future<dynamic> toPost(url,
-      {data, Map<String, dynamic> parameters, Options options}) async {
+      {data, Map<String, dynamic>? parameters, Options? options}) async {
     interceptor();
-    response = await dio
+    response = await dio!
         .post(url, queryParameters: parameters, options: options, data: data)
         .catchError((e) {
       print("===============================>$e");
     });
     // print("################${response.data}");
 
-    return response.data;
+    return response?.data;
   }
 }

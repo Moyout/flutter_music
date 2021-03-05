@@ -32,7 +32,7 @@ class _RotateImageWidgetState extends State<RotateImageWidget>
               builder: (_, PlayBarViewModel pbModel, __) {
                 return RotationTransition(
                   turns:
-                      Tween(begin: 0.0, end: 1.0).animate(pbModel.controller),
+                      Tween(begin: 0.0, end: 1.0).animate(pbModel.controller!),
                   child: ClipOval(
                     child: FadeInImage.assetNetwork(
                       placeholder: "assets/images/0.gif",

@@ -19,7 +19,7 @@ class _SearchPageState extends State<SearchPage>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       context.read<SearchViewModel>().initViewModel();
     });
     context.read<SearchViewModel>().initTabController(this);
@@ -61,7 +61,7 @@ class _SearchPageState extends State<SearchPage>
               : NeverScrollableScrollPhysics(),
           children: [
             if (svModelW.searchHistoryList.length > 0 &&
-                svModelW.tabController.index == 0)
+                svModelW.tabController!.index == 0)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

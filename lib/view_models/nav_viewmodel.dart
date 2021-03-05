@@ -8,7 +8,7 @@ class NavViewModel extends ChangeNotifier {
     BottomItem("动态", Icons.camera),
     BottomItem("我的", Icons.person),
   ];
-  ScrollController sc; //播放条滚动
+  ScrollController? sc; //播放条滚动
 
   bool isOnTap = false;
   int navIndex = 0;
@@ -31,22 +31,22 @@ class NavViewModel extends ChangeNotifier {
     if (sc == null) {
       sc = ScrollController();
       sc?.addListener(() {
-        if (sc.position.userScrollDirection == ScrollDirection.forward) {
-          sc.animateTo(
+        if (sc?.position.userScrollDirection == ScrollDirection.forward) {
+          sc?.animateTo(
             0,
             duration: Duration(milliseconds: 200),
             curve: Curves.linear,
           );
-        } else if (sc.position.userScrollDirection == ScrollDirection.reverse) {
-          sc.animateTo(
+        } else if (sc?.position.userScrollDirection == ScrollDirection.reverse) {
+          sc?.animateTo(
             MediaQuery.of(context).size.width - 110.w,
             duration: Duration(milliseconds: 100),
             curve: Curves.bounceInOut,
           );
         }
       });
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        sc.animateTo(
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        sc?.animateTo(
           MediaQuery.of(context).size.width - 110.w,
           duration: Duration(milliseconds: 200),
           curve: Curves.bounceOut,

@@ -1,4 +1,5 @@
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class BannerWidget extends StatelessWidget {
   final List _list = [

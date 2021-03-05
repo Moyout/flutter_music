@@ -37,7 +37,7 @@ class HotSearchList extends StatelessWidget {
                       ),
                     ),
                     title: Text(
-                      svModel.hmModel.songlist[index].data.songname,
+                      svModel.hmModel!.songlist![index].data!.songname!,
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.light
                             ? Colors.black
@@ -46,13 +46,12 @@ class HotSearchList extends StatelessWidget {
                       ),
                     ),
                     subtitle: Text(
-                      "${svModel.hmModel.songlist[index].data.singer[0].name}" +
-                              svModel.hmModel.songlist[index].data.albumdesc ??
-                          "",
+                      "${svModel.hmModel!.songlist![index].data!.singer![0].name}" +
+                              svModel.hmModel!.songlist![index].data!.albumdesc!,
                       style: TextStyle(fontSize: 12.sp),
                     ),
                     onTap: () => svModel.onHotSearchItem(
-                        svModel.hmModel.songlist[index].data.songname),
+                        svModel.hmModel!.songlist![index].data!.songname!),
                   );
                 }),
               ),

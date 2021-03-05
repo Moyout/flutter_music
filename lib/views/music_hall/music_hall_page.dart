@@ -15,7 +15,7 @@ class _MusicHallPageState extends State<MusicHallPage>
     super.build(context);
     return GestureDetector(
       onTap: (){
-        print(context.read<PlayBarViewModel>().audioPlayer.state);
+        print(context.read<PlayBarViewModel>().audioPlayer!.state);
 
       },
       child: Scaffold(

@@ -3,7 +3,7 @@ import 'package:flutter_music/views/search_page/search_page.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final String title;
-  final Widget widget;
+  final Widget? widget;
 
   SearchBarWidget({this.title = "", this.widget});
 
@@ -20,7 +20,7 @@ class SearchBarWidget extends StatelessWidget {
             "$title",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: Theme.of(context).textTheme.bodyText2.fontSize + 4.sp,
+              fontSize: Theme.of(context).textTheme.bodyText2!.fontSize! + 4.sp,
             ),
           ),
           Expanded(
@@ -50,7 +50,7 @@ class SearchBarWidget extends StatelessWidget {
               ),
             ),
           ),
-          widget == null ? Container() : widget,
+          widget == null ? Container() : widget!,
         ],
       ),
     );

@@ -1,26 +1,26 @@
 import 'package:flutter_music/util/tools.dart';
 
 class HotMusicRequest {
-  static Future<HotMusicModel> getHotMusic() async {
+  static Future<HotMusicModel?> getHotMusic() async {
     var date = await BaseRequest().toGet(
         "https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?format=json&type=top&topid=27");
     HotMusicModel hotMusicModel = HotMusicModel.fromJson(date);
-    return hotMusicModel ?? null;
+    return hotMusicModel;
   }
 }
 
 class HotMusicModel {
-  int code;
-  int color;
-  int commentNum;
-  int curSongNum;
-  String date;
-  String dayOfYear;
-  int songBegin;
-  List<Songlist> songlist;
-  Topinfo topinfo;
-  int totalSongNum;
-  String updateTime;
+  int? code;
+  int? color;
+  int? commentNum;
+  int? curSongNum;
+  String? date;
+  String? dayOfYear;
+  int? songBegin;
+  List<Songlist>? songlist;
+  Topinfo? topinfo;
+  int? totalSongNum;
+  String? updateTime;
 
   HotMusicModel(
       {this.code,
@@ -44,9 +44,9 @@ class HotMusicModel {
     dayOfYear = json['day_of_year'];
     songBegin = json['song_begin'];
     if (json['songlist'] != null) {
-      songlist = new List<Songlist>();
+      songlist = [];
       json['songlist'].forEach((v) {
-        songlist.add(new Songlist.fromJson(v));
+        songlist?.add(new Songlist.fromJson(v));
       });
     }
     topinfo =
@@ -65,10 +65,10 @@ class HotMusicModel {
     data['day_of_year'] = this.dayOfYear;
     data['song_begin'] = this.songBegin;
     if (this.songlist != null) {
-      data['songlist'] = this.songlist.map((v) => v.toJson()).toList();
+      data['songlist'] = this.songlist?.map((v) => v.toJson()).toList();
     }
     if (this.topinfo != null) {
-      data['topinfo'] = this.topinfo.toJson();
+      data['topinfo'] = this.topinfo?.toJson();
     }
     data['total_song_num'] = this.totalSongNum;
     data['update_time'] = this.updateTime;
@@ -77,11 +77,11 @@ class HotMusicModel {
 }
 
 class Songlist {
-  String frankingValue;
-  String curCount;
-  Data data;
-  String inCount;
-  String oldCount;
+  String? frankingValue;
+  String? curCount;
+  Data? data;
+  String? inCount;
+  String? oldCount;
 
   Songlist(
       {this.frankingValue,
@@ -103,7 +103,7 @@ class Songlist {
     data['Franking_value'] = this.frankingValue;
     data['cur_count'] = this.curCount;
     if (this.data != null) {
-      data['data'] = this.data.toJson();
+      data['data'] = this.data?.toJson();
     }
     data['in_count'] = this.inCount;
     data['old_count'] = this.oldCount;
@@ -112,37 +112,37 @@ class Songlist {
 }
 
 class Data {
-  String albumdesc;
-  int albumid;
-  String albummid;
-  String albumname;
-  int alertid;
-  int belongCD;
-  int cdIdx;
-  int interval;
-  int isonly;
-  String label;
-  int msgid;
-  Pay pay;
-  Preview preview;
-  int rate;
-  List<Singer> singer;
-  int size128;
-  int size320;
-  int size51;
-  int sizeape;
-  int sizeflac;
-  int sizeogg;
-  int songid;
-  String songmid;
-  String songname;
-  String songorig;
-  int songtype;
-  String strMediaMid;
-  int stream;
-  int switch1;
-  int type;
-  String vid;
+  String? albumdesc;
+  int? albumid;
+  String? albummid;
+  String? albumname;
+  int? alertid;
+  int? belongCD;
+  int? cdIdx;
+  int? interval;
+  int? isonly;
+  String? label;
+  int? msgid;
+  Pay? pay;
+  Preview? preview;
+  int? rate;
+  List<Singer>? singer;
+  int? size128;
+  int? size320;
+  int? size51;
+  int? sizeape;
+  int? sizeflac;
+  int? sizeogg;
+  int? songid;
+  String? songmid;
+  String? songname;
+  String? songorig;
+  int? songtype;
+  String? strMediaMid;
+  int? stream;
+  int? switch1;
+  int? type;
+  String? vid;
 
   Data(
       {this.albumdesc,
@@ -194,9 +194,9 @@ class Data {
         json['preview'] != null ? new Preview.fromJson(json['preview']) : null;
     rate = json['rate'];
     if (json['singer'] != null) {
-      singer = new List<Singer>();
+      singer = [];
       json['singer'].forEach((v) {
-        singer.add(new Singer.fromJson(v));
+        singer?.add(new Singer.fromJson(v));
       });
     }
     size128 = json['size128'];
@@ -231,14 +231,14 @@ class Data {
     data['label'] = this.label;
     data['msgid'] = this.msgid;
     if (this.pay != null) {
-      data['pay'] = this.pay.toJson();
+      data['pay'] = this.pay?.toJson();
     }
     if (this.preview != null) {
-      data['preview'] = this.preview.toJson();
+      data['preview'] = this.preview?.toJson();
     }
     data['rate'] = this.rate;
     if (this.singer != null) {
-      data['singer'] = this.singer.map((v) => v.toJson()).toList();
+      data['singer'] = this.singer?.map((v) => v.toJson()).toList();
     }
     data['size128'] = this.size128;
     data['size320'] = this.size320;
@@ -261,14 +261,14 @@ class Data {
 }
 
 class Pay {
-  int payalbum;
-  int payalbumprice;
-  int paydownload;
-  int payinfo;
-  int payplay;
-  int paytrackmouth;
-  int paytrackprice;
-  int timefree;
+  int? payalbum;
+  int? payalbumprice;
+  int? paydownload;
+  int? payinfo;
+  int? payplay;
+  int? paytrackmouth;
+  int? paytrackprice;
+  int? timefree;
 
   Pay(
       {this.payalbum,
@@ -306,9 +306,9 @@ class Pay {
 }
 
 class Preview {
-  int trybegin;
-  int tryend;
-  int trysize;
+  int? trybegin;
+  int? tryend;
+  int? trysize;
 
   Preview({this.trybegin, this.tryend, this.trysize});
 
@@ -328,9 +328,9 @@ class Preview {
 }
 
 class Singer {
-  int id;
-  String mid;
-  String name;
+  int? id;
+  String? mid;
+  String? name;
 
   Singer({this.id, this.mid, this.name});
 
@@ -350,22 +350,22 @@ class Singer {
 }
 
 class Topinfo {
-  String listName;
-  String macDetailPicUrl;
-  String macListPicUrl;
-  String updateType;
-  String albuminfo;
-  String headPicV12;
-  String info;
-  int listennum;
-  String pic;
-  String picDetail;
-  String picAlbum;
-  String picH5;
-  String picV11;
-  String picV12;
-  String topID;
-  String type;
+  String? listName;
+  String? macDetailPicUrl;
+  String? macListPicUrl;
+  String? updateType;
+  String? albuminfo;
+  String? headPicV12;
+  String? info;
+  int? listennum;
+  String? pic;
+  String? picDetail;
+  String? picAlbum;
+  String? picH5;
+  String? picV11;
+  String? picV12;
+  String? topID;
+  String? type;
 
   Topinfo(
       {this.listName,

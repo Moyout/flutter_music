@@ -49,11 +49,11 @@ class PlayBarWidget extends StatelessWidget {
               // value: 0.5,
               value: (pbModel.position != null &&
                       pbModel.duration != null &&
-                      pbModel.position.inMilliseconds > 0 &&
-                      pbModel.position.inMilliseconds <
-                          pbModel.duration.inMilliseconds)
-                  ? pbModel.position.inMilliseconds /
-                      pbModel.duration.inMilliseconds
+                      pbModel.position!.inMilliseconds > 0 &&
+                      pbModel.position!.inMilliseconds <
+                          pbModel.duration!.inMilliseconds)
+                  ? pbModel.position!.inMilliseconds /
+                      pbModel.duration!.inMilliseconds
                   : 0.0,
               valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
             ),
