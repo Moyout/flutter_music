@@ -181,6 +181,7 @@ class SearchViewModel extends ChangeNotifier {
     else {
       String _playUrl = "http://ws.stream.qqmusic.qq.com/" +
           musicKeyModel.req0.data.midurlinfo[0].purl;
+      await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
 
       await SpUtil.setStringList(PublicKeys.nowPlaySongDetails, [
         _songMid, //songmid
@@ -191,16 +192,27 @@ class SearchViewModel extends ChangeNotifier {
         _singer, //歌手
       ]);
 
-      await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
-
       if (context.read<PlayBarViewModel>().isPlay) {
         context.read<PlayBarViewModel>().isPlay = false;
         context.read<PlayBarViewModel>().audioPlayer.pause();
       }
       context.read<PlayBarViewModel>().onPlay(_playUrl);
       notifyListeners();
-
     }
     notifyListeners();
+  }
+
+  ///播放当前
+  Future<String> onPlay(String songMid) async {
+    musicKeyModel = await MusicKeyRequest.getMusicVKey(songMid);
+    notifyListeners();
+    if (musicKeyModel.req0.data.midurlinfo[0].purl.length == 0) {
+      Toast.showBotToast("此歌曲暂不支持播放");
+      return null;
+    } else {
+      String _playUrl = "http://ws.stream.qqmusic.qq.com/" +
+          musicKeyModel.req0.data.midurlinfo[0].purl;
+      return _playUrl;
+    }
   }
 }

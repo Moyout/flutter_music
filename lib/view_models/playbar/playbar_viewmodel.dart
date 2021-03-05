@@ -1,4 +1,5 @@
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 
 class PlayBarViewModel extends ChangeNotifier {
   String picUrl =
@@ -6,7 +7,7 @@ class PlayBarViewModel extends ChangeNotifier {
   bool isPlay = false; //是否播放
   AnimationController controller; //旋转图片控制器
   AudioPlayer audioPlayer; //播放器
-  String playUrl = ""; //播放音频地址
+  // String playUrl = ""; //播放音频地址
   Duration duration;
   Duration position;
 
@@ -56,6 +57,10 @@ class PlayBarViewModel extends ChangeNotifier {
       //完成
       audioPlayer.onPlayerCompletion.listen((event) {
         position = duration;
+        print("播放结束");
+        isPlay = false;
+        controller?.stop();
+        audioPlayer.pause();
         notifyListeners();
       });
       //播放错误操作
@@ -68,18 +73,26 @@ class PlayBarViewModel extends ChangeNotifier {
     }
   }
 
-  void getNowPlayMusic() {
-    // print(audioPlayer.state);
-
-    // List<String> details = SpUtil.getStringList(PublicKeys.nowPlaySongDetails);
-    // if (details.length > 0) {
-    //   onPlay(details[0]);
-    // }
-    // print(details);
+  void getNowPlayMusic(BuildContext context) {
     print("来了老弟");
-    String playUrl = SpUtil.getString(PublicKeys.nowPlayURL);
-    if (playUrl.length > 0) onPlay(playUrl);
-    print(playUrl);
+    if (audioPlayer.state == null) {
+      List playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails);
+      if (playDetails.length > 0) {
+        context.read<SearchViewModel>().onPlay(playDetails[0]).then((value) {
+          if (value != null) onPlay(value);
+          print(value);
+        });
+      }
+    } else if (audioPlayer.state == AudioPlayerState.PAUSED) {
+      audioPlayer.resume();
+      isPlay = true;
+      controller?.forward();
+    } else if (audioPlayer.state == AudioPlayerState.PLAYING) {
+      isPlay = false;
+      audioPlayer.pause();
+      controller?.stop();
+    }
+    notifyListeners();
   }
 
   ///播放操作
@@ -97,7 +110,7 @@ class PlayBarViewModel extends ChangeNotifier {
       isPlay = true;
       controller?.forward();
     }
-    print(audioPlayer.state);
+    // print(audioPlayer.state);
     notifyListeners();
     // // if (playUrl != "") {
     //   isPlay = !isPlay;
