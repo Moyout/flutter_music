@@ -91,7 +91,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.2"
   dio:
     dependency: "direct main"
     description:
@@ -220,7 +220,7 @@ packages:
     source: hosted
     version: "1.8.0"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       url: "https://pub.flutter-io.cn"
@@ -248,7 +248,7 @@ packages:
     source: hosted
     version: "1.0.4"
   path_provider_windows:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider_windows
       url: "https://pub.flutter-io.cn"
@@ -339,7 +339,7 @@ packages:
     source: hosted
     version: "0.1.2+7"
   shared_preferences_windows:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: shared_preferences_windows
       url: "https://pub.flutter-io.cn"

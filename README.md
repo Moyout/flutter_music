@@ -3,7 +3,6 @@
 # FLUTTER 2.0
 # DART 2.12.0
 A new Flutter application.
-
 ## Getting Started
 
 This project is a starting point for a Flutter application.
@@ -29,3 +28,6 @@ samples, guidance on mobile development, and a full API reference.
    ### 　　　　这行文本的意思是，在zsh终端开启的时候，自动执行“.bash_profile”配置文件，这样配置文件的内容就可以正常加载了。
    ###
    ###   3. 在终端中输入： source ~/.zshrc ，即可正常使用配置的“mvn”命令了。
+
+#flutter run --no-sound-null-safety
+#flutter build apk --target-platform android-arm --split-per-abi --no-sound-null-safety

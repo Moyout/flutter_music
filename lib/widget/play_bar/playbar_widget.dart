@@ -1,9 +1,11 @@
-
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
 import 'package:flutter_music/widget/rotate_image/rotate_image_widget.dart';
 
 class PlayBarWidget extends StatelessWidget {
+
+
+
   @override
   Widget build(BuildContext context) {
     PlayBarViewModel pbModel = context.watch<PlayBarViewModel>();
@@ -23,7 +25,7 @@ class PlayBarWidget extends StatelessWidget {
           children: [
             RotateImageWidget(),
             marquee(),
-            playButton(pbModel,context),
+            playButton(pbModel, context),
           ],
         ),
       ),
@@ -34,38 +36,47 @@ class PlayBarWidget extends StatelessWidget {
     return Container();
   }
 
-  Widget playButton(PlayBarViewModel pbModel,BuildContext context) {
+  Widget playButton(PlayBarViewModel pbModel, BuildContext context) {
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
       onTap: () => pbModel.getNowPlayMusic(context),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          SizedBox(
-            width: 20.w,
-            height: 20.w,
-            child: CircularProgressIndicator(
-              strokeWidth: 3.w,
-              // value: 0.5,
-              value: (pbModel.position != null &&
-                      pbModel.duration != null &&
-                      pbModel.position!.inMilliseconds > 0 &&
-                      pbModel.position!.inMilliseconds <
-                          pbModel.duration!.inMilliseconds)
-                  ? pbModel.position!.inMilliseconds /
-                      pbModel.duration!.inMilliseconds
-                  : 0.0,
-              valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        width: 40.w,
+        height: 40.w,
+        // color: Colors.red,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              child: SizedBox(
+                width: 20.w,
+                height: 20.w,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3.w,
+                  // value: 0.5,
+                  value: (pbModel.position != null &&
+                          pbModel.duration != null &&
+                          pbModel.position!.inMilliseconds > 0 &&
+                          pbModel.position!.inMilliseconds <
+                              pbModel.duration!.inMilliseconds)
+                      ? pbModel.position!.inMilliseconds /
+                          pbModel.duration!.inMilliseconds
+                      : 0.0,
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              ),
             ),
-          ),
-          Icon(
-            pbModel.isPlay
-                ? Icons.pause_circle_outline
-                : Icons.play_circle_outline,
-            color: BLUE_COLOR,
-            size: 32.w,
-          ),
-        ],
+            Positioned(
+              child: Icon(
+                pbModel.isPlay
+                    ? Icons.pause_circle_outline
+                    : Icons.play_circle_outline,
+                color: BLUE_COLOR,
+                size: 32.w,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
