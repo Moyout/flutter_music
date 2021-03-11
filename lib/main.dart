@@ -7,6 +7,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized(); //禁止provider红屏
   ScreenUtil.initialize(); //初始化屏幕适配
   AppConfig.initSp(); //初始化SP
+  AppConfig.errorWidget(); //错误widget
+
   runApp(MyApp());
 }
 

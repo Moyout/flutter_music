@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
-import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 
 class SearchList extends StatelessWidget {
@@ -21,7 +20,7 @@ class SearchList extends StatelessWidget {
                 child: const CupertinoActivityIndicator(),
               )
             : svModel.smModel?.data?.song?.list?.length == 0
-                ? Center(child: Text("无结果"))
+                ? Center(child: const Text("无结果"))
                 : Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -77,19 +76,16 @@ class SearchList extends StatelessWidget {
                                       fontSize: 12.sp, color: Colors.grey),
                                 ),
                               ),
-                              onTap: () {
-                                svModel.getMusicVKey(context, index);
-                              },
+                              onTap: () => svModel.getMusicVKey(context, index),
                             );
                           },
                         ),
                       ),
                       svModel.isLoading
                           ? const CupertinoActivityIndicator()
-                          : Container(),
+                          : const SizedBox(),
                     ],
                   ),
-        // : ListView(),
       ),
     );
   }
