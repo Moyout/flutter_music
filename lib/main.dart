@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_music/provider/provider_list.dart';
-import 'package:flutter_music/util/theme_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/views/startup_page.dart';
 

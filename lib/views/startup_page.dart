@@ -4,6 +4,7 @@ import 'package:flutter_music/view_models/startup_viewmodel.dart';
 class StartUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    KeyboardUtil.closeKeyboardUtil();
     StartUpViewModel state = context.read<StartUpViewModel>();
     state.initViewModel(context);
     return Scaffold(

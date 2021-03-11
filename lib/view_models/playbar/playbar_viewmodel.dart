@@ -11,6 +11,7 @@ class PlayBarViewModel extends ChangeNotifier {
   // String playUrl = ""; //播放音频地址
   Duration? duration;
   Duration? position;
+  List<String>? playDetails;
 
   ///初始化ViewModel
   void initViewModel() {
@@ -18,7 +19,7 @@ class PlayBarViewModel extends ChangeNotifier {
     initAudioPlayer();
   }
 
-  init(TickerProvider tickerProvider) {
+  void init(TickerProvider tickerProvider) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (controller == null) {
         controller = AnimationController(
@@ -72,14 +73,18 @@ class PlayBarViewModel extends ChangeNotifier {
         notifyListeners();
       });
     }
+    playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails);
+    if (playDetails!.length > 0) {
+      picUrl = playDetails![1];
+      // notifyListeners();
+    }
   }
 
   void getNowPlayMusic(BuildContext context) {
     print("来了老弟");
     if (audioPlayer?.state == null) {
-      List<String>? playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails);
       if (playDetails!.length > 0) {
-        context.read<SearchViewModel>().onPlay(playDetails[0]).then((value) {
+        context.read<SearchViewModel>().onPlay(playDetails![0]).then((value) {
           if (value != null) onPlay(value);
           print(value);
         });
@@ -104,20 +109,10 @@ class PlayBarViewModel extends ChangeNotifier {
       controller?.stop();
       audioPlayer?.pause();
     } else {
-      // if (audioPlayer.state == AudioPlayerState.PAUSED) {
-      //   audioPlayer.resume();
-      // } else
       await audioPlayer?.play("$playUrl", isLocal: false);
       isPlay = true;
       controller?.forward();
     }
-    // print(audioPlayer.state);
     notifyListeners();
-    // // if (playUrl != "") {
-    //   isPlay = !isPlay;
-    //   isPlay ? controller.forward() : controller.stop();
-    //   // await audioPlayer.play(playUrl);
-    //   notifyListeners();
-    // // }
   }
 }

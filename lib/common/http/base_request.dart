@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-
-
+import 'package:flutter_music/common/toast/toast.dart';
 
 class BaseRequest {
   static BaseRequest _instance = BaseRequest._internal();
@@ -28,24 +27,28 @@ class BaseRequest {
           print("url = ${options.uri.toString()}");
           print("headers = ${options.headers}");
           print("params = ${options.data}");
+          Toast.showLoadingToast(seconds: 10, clickClose: false);
         },
         onResponse: (Response response) {
           print("\n================== 响应数据 ==========================");
           print("code = ${response.statusCode}");
           print("data = ${response.data}");
           print("\n");
+          Toast.closeLoading();
         },
         onError: (DioError e) {
           print("\n================== 错误响应数据 ======================");
           print("type = ${e.type}");
           print("message = ${e.message}");
           print("\n");
+          Toast.showBotToast(e.message);
         },
       ));
   }
 
   ///get请求
-  Future toGet(url, {Map<String, dynamic>? parameters, Options? options}) async {
+  Future toGet(url,
+      {Map<String, dynamic>? parameters, Options? options}) async {
     interceptor();
     var result;
     response =

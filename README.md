@@ -8,7 +8,7 @@ A new Flutter application.
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
-
+ 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
@@ -29,5 +29,6 @@ samples, guidance on mobile development, and a full API reference.
    ###
    ###   3. 在终端中输入： source ~/.zshrc ，即可正常使用配置的“mvn”命令了。
 
-#flutter run --no-sound-null-safety
-#flutter build apk --target-platform android-arm --split-per-abi --no-sound-null-safety
+# flutter run --no-sound-null-safety
+
+#  flutter build apk --target-platform android-arm --split-per-abi --no-sound-null-safety

@@ -1,8 +1,6 @@
-import 'package:flutter_music/common/toast/toast.dart';
 import 'package:flutter_music/models/search/hot_music_model.dart';
 import 'package:flutter_music/models/search/music_key_model.dart';
 import 'package:flutter_music/models/search/search_list_model.dart';
-import 'package:flutter_music/util/keyboard_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
 
@@ -16,7 +14,6 @@ class SearchViewModel extends ChangeNotifier {
   SearchMusicModel? smModel;
   MusicKeyModel? musicKeyModel;
   TabController? tabController;
-
   bool isLoading = false;
   int page = 1;
 
@@ -147,6 +144,7 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///加载更多
   Future<void> searchRequest(String songName, {int page = 1}) async {
     if (smModel == null) {
       page = 1;
@@ -157,7 +155,8 @@ class SearchViewModel extends ChangeNotifier {
         if (value!.data!.song!.list!.length > 0) {
           for (var item in value.data!.song!.list!)
             smModel!.data!.song!.list!.add(item);
-        }
+        } else
+          Toast.showBottomToast("已加载全部");
         isLoading = false;
         notifyListeners();
       });
@@ -167,7 +166,7 @@ class SearchViewModel extends ChangeNotifier {
 
   ///获取Vkey并播放
   void getMusicVKey(BuildContext context, int index) async {
-    print("index________________________________________________>$index");
+    // print("index________________________________________________>$index");
     String _albumMid = smModel!.data!.song!.list![index].albummid!.trim();
     String _songMid = smModel!.data!.song!.list![index].songmid!;
     String _songName = smModel!.data!.song!.list![index].songname!;
@@ -184,12 +183,16 @@ class SearchViewModel extends ChangeNotifier {
       await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
 
       await SpUtil.setStringList(PublicKeys.nowPlaySongDetails, [
-        _songMid, //songmid
+        _songMid,
+        //songmid
         _albumMid.length > 0
             ? "https://y.gtimg.cn/music/photo_new/T002R300x300M000$_albumMid.jpg"
-            : "", //播放图片
-        _songName, //歌名
-        _singer, //歌手
+            : "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+        //播放图片
+        _songName,
+        //歌名
+        _singer,
+        //歌手
       ]);
 
       if (context.read<PlayBarViewModel>().isPlay) {
@@ -197,6 +200,12 @@ class SearchViewModel extends ChangeNotifier {
         context.read<PlayBarViewModel>().audioPlayer?.pause();
       }
       context.read<PlayBarViewModel>().onPlay(_playUrl);
+      if (_albumMid.length > 0)
+        context.read<PlayBarViewModel>().picUrl =
+            "https://y.gtimg.cn/music/photo_new/T002R300x300M000$_albumMid.jpg";
+      else
+        context.read<PlayBarViewModel>().picUrl =
+            'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
       notifyListeners();
     }
     notifyListeners();
@@ -213,6 +222,17 @@ class SearchViewModel extends ChangeNotifier {
       String _playUrl = "http://ws.stream.qqmusic.qq.com/" +
           musicKeyModel!.req0!.data!.midurlinfo![0].purl!;
       return _playUrl;
+    }
+  }
+
+  ///监听返回
+  bool onWillPopScope() {
+    if (tabController?.index == 0) {
+      return true;
+    } else {
+      tabController?.animateTo(0);
+      notifyListeners();
+      return false;
     }
   }
 }

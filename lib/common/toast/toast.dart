@@ -18,10 +18,16 @@ class Toast {
     );
   }
 
-  static showLoadingToast({int seconds = 1}) {
+  static showLoadingToast({int seconds = 1, bool clickClose = true}) {
     return BotToast.showLoading(
       duration: Duration(seconds: seconds),
-      clickClose: true,
+      clickClose: clickClose,
+      crossPage: false,
+      backButtonBehavior: BackButtonBehavior.ignore, //拦截返回按键
     );
+  }
+
+  static closeLoading() {
+    return BotToast.cleanAll();
   }
 }

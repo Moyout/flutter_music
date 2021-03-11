@@ -164,7 +164,6 @@ class Song {
     curpage = json['curpage'];
     if (json['list'] != null) {
       list = [];
-      print("--------------------------------------------------->$list");
       json['list'].forEach((v) {
         list?.add(new List1.fromJson(v));
       });
@@ -299,7 +298,7 @@ class List1 {
     pubtime = json['pubtime'];
     pure = json['pure'];
     if (json['singer'] != null) {
-      singer=[];
+      singer = [];
       json['singer'].forEach((v) {
         singer?.add(new Singer.fromJson(v));
       });

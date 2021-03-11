@@ -1,13 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_music/util/keyboard_util.dart';
-import 'package:flutter_music/util/theme_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 import 'package:flutter_music/views/search_page/hot_search_list.dart';
 import 'package:flutter_music/views/search_page/search_list.dart';
-import 'package:flutter_music/widget/common/cuper_dialog.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
 class SearchPage extends StatefulWidget {
@@ -30,16 +27,23 @@ class _SearchPageState extends State<SearchPage>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => KeyboardUtil.closeKeyboardUtil(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              bodyWidget(),
-              searchWidget(context),
-              Positioned(bottom: 0, child: PlayBarWidget()),
-            ],
+      child: WillPopScope(
+        onWillPop: () async => context.read<SearchViewModel>().onWillPopScope(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Container(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                bodyWidget(),
+                searchWidget(context),
+                Positioned(
+                  bottom:
+                      MediaQueryData.fromWindow(window).padding.bottom.w + 2.w,
+                  child: PlayBarWidget(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
