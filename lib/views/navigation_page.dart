@@ -3,6 +3,7 @@ import 'package:flutter_music/util/theme_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
+import 'package:flutter_music/views/mine/person_page.dart';
 import 'package:flutter_music/views/music_hall/music_hall_page.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
@@ -24,8 +25,8 @@ class NavigationPage extends StatelessWidget {
               onPageChanged: (i) => navModel.pageTo(i),
               children: <Widget>[
                 MusicHallPage(),
-                Container(color: Colors.purple),
-                Container(color: Colors.purpleAccent),
+                Container( ),
+                PersonPage(),
               ],
             ),
             Positioned(

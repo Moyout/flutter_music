@@ -3,7 +3,7 @@ import 'package:flutter_music/util/tools.dart';
 ///路由
 class RouteUtil {
   static void push(BuildContext context, Widget widget,
-      {RouteAnimation? animation =RouteAnimation.gradient}) {
+      {RouteAnimation? animation = RouteAnimation.gradient}) {
     Navigator.push(context, CustomRoute(widget, routeAnimation: animation!));
   }
 

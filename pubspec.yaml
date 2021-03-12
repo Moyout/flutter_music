@@ -28,25 +28,25 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  # 提示框
+  # ��ʾ��
   bot_toast: ^4.0.0+1
   # DIO
   dio: ^3.0.10
-  # 状态管理
+  # ״̬����
   provider: ^5.0.0
-  # 存储
+  # �洢
   shared_preferences: any
-   # 权限管理
+   # Ȩ�޹���
   permission_handler: ^5.1.0+2
-  # 动画图
+  # ����ͼ
   flare_flutter: ^2.0.6
-  # app图标
+  # appͼ��
   flutter_launcher_icons: any
-  # 异步锁
+  # �첽��
   synchronized: ^3.0.0
-  # 播放器
+  # ������
   audioplayers: ^0.17.4
-  # 轮播
+  # �ֲ�
   flutter_swiper: ^1.1.6
 
 #  path_provider: ^1.6.22
@@ -79,11 +79,11 @@ flutter:
 
 
   fonts:
-    # 图标
+    # ͼ��
     - family: MyIcons
       fonts:
         - asset: assets/icons/iconfont.ttf
-    # 字体
+    # ����
     - family: FZKT
       fonts:
         - asset: assets/fonts/FZKATJW.TTF
