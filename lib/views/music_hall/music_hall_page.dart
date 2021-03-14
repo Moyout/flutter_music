@@ -14,9 +14,8 @@ class _MusicHallPageState extends State<MusicHallPage>
   Widget build(BuildContext context) {
     super.build(context);
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         print(context.read<PlayBarViewModel>().audioPlayer!.state);
-
       },
       child: Scaffold(
         body: Container(
@@ -24,7 +23,7 @@ class _MusicHallPageState extends State<MusicHallPage>
           color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             children: [
-              SafeArea(child: SearchBarWidget(title: "音乐馆")),
+              SafeArea(bottom: false, child: SearchBarWidget(title: "音乐馆")),
               Expanded(
                 child: Container(
                   child: ListView(

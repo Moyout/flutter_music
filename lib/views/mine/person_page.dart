@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/views/mine/login/login_page.dart';
@@ -9,7 +10,7 @@ class PersonPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(child: SearchBarWidget(title: "我的")),
+          SafeArea(bottom: false, child: SearchBarWidget(title: "我的")),
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(0),
@@ -22,8 +23,7 @@ class PersonPage extends StatelessWidget {
                       size: 100.w,
                       color: Theme.of(context).dividerColor,
                     ),
-                    onTap: () => RouteUtil.push(context, LoginPage(),
-                        animation: RouteAnimation.popDown),
+                    onTap: () => RouteUtil.push2(context, LoginPage()),
                   ),
                 ),
               ],

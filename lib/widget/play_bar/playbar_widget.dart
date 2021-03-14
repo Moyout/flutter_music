@@ -3,13 +3,11 @@ import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
 import 'package:flutter_music/widget/rotate_image/rotate_image_widget.dart';
 
 class PlayBarWidget extends StatelessWidget {
-
-
-
   @override
   Widget build(BuildContext context) {
     PlayBarViewModel pbModel = context.watch<PlayBarViewModel>();
     return Hero(
+      transitionOnUserGestures: true,
       tag: "playBar",
       child: Container(
         key: UniqueKey(),

@@ -7,7 +7,8 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     context.read<LoginViewModel>().initViewModel(this);
@@ -16,12 +17,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: Container(
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              padding:
+                  EdgeInsets.only(top: MediaQuery.of(context).padding.top / 2),
               height: 280.w,
               color: Theme.of(context).dividerColor,
               child: FlareActor(
@@ -58,6 +61,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             Container(
               width: AppUtils.getWidth(context),
               padding: EdgeInsets.symmetric(horizontal: 20.w),
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom / 2),
               child: ElevatedButton(
                 onPressed: () {},
                 child: Text("确定"),
@@ -68,4 +73,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

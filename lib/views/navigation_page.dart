@@ -25,12 +25,12 @@ class NavigationPage extends StatelessWidget {
               onPageChanged: (i) => navModel.pageTo(i),
               children: <Widget>[
                 MusicHallPage(),
-                Container( ),
+                Container(),
                 PersonPage(),
               ],
             ),
             Positioned(
-              bottom: 42.w + MediaQuery.of(context).viewPadding.bottom,
+              bottom: 42.w + MediaQuery.of(context).padding.bottom / 2,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45.w,
@@ -73,7 +73,7 @@ class NavigationPage extends StatelessWidget {
           ],
         ),
         padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom.w )),
+            bottom: MediaQuery.of(context).padding.bottom.w / 2)),
         width: AppUtils.getWidth(context),
         child: Stack(
           alignment: Alignment.center,
