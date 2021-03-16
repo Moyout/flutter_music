@@ -16,5 +16,7 @@ export 'package:flutter_music/common/toast/toast.dart';
 export 'package:flutter_music/util/keyboard_util.dart';
 export 'package:flutter_music/util/theme_util.dart';
 export 'package:flutter_music/widget/common/cuper_dialog.dart';
+export 'package:flutter_music/widget/textfield/textfield_widget.dart';
+export 'package:flutter_music/common/other.dart';
 
 

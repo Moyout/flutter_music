@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_music/util/tools.dart';
 
 class ThemeUtil {
@@ -23,20 +25,30 @@ class ThemeUtil {
   ///深夜模式
   static ThemeData darkTheme() {
     return ThemeData(
-        fontFamily: "FZKT",
-        primaryColor: Colors.white,
-        scaffoldBackgroundColor: Colors.blueGrey,
-        textTheme: TextTheme(
-          bodyText2: TextStyle(
-            fontSize: 14.sp,
-            color: Colors.white,
-            fontFamily: "FZKT",
-          ),
+      fontFamily: "FZKT",
+      primaryColor: Colors.white,
+      scaffoldBackgroundColor: Colors.blueGrey,
+      textTheme: TextTheme(
+        bodyText2: TextStyle(
+          fontSize: 14.sp,
+          color: Colors.white,
+          fontFamily: "FZKT",
         ),
-        iconTheme: IconThemeData(color: Colors.white),
-        dividerColor: Colors.white,
-        brightness: Brightness.dark,
-        dialogTheme: DialogTheme());
+      ),
+      iconTheme: IconThemeData(color: Colors.white),
+      dividerColor: Colors.white,
+      brightness: Brightness.dark,
+      dialogTheme: DialogTheme(),
+
+      // elevatedButtonTheme: ElevatedButtonThemeData(
+      //   style: ButtonStyle(
+      //     backgroundColor: MaterialStateProperty.all(Colors.blue),
+      //     textStyle: MaterialStateProperty.all(
+      //       TextStyle(color: Colors.red, fontSize: 14.sp,fontFamily: "FZKT"),
+      //     ),
+      //   ),
+      // ),
+    );
   }
 
   static Color primaryColor(BuildContext context) {
@@ -45,5 +57,9 @@ class ThemeUtil {
 
   static Color scaffoldColor(BuildContext context) {
     return Theme.of(context).scaffoldBackgroundColor;
+  }
+
+  static Brightness brightness(BuildContext context) {
+    return Theme.of(context).brightness;
   }
 }
