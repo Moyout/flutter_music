@@ -7,3 +7,8 @@ bool isEmail(String input) {
   // if (input == null || input.isEmpty) return false;
   return new RegExp(regexEmail).hasMatch(input);
 }
+
+const String dayIdle = "day_idle";
+const String nightIdle = "night_idle";
+const String switchNight = "switch_night";
+const String switchDay = "switch_day";

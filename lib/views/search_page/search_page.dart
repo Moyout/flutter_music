@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
-import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 import 'package:flutter_music/views/search_page/hot_search_list.dart';
 import 'package:flutter_music/views/search_page/search_list.dart';

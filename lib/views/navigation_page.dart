@@ -1,5 +1,4 @@
 import 'package:flutter/rendering.dart';
-import 'package:flutter_music/util/theme_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
@@ -89,7 +88,8 @@ class NavigationPage extends StatelessWidget {
                 width: 130.w,
                 height: 45.w,
                 decoration: BoxDecoration(
-                  color: Colors.blueAccent,
+                  // color: Color(0xff123123),
+                  color: Colors.blueGrey,
                   borderRadius: BorderRadius.circular(25.w),
                 ),
               ),

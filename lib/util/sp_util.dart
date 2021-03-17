@@ -38,12 +38,6 @@ class SpUtil {
     return _prefs?.setStringList(key, value);
   }
 
-  ///存储bool
-  static Future<bool>? setBool(String key, bool value) {
-    if (_prefs == null) return null;
-    return _prefs?.setBool(key, value);
-  }
-
   ///获取String
   static String? getString(String key) {
     if (_prefs == null) return null;
@@ -60,8 +54,21 @@ class SpUtil {
     return status;
   }
 
+  ///获取bool
+  /// 根据key获取bool类型
+  static bool? getBool(String key) {
+    if (_prefs == null) return null;
+    return _prefs?.getBool(key);
+  }
+
+  /// 根据key存储bool类型
+  static Future<bool>? setBool(String key, bool value) {
+    if (_prefs == null) return null;
+    return _prefs?.setBool(key, value);
+  }
+
   ///获取value
-  static dynamic getValue(String key) {
+  static dynamic? getValue(String key) {
     print("取值${_prefs?.getStringList(key)}");
 
     if (_prefs == null) return null;

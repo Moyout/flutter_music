@@ -1,5 +1,6 @@
 import 'package:flutter_music/provider/provider_list.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/views/startup_page.dart';
 
 void main() {
@@ -10,27 +11,26 @@ void main() {
   AppConfig.initSp(); //初始化SP
   AppConfig.errorWidget(); //错误widget
 
-  runApp(MyApp());
+  runApp(MultiProvider(providers: providers, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.initialize(); //初始化屏幕适配
-    return MultiProvider(
-      providers: providers,
-      child: MaterialApp(
-        builder: BotToastInit(),
-        navigatorObservers: [BotToastNavigatorObserver()],
-        debugShowCheckedModeBanner: false,
-        title: 'Simple Music',
-        home: StartUpPage(),
-        // initialRoute: '/',
-        routes: {},
-        themeMode: ThemeMode.light,
-        theme: ThemeUtil.lightTheme(),
-        darkTheme: ThemeUtil.darkTheme(),
-      ),
+    return MaterialApp(
+      builder: BotToastInit(),
+      navigatorObservers: [BotToastNavigatorObserver()],
+      debugShowCheckedModeBanner: false,
+      title: 'Simple Music',
+      home: StartUpPage(),
+      // initialRoute: '/',
+      routes: {},
+      themeMode: context.watch<SetViewModel>().isDark
+          ? ThemeMode.dark
+          : ThemeMode.light,
+      theme: ThemeUtil.lightTheme(),
+      darkTheme: ThemeUtil.darkTheme(),
     );
   }
 }

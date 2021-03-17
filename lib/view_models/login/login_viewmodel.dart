@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:flare_flutter/flare.dart';
-import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter_music/util/tools.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -68,7 +66,7 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  void onTap() => setTeddyStatus();
+  void onTap() => setTeddyTest();
 
   Future<void> setTeddyFail() async {
     if (teddyStatus != "hands_up") {
@@ -78,6 +76,18 @@ class LoginViewModel extends ChangeNotifier {
         teddyStatus = "idle";
       });
     }
+    notifyListeners();
+  }
+
+  Future<void> setTeddyTest() async {
+    if (teddyStatus == "hands_up") {
+      teddyStatus = "hands_down";
+      notifyListeners();
+      await Future.delayed(Duration(milliseconds: 1500), () {
+        teddyStatus = "test";
+      });
+    } else
+      teddyStatus = "test";
     notifyListeners();
   }
 

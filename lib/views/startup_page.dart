@@ -1,12 +1,19 @@
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/view_models/startup_viewmodel.dart';
 
 class StartUpPage extends StatelessWidget {
+  // final VoidCallback? setThemeMode;
+  //
+  // StartUpPage(this.setThemeMode);
+
   @override
   Widget build(BuildContext context) {
     KeyboardUtil.closeKeyboardUtil();
     StartUpViewModel state = context.read<StartUpViewModel>();
     state.initViewModel(context);
+    context.read<SetViewModel>().appInitSetting();
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

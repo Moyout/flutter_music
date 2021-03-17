@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/views/navigation_page.dart';
-import 'package:flutter_music/widget/common/route_animation.dart';
 
 class StartUpViewModel extends ChangeNotifier {
   Timer? _timer;

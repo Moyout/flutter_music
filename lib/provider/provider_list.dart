@@ -3,6 +3,7 @@ import 'package:flutter_music/view_models/login/login_viewmodel.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
+import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/view_models/startup_viewmodel.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -12,6 +13,7 @@ List<SingleChildWidget> providers = [
 ];
 
 List<SingleChildWidget> independentServices = [
+  ChangeNotifierProvider(create: (_) => SetViewModel()),
   ChangeNotifierProvider(create: (_) => StartUpViewModel()),
   ChangeNotifierProvider(create: (_) => NavViewModel()),
   ChangeNotifierProvider(create: (_) => PlayBarViewModel()),
