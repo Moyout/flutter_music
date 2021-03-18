@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
-import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
+import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/views/mine/person_page.dart';
 import 'package:flutter_music/views/music_hall/music_hall_page.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';

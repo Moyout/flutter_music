@@ -42,7 +42,7 @@ class _SetPageState extends State<SetPage> {
               ),
               SwitchListTile(
                 title: Text("边听边存"),
-                value: context.watch<SetViewModel>().listenAndSave,
+                value: context.watch<SetViewModel>().listenCache,
                 onChanged: (v) =>context.read<SetViewModel>().setListenAndSave(),
               ),
             ],

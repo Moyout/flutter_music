@@ -2,7 +2,7 @@ import 'package:flutter_music/models/search/hot_music_model.dart';
 import 'package:flutter_music/models/search/music_key_model.dart';
 import 'package:flutter_music/models/search/search_list_model.dart';
 import 'package:flutter_music/util/tools.dart';
-import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
+import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 
 class SearchViewModel extends ChangeNotifier {
   ScrollController listController = ScrollController();

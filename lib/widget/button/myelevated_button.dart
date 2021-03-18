@@ -12,7 +12,7 @@ class MyElevatedButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: Colors.transparent,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         padding: EdgeInsets.all(15.w),
         shadowColor: Colors.white,
         elevation: 0,

@@ -27,6 +27,11 @@ class PlayBarViewModel extends ChangeNotifier {
         initRotateImage();
         notifyListeners();
       }
+
+      if (AppUtils.getContext().read<PlayBarViewModel>().isPlay) {
+        controller?.forward();
+        notifyListeners();
+      }
     });
   }
 

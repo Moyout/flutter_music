@@ -4,7 +4,7 @@ import 'package:flutter_music/util/tools.dart';
 class SetViewModel extends ChangeNotifier {
   String status = "day_idle";
   bool isDark = false;
-  bool listenAndSave = false;
+  bool listenCache = false;
 
   void initViewModel() {}
 
@@ -12,6 +12,7 @@ class SetViewModel extends ChangeNotifier {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       isDark = SpUtil.getBool(PublicKeys.darkTheme) ?? false;
       !isDark ? status = dayIdle : status = nightIdle;
+      listenCache = SpUtil.getBool(PublicKeys.darkTheme) ?? false;
       notifyListeners();
     });
   }
@@ -36,8 +37,9 @@ class SetViewModel extends ChangeNotifier {
     }
   }
 
-  void setListenAndSave() {
-    listenAndSave = !listenAndSave;
+  Future<void> setListenAndSave() async {
+    listenCache = !listenCache;
+    await SpUtil.setBool(PublicKeys.listenCache, listenCache);
     notifyListeners();
   }
 }

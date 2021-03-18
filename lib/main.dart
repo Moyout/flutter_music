@@ -24,6 +24,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Simple Music',
       home: StartUpPage(),
+      navigatorKey: AppUtils.navigatorKey,
+
       // initialRoute: '/',
       routes: {},
       themeMode: context.watch<SetViewModel>().isDark

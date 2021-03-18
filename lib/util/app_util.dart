@@ -1,12 +1,12 @@
 import 'package:flutter_music/util/tools.dart';
 
 class AppUtils {
-  // static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   // 获取全局context
-  // static BuildContext getContext() {
-  //   return AppUtils.navigatorKey.currentState.overlay.context;
-  // }
+  static BuildContext getContext() {
+    return AppUtils.navigatorKey.currentState!.overlay!.context;
+  }
 
   // 关闭软键盘
   // static void turnOffKeyBoard() {

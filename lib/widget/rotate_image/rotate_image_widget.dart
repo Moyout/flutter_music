@@ -1,7 +1,10 @@
+import 'package:flutter_music/util/app_util.dart';
 import 'package:flutter_music/util/tools.dart';
-import 'package:flutter_music/view_models/playbar/playbar_viewmodel.dart';
+import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
+import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 
 class RotateImageWidget extends StatefulWidget {
+
   @override
   _RotateImageWidgetState createState() => _RotateImageWidgetState();
 }
@@ -12,6 +15,12 @@ class _RotateImageWidgetState extends State<RotateImageWidget>
   void initState() {
     super.initState();
     context.read<PlayBarViewModel>().init(this);
+  }
+
+  @override
+  void dispose() {
+    AppUtils.getContext().read<PlayBarViewModel>().controller?.stop();
+    super.dispose();
   }
 
   @override
