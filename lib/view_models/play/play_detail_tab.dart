@@ -2,16 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
+import 'package:flutter_music/widget/button/myelevated_button.dart';
 
 class PlayDetailTab extends StatefulWidget {
-
-
   @override
   _PlayDetailTabState createState() => _PlayDetailTabState();
 }
 
 class _PlayDetailTabState extends State<PlayDetailTab>
-    with TickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     context.read<PlayPageViewModel>().initAnimationController(this);
@@ -28,6 +27,7 @@ class _PlayDetailTabState extends State<PlayDetailTab>
 
   @override
   Widget build(BuildContext context) {
+    PlayBarViewModel pbModelR = context.read<PlayBarViewModel>();
     super.build(context);
     return Container(
       child: Column(
@@ -65,18 +65,15 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                 top: -10.w,
                 right: 15.w,
                 child: GestureDetector(
-                  onTap: () {
-                    context.read<PlayPageViewModel>().controllerAnimation();
-                  },
+                  // onTap: () =>
+                  //     context.read<PlayPageViewModel>().controllerAnimation(),
                   child: RotationTransition(
                     alignment: Alignment(0.6, -0.7),
                     // origin: Offset(10,20),
                     turns: Tween(begin: -0.08, end: 0.001).animate(
                         context.watch<PlayPageViewModel>().animationC!),
                     child: Container(
-                      // color: Colors.indigoAccent,
                       height: AppUtils.getWidth(context) / 2,
-                      // color: Colors.indigoAccent,
                       child: Image.asset(
                         "assets/images/record_rod.png",
                         fit: BoxFit.cover,
@@ -87,12 +84,103 @@ class _PlayDetailTabState extends State<PlayDetailTab>
               )
             ],
           ),
-          Expanded(child: Text("aa"))
+          Container(
+            child: Text("${context.watch<PlayBarViewModel>().playDetails![2]}"),
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.w),
+              alignment: Alignment.bottomCenter,
+              // color: Colors.indigo[200],
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20.w),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12.w),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MyElevatedButton(() {}, Icons.favorite_outline),
+                        MyElevatedButton(
+                            () {}, Icons.arrow_circle_down_rounded),
+                        MyElevatedButton(() {}, Icons.comment),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          pbModelR.position.toString().length < 8
+                              ? "0:00"
+                              : "${pbModelR.position.toString().substring(2, 7)}",
+                          style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 1.2.w,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          height: 50.w,
+                          width: AppUtils.getWidth(context) * 0.6.w,
+                          child: Slider(
+                            inactiveColor: Colors.white.withOpacity(0.5),
+                            activeColor:
+                                Colors.lightBlueAccent.withOpacity(0.5),
+                            onChanged: (v) => pbModelR.setPlayProgress(v),
+                            value: (pbModelR.position != null &&
+                                    pbModelR.duration != null &&
+                                    pbModelR.position!.inMilliseconds > 0 &&
+                                    pbModelR.position!.inMilliseconds <
+                                        pbModelR.duration!.inMilliseconds)
+                                ? pbModelR.position!.inMilliseconds /
+                                    pbModelR.duration!.inMilliseconds
+                                : 0.0,
+                          ),
+                        ),
+                        Text(
+                          pbModelR.duration.toString().length < 8
+                              ? "0:00"
+                              : pbModelR.duration.toString().substring(2, 7),
+                          style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 1.2.w,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyElevatedButton(() {}, Icons.refresh),
+                        MyElevatedButton(() {}, Icons.skip_previous,
+                            size: 44.w),
+                        MyElevatedButton(
+                          () => context
+                              .read<PlayBarViewModel>()
+                              .getNowPlayMusic(),
+                          context.watch<PlayBarViewModel>().isPlay
+                              ? Icons.pause_circle_filled_rounded
+                              : Icons.play_arrow_rounded,
+                          size: 50.w,
+                        ),
+                        MyElevatedButton(() {}, Icons.skip_next, size: 44.w),
+                        MyElevatedButton(() {}, Icons.menu),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
   }
 
   @override
-   bool get wantKeepAlive => true;
+  bool get wantKeepAlive => true;
 }

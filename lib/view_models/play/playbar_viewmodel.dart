@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 
 class PlayBarViewModel extends ChangeNotifier {
@@ -68,6 +69,8 @@ class PlayBarViewModel extends ChangeNotifier {
         isPlay = false;
         controller?.stop();
         audioPlayer?.pause();
+        AppUtils.getContext().read<PlayPageViewModel>().recordC?.stop();
+        AppUtils.getContext().read<PlayPageViewModel>().controllerAnimation();
         notifyListeners();
       });
       //播放错误操作
@@ -85,23 +88,32 @@ class PlayBarViewModel extends ChangeNotifier {
     }
   }
 
-  void getNowPlayMusic(BuildContext context) {
-    print("来了老弟");
+  ///播放按钮
+  void getNowPlayMusic() {
     if (audioPlayer?.state == null) {
       if (playDetails!.length > 0) {
-        context.read<SearchViewModel>().onPlay(playDetails![0]).then((value) {
-          if (value != null) onPlay(value);
-          print(value);
+        AppUtils.getContext()
+            .read<SearchViewModel>()
+            .onPlay(playDetails![0])
+            .then((value) {
+          if (value != null) {
+            onPlay(value);
+            AppUtils.getContext().read<PlayPageViewModel>().recordC?.forward();
+          }
         });
       }
     } else if (audioPlayer?.state == AudioPlayerState.PAUSED) {
       audioPlayer?.resume();
       isPlay = true;
       controller?.forward();
+      AppUtils.getContext().read<PlayPageViewModel>().recordC?.forward();
+      AppUtils.getContext().read<PlayPageViewModel>().animationC?.forward();
     } else if (audioPlayer?.state == AudioPlayerState.PLAYING) {
       isPlay = false;
       audioPlayer?.pause();
       controller?.stop();
+      AppUtils.getContext().read<PlayPageViewModel>().recordC?.stop();
+      AppUtils.getContext().read<PlayPageViewModel>().animationC?.reverse();
     }
     notifyListeners();
   }
@@ -119,5 +131,18 @@ class PlayBarViewModel extends ChangeNotifier {
       controller?.forward();
     }
     notifyListeners();
+  }
+
+  ///拉动进度条
+  void setPlayProgress(v) {
+    if (position != null) {
+      try {
+        final position = v * duration?.inMilliseconds;
+        audioPlayer?.seek(Duration(milliseconds: position.round()));
+        notifyListeners();
+      } catch (e) {
+        print("-------------------拉动进度条错误------------------------>$e");
+      }
+    }
   }
 }

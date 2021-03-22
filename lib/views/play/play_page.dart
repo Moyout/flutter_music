@@ -18,7 +18,6 @@ class _PlayPageState extends State<PlayPage>
   @override
   void initState() {
     context.read<PlayPageViewModel>().initViewModel(this);
-
     super.initState();
   }
 

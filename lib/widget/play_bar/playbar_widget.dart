@@ -54,7 +54,7 @@ class PlayBarWidget extends StatelessWidget {
     //   print(offset);
     // });
     return GestureDetector(
-      onTap: () => pbModel.getNowPlayMusic(context),
+      onTap: () => pbModel.getNowPlayMusic(),
       behavior: HitTestBehavior.opaque,
       child: Container(
         key: key,

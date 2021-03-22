@@ -35,14 +35,12 @@ class PlayPageViewModel extends ChangeNotifier {
   }
 
   initRecord(BuildContext context) {
-    // print(context.read<PlayBarViewModel>().isPlay);
     if (context.read<PlayBarViewModel>().isPlay) {
       animationC?.forward();
       recordC?.forward();
-    }else{
+    } else {
       animationC?.reverse();
     }
-
   }
 
   void controllerAnimation() {
