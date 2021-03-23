@@ -1,14 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter_music/util/tools.dart';
-import 'package:flutter_music/view_models/play/play_detail_tab.dart';
+import 'file:///C:/Users/Administrator/Desktop/AndroidStudioProjects/flutter_music/lib/views/play/play_detail_tab.dart';
 import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
+import 'package:flutter_music/views/play/play_lyric_tab.dart';
 import 'package:flutter_music/widget/button/myelevated_button.dart';
 
 class PlayPage extends StatefulWidget {
-
-
   @override
   _PlayPageState createState() => _PlayPageState();
 }
@@ -19,6 +18,12 @@ class _PlayPageState extends State<PlayPage>
   void initState() {
     context.read<PlayPageViewModel>().initViewModel(this);
     super.initState();
+  }
+  @override
+  void dispose() {
+    AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
+
+    super.dispose();
   }
 
   @override
@@ -55,7 +60,7 @@ class _PlayPageState extends State<PlayPage>
                         Spacer(),
                         MyElevatedButton(
                           () {},
-                          IconData(0xe6b6, fontFamily: "MyIcons"),
+                          const IconData(0xe6b6, fontFamily: "MyIcons"),
                           size: 20.w,
                         ),
                       ],
@@ -94,7 +99,7 @@ class _PlayPageState extends State<PlayPage>
         behavior: OverScrollBehavior(),
         child: TabBarView(
           controller: context.watch<PlayPageViewModel>().tabC,
-          children: [PlayDetailTab( ), Text("2")],
+          children: [PlayDetailTab(), PlayLyricTab()],
         ),
       ),
     );

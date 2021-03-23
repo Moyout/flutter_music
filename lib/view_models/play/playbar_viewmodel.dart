@@ -12,7 +12,7 @@ class PlayBarViewModel extends ChangeNotifier {
   // String playUrl = ""; //播放音频地址
   Duration? duration;
   Duration? position;
-  List<String>? playDetails;
+  List<String> playDetails = [];
 
   ///初始化ViewModel
   void initViewModel() {
@@ -81,24 +81,34 @@ class PlayBarViewModel extends ChangeNotifier {
         notifyListeners();
       });
     }
-    playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails);
-    if (playDetails!.length > 0) {
-      picUrl = playDetails![1];
+    playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
+    if (playDetails.length > 0) {
+      picUrl = playDetails[1];
       // notifyListeners();
     }
   }
 
+  updatePlayDetails() {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
+      notifyListeners();
+    });
+  }
+
   ///播放按钮
   void getNowPlayMusic() {
+    playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
+    notifyListeners();
     if (audioPlayer?.state == null) {
-      if (playDetails!.length > 0) {
+      if (playDetails.length > 0) {
         AppUtils.getContext()
             .read<SearchViewModel>()
-            .onPlay(playDetails![0])
+            .onPlay(playDetails[0])
             .then((value) {
           if (value != null) {
             onPlay(value);
             AppUtils.getContext().read<PlayPageViewModel>().recordC?.forward();
+            AppUtils.getContext().read<PlayPageViewModel>().animationC?.forward();
           }
         });
       }
@@ -114,6 +124,8 @@ class PlayBarViewModel extends ChangeNotifier {
       controller?.stop();
       AppUtils.getContext().read<PlayPageViewModel>().recordC?.stop();
       AppUtils.getContext().read<PlayPageViewModel>().animationC?.reverse();
+      AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
+
     }
     notifyListeners();
   }

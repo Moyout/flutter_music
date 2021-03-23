@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
-import 'package:flutter_music/widget/button/myelevated_button.dart';
 
 class PlayDetailTab extends StatefulWidget {
   @override
@@ -10,11 +9,15 @@ class PlayDetailTab extends StatefulWidget {
 }
 
 class _PlayDetailTabState extends State<PlayDetailTab>
-    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+    with TickerProviderStateMixin {
   @override
   void initState() {
     context.read<PlayPageViewModel>().initAnimationController(this);
     context.read<PlayPageViewModel>().initRecord(context);
+    context.read<PlayBarViewModel>().updatePlayDetails();
+    context.read<PlayPageViewModel>().getLyric();
+    context.read<PlayPageViewModel>().startLyric();
+
     super.initState();
   }
 
@@ -22,13 +25,14 @@ class _PlayDetailTabState extends State<PlayDetailTab>
   void dispose() {
     AppUtils.getContext().read<PlayPageViewModel>().recordC?.stop();
     AppUtils.getContext().read<PlayPageViewModel>().animationC?.reset();
+    AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     PlayBarViewModel pbModelR = context.read<PlayBarViewModel>();
-    super.build(context);
     return Container(
       child: Column(
         children: [
@@ -84,12 +88,23 @@ class _PlayDetailTabState extends State<PlayDetailTab>
               )
             ],
           ),
-          Container(
-            child: Text("${context.watch<PlayBarViewModel>().playDetails![2]}"),
+          SizedBox(height: 40.w),
+          Text(
+            context.watch<PlayBarViewModel>().playDetails.length > 0
+                ? "${context.watch<PlayBarViewModel>().playDetails[2]}"
+                : "",
+            style: TextStyle(fontSize: 20.sp, color: Colors.white),
+          ),
+          SizedBox(height: 20.w),
+          Text(
+            context.watch<PlayBarViewModel>().playDetails.length > 0
+                ? "${context.watch<PlayBarViewModel>().playDetails[3]}"
+                : "",
+            style: TextStyle(fontSize: 18.sp, color: Colors.white),
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10.w),
+              padding: EdgeInsets.symmetric(vertical: 20.w),
               alignment: Alignment.bottomCenter,
               // color: Colors.indigo[200],
               child: Container(
@@ -181,6 +196,4 @@ class _PlayDetailTabState extends State<PlayDetailTab>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
 }

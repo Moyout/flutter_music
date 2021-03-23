@@ -1,3 +1,4 @@
+import 'package:flutter_music/models/play/lyric_model.dart';
 import 'package:flutter_music/models/search/hot_music_model.dart';
 import 'package:flutter_music/models/search/music_key_model.dart';
 import 'package:flutter_music/models/search/search_list_model.dart';
@@ -194,6 +195,7 @@ class SearchViewModel extends ChangeNotifier {
         _singer,
         //歌手
       ]);
+      await LyricRequest.getLyric(_songMid);
 
       if (context.read<PlayBarViewModel>().isPlay) {
         context.read<PlayBarViewModel>().isPlay = false;

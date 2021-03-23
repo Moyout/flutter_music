@@ -18,5 +18,7 @@ export 'package:flutter_music/util/theme_util.dart';
 export 'package:flutter_music/widget/common/cuper_dialog.dart';
 export 'package:flutter_music/widget/textfield/textfield_widget.dart';
 export 'package:flutter_music/common/other.dart';
+export 'package:flutter_music/widget/button/myelevated_button.dart';
+export 'package:flutter_music/common/base64.dart';
 
 
