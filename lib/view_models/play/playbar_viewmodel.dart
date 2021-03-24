@@ -88,7 +88,7 @@ class PlayBarViewModel extends ChangeNotifier {
     }
   }
 
-  updatePlayDetails() {
+  void updatePlayDetails() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
       notifyListeners();
@@ -108,7 +108,10 @@ class PlayBarViewModel extends ChangeNotifier {
           if (value != null) {
             onPlay(value);
             AppUtils.getContext().read<PlayPageViewModel>().recordC?.forward();
-            AppUtils.getContext().read<PlayPageViewModel>().animationC?.forward();
+            AppUtils.getContext()
+                .read<PlayPageViewModel>()
+                .animationC
+                ?.forward();
           }
         });
       }
@@ -124,7 +127,7 @@ class PlayBarViewModel extends ChangeNotifier {
       controller?.stop();
       AppUtils.getContext().read<PlayPageViewModel>().recordC?.stop();
       AppUtils.getContext().read<PlayPageViewModel>().animationC?.reverse();
-      AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
+      // AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
 
     }
     notifyListeners();

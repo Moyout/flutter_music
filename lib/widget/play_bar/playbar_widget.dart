@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/views/play/play_page.dart';
@@ -22,6 +23,7 @@ class PlayBarWidget extends StatelessWidget {
         child: Container(
           // key: UniqueKey(),
           height: 45.w,
+          clipBehavior: Clip.antiAlias,
           width: MediaQuery.of(context).size.width - 120.w,
           padding: EdgeInsets.only(left: 2.5.w, right: 10.w),
           decoration: BoxDecoration(
@@ -32,7 +34,7 @@ class PlayBarWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               RotateImageWidget(),
-              marquee(),
+              marquee(pbModel),
               playButton(pbModel, context),
             ],
           ),
@@ -41,12 +43,39 @@ class PlayBarWidget extends StatelessWidget {
     );
   }
 
-  Widget marquee() {
-    return Container();
+  Widget marquee(PlayBarViewModel pbModel) {
+    return Material(
+      color: Colors.transparent,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 160.w,
+            child: Text(
+              pbModel.playDetails.length > 0 ? pbModel.playDetails[2] : " ",
+              // "${pbModel.playDetails[2]}",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 14.sp, color: Colors.black),
+            ),
+          ),
+          Container(
+            width: 160.w,
+            child: Text(
+              pbModel.playDetails.length > 0 ? pbModel.playDetails[3] : " ",
+              // "${pbModel.playDetails[3]}",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 11.sp, color: Colors.grey),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget playButton(PlayBarViewModel pbModel, BuildContext context) {
-    GlobalKey key = GlobalKey();
+    // GlobalKey key = GlobalKey();
 
     // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
     //   RenderBox? renderBox = key.currentContext!.findAncestorRenderObjectOfType();
@@ -57,7 +86,7 @@ class PlayBarWidget extends StatelessWidget {
       onTap: () => pbModel.getNowPlayMusic(),
       behavior: HitTestBehavior.opaque,
       child: Container(
-        key: key,
+        // key: key,
         width: 40.w,
         height: 40.w,
         // color: Colors.red,

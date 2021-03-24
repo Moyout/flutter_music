@@ -16,8 +16,7 @@ class _PlayDetailTabState extends State<PlayDetailTab>
     context.read<PlayPageViewModel>().initRecord(context);
     context.read<PlayBarViewModel>().updatePlayDetails();
     context.read<PlayPageViewModel>().getLyric();
-    context.read<PlayPageViewModel>().startLyric();
-
+    context.read<PlayPageViewModel>().updatePaletteGenerator();
     super.initState();
   }
 
@@ -25,8 +24,6 @@ class _PlayDetailTabState extends State<PlayDetailTab>
   void dispose() {
     AppUtils.getContext().read<PlayPageViewModel>().recordC?.stop();
     AppUtils.getContext().read<PlayPageViewModel>().animationC?.reset();
-    AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
-
     super.dispose();
   }
 
@@ -93,14 +90,20 @@ class _PlayDetailTabState extends State<PlayDetailTab>
             context.watch<PlayBarViewModel>().playDetails.length > 0
                 ? "${context.watch<PlayBarViewModel>().playDetails[2]}"
                 : "",
-            style: TextStyle(fontSize: 20.sp, color: Colors.white),
+            style: TextStyle(
+              fontSize: 20.sp,
+              color: context.watch<PlayPageViewModel>().negColor,
+            ),
           ),
           SizedBox(height: 20.w),
           Text(
             context.watch<PlayBarViewModel>().playDetails.length > 0
                 ? "${context.watch<PlayBarViewModel>().playDetails[3]}"
                 : "",
-            style: TextStyle(fontSize: 18.sp, color: Colors.white),
+            style: TextStyle(
+              fontSize: 18.sp,
+              color: context.watch<PlayPageViewModel>().negColor,
+            ),
           ),
           Expanded(
             child: Container(
@@ -135,6 +138,7 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                           style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.2.w,
+                            fontSize: 14.sp,
                           ),
                         ),
                         Container(
@@ -163,6 +167,7 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                           style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.2.w,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ],
@@ -195,5 +200,4 @@ class _PlayDetailTabState extends State<PlayDetailTab>
       ),
     );
   }
-
 }

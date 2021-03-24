@@ -17,11 +17,15 @@ class _PlayPageState extends State<PlayPage>
   @override
   void initState() {
     context.read<PlayPageViewModel>().initViewModel(this);
+    AppUtils.getContext().read<PlayPageViewModel>().tabC?.animateTo(0);
     super.initState();
   }
+
   @override
   void dispose() {
     AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
+    KeyboardUtil.closeKeyboardUtil();
+    FocusScope.of(AppUtils.getContext()).requestFocus(FocusNode());
 
     super.dispose();
   }
@@ -40,7 +44,7 @@ class _PlayPageState extends State<PlayPage>
             ),
           ),
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+            filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
             child: Container(
               padding: EdgeInsets.only(
                   top: MediaQueryData.fromWindow(window).padding.top / 1.2),

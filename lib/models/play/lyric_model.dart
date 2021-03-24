@@ -10,7 +10,8 @@ class LyricRequest {
         options: Options(
             headers: {"Referer": "https://y.qq.com/portal/player.html"}));
     LyricModel lyricModel = LyricModel.fromJson(response);
-    lyrics = Base64.decodeBase64(lyricModel.lyric.toString()).split("\n");
+    if (lyricModel.lyric != null)
+      lyrics = Base64.decodeBase64(lyricModel.lyric.toString()).split("\n");
     SpUtil.setStringList(PublicKeys.lyrics, lyrics);
     return lyrics;
   }

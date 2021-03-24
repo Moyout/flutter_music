@@ -195,7 +195,6 @@ class SearchViewModel extends ChangeNotifier {
         _singer,
         //歌手
       ]);
-      await LyricRequest.getLyric(_songMid);
 
       if (context.read<PlayBarViewModel>().isPlay) {
         context.read<PlayBarViewModel>().isPlay = false;
@@ -208,6 +207,8 @@ class SearchViewModel extends ChangeNotifier {
       else
         context.read<PlayBarViewModel>().picUrl =
             'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
+      await LyricRequest.getLyric(_songMid);
+      AppUtils.getContext().read<PlayBarViewModel>().updatePlayDetails();
       notifyListeners();
     }
     notifyListeners();

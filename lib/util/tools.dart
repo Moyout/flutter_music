@@ -20,5 +20,6 @@ export 'package:flutter_music/widget/textfield/textfield_widget.dart';
 export 'package:flutter_music/common/other.dart';
 export 'package:flutter_music/widget/button/myelevated_button.dart';
 export 'package:flutter_music/common/base64.dart';
+export 'package:flutter_music/util/color_util.dart';
 
 
