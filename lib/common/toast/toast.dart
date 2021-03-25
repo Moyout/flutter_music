@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter_music/util/tools.dart';
 
 class Toast {
   //toast提示
@@ -15,6 +16,16 @@ class Toast {
       text: text,
 //      contentColor: Colors.white,
 //      backgroundColor: Colors.grey
+    );
+  }
+
+  static showOnTap(String text, {Offset offset = Offset.zero}) {
+
+    return BotToast.showText(
+      text: text,
+      align: Alignment(
+          offset.dx / MediaQuery.of(AppUtils.getContext()).size.width,
+          offset.dy / MediaQuery.of(AppUtils.getContext()).size.height),
     );
   }
 

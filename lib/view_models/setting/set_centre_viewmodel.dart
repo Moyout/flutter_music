@@ -5,6 +5,7 @@ class SetViewModel extends ChangeNotifier {
   String status = "day_idle";
   bool isDark = false;
   bool listenCache = false;
+  bool openPaw = false;
 
   void initViewModel() {}
 
@@ -13,6 +14,7 @@ class SetViewModel extends ChangeNotifier {
       isDark = SpUtil.getBool(PublicKeys.darkTheme) ?? false;
       !isDark ? status = dayIdle : status = nightIdle;
       listenCache = SpUtil.getBool(PublicKeys.darkTheme) ?? false;
+      openPaw = SpUtil.getBool(PublicKeys.openPaw) ?? false;
       notifyListeners();
     });
   }
@@ -40,6 +42,12 @@ class SetViewModel extends ChangeNotifier {
   Future<void> setListenAndSave() async {
     listenCache = !listenCache;
     await SpUtil.setBool(PublicKeys.listenCache, listenCache);
+    notifyListeners();
+  }
+
+  Future<void> setPaw() async {
+    openPaw = !openPaw;
+    await SpUtil.setBool(PublicKeys.openPaw, openPaw);
     notifyListeners();
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/views/mine/download/download_page.dart';
 import 'package:flutter_music/views/mine/favorite/myfavorites_page.dart';
+import 'package:flutter_music/views/mine/history/history_page.dart';
 import 'package:flutter_music/views/mine/login/login_page.dart';
 import 'package:flutter_music/views/mine/set/set_page.dart';
-import 'package:flutter_music/widget/button/myelevated_button.dart';
+
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
 
 class PersonPage extends StatelessWidget {
@@ -46,6 +46,12 @@ class PersonPage extends StatelessWidget {
                         size: 44.w,
                       ),
                       MyElevatedButton(
+                        () => RouteUtil.push(context, HistoryPage(),
+                            animation: RouteAnimation.popUp),
+                        Icons.history_outlined,
+                        size: 44.w,
+                      ),
+                      MyElevatedButton(
                         () => RouteUtil.push(context, DownloadPage(),
                             animation: RouteAnimation.popRight),
                         Icons.download_rounded,
@@ -64,7 +70,10 @@ class PersonPage extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 12.w),
                     child: Row(
                       children: [
-                        Icon(Icons.settings_outlined,size: 24.w,),
+                        Icon(
+                          Icons.settings_outlined,
+                          size: 24.w,
+                        ),
                         SizedBox(width: 5.w),
                         Text("设置"),
                         Spacer(),

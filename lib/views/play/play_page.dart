@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter_music/util/tools.dart';
@@ -25,57 +26,57 @@ class _PlayPageState extends State<PlayPage>
   void dispose() {
     AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
     KeyboardUtil.closeKeyboardUtil();
-    FocusScope.of(AppUtils.getContext()).requestFocus(FocusNode());
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            child: FadeInImage.assetNetwork(
-              height: double.infinity,
-              placeholder: "assets/images/singer.png",
-              image: context.watch<PlayBarViewModel>().picUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
-            child: Container(
-              padding: EdgeInsets.only(
-                  top: MediaQueryData.fromWindow(window).padding.top / 1.2),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Row(
-                      children: [
-                        MyElevatedButton(
-                          () => RouteUtil.pop(context),
-                          Icons.keyboard_arrow_down,
-                          size: 34.w,
-                        ),
-                        Spacer(),
-                        tabBar(),
-                        Spacer(),
-                        MyElevatedButton(
-                          () {},
-                          const IconData(0xe6b6, fontFamily: "MyIcons"),
-                          size: 20.w,
-                        ),
-                      ],
-                    ),
-                  ),
-                  tabBarView(),
-                ],
+    return MyBubble(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              child: FadeInImage.assetNetwork(
+                height: double.infinity,
+                placeholder: "assets/images/singer.png",
+                image: context.watch<PlayBarViewModel>().picUrl,
+                fit: BoxFit.cover,
               ),
             ),
-          )
-        ],
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+              child: Container(
+                padding: EdgeInsets.only(
+                    top: MediaQueryData.fromWindow(window).padding.top / 1.2),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Row(
+                        children: [
+                          MyElevatedButton(
+                            () => RouteUtil.pop(context),
+                            Icons.keyboard_arrow_down,
+                            size: 34.w,
+                          ),
+                          Spacer(),
+                          tabBar(),
+                          Spacer(),
+                          MyElevatedButton(
+                            () {},
+                            const IconData(0xe6b6, fontFamily: "MyIcons"),
+                            size: 20.w,
+                          ),
+                        ],
+                      ),
+                    ),
+                    tabBarView(),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

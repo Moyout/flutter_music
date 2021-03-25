@@ -1,4 +1,3 @@
-import 'package:flutter/rendering.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/views/play/play_page.dart';
@@ -13,12 +12,12 @@ class PlayBarWidget extends StatelessWidget {
       tag: "playBar",
       child: GestureDetector(
         onTap: () {
+          KeyboardUtil.closeKeyboardUtil();
           showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (_) {
-                return PlayPage();
-              });
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => PlayPage(),
+          );
         },
         child: Container(
           // key: UniqueKey(),

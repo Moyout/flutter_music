@@ -44,19 +44,13 @@ class _LoginPageState extends State<LoginPage>
                     Positioned(
                       top: MediaQuery.of(context).padding.top / 2,
                       left: 10.w,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          customBorder: StadiumBorder(),
-                          child: Icon(
-                            Icons.arrow_back_outlined,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            size: 32.w,
-                          ),
-                          onTap: () => RouteUtil.pop(context),
-                        ),
+                      child: MyElevatedButton(
+                            () => RouteUtil.pop(context),
+                        Icons.arrow_back_outlined,
+                        size: 32.w,
+                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -15,45 +15,47 @@ class MyCupertinoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(context).pop();
-        return true;
-      },
-      child: CupertinoAlertDialog(
-        title: Text(
-          title,
-          style: TextStyle(fontSize: 14.sp, fontFamily: "FZKT"),
+    return MyBubble(
+      child: WillPopScope(
+        onWillPop: () async {
+          Navigator.of(context).pop();
+          return true;
+        },
+        child: CupertinoAlertDialog(
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 14.sp, fontFamily: "FZKT"),
+          ),
+          content: Text(content),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              child: Text(
+                yes,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 14.sp,
+                  fontFamily: "FZKT",
+                ),
+              ),
+              onPressed: () {
+                function();
+                print('yes...');
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text(
+                no,
+                style: TextStyle(
+                  fontFamily: "FZKT",
+                  color: Colors.grey,
+                  fontSize: 14.sp,
+                ),
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
         ),
-        content: Text(content),
-        actions: <Widget>[
-          CupertinoDialogAction(
-            child: Text(
-              yes,
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 14.sp,
-                fontFamily: "FZKT",
-              ),
-            ),
-            onPressed: () {
-              function();
-              print('yes...');
-              Navigator.of(context).pop();
-            },
-          ),
-          CupertinoDialogAction(
-            child: Text(
-              no,
-              style: TextStyle(
-                fontFamily: "FZKT",
-                color: Colors.grey,
-                fontSize: 14.sp,
-              ),
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
       ),
     );
   }

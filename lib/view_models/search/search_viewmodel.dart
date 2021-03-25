@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_music/models/play/lyric_model.dart';
 import 'package:flutter_music/models/search/hot_music_model.dart';
 import 'package:flutter_music/models/search/music_key_model.dart';
@@ -165,7 +167,7 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///获取Vkey并播放
+  ///获取VKey并播放
   void getMusicVKey(BuildContext context, int index) async {
     // print("index________________________________________________>$index");
     String _albumMid = smModel!.data!.song!.list![index].albummid!.trim();
@@ -179,21 +181,36 @@ class SearchViewModel extends ChangeNotifier {
     if (musicKeyModel!.req0!.data!.midurlinfo![0].purl!.length == 0)
       Toast.showBotToast("此歌曲暂不支持播放");
     else {
+      ///***************************存储播放历史**********************************
+
+      List<String> list = [];
+      list = SpUtil.getStringList(PublicKeys.playHistory) ?? [];
+      Map musicMap = {
+        PublicKeys.songmid: "$_songMid",
+        PublicKeys.albumMid: _albumMid.length > 0
+            ? "https://y.gtimg.cn/music/photo_new/T002R300x300M000$_albumMid.jpg"
+            : "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+        PublicKeys.songName: "$_songName",
+        PublicKeys.singer: "$_singer",
+      };
+      if (!list.contains(jsonEncode(musicMap)))
+        list.insert(0, jsonEncode(musicMap));
+      await SpUtil.setStringList(PublicKeys.playHistory, list);
+      print(SpUtil.getStringList(PublicKeys.playHistory));
+
+      ///********************************end************************************
+
       String _playUrl = "http://ws.stream.qqmusic.qq.com/" +
           musicKeyModel!.req0!.data!.midurlinfo![0].purl!;
       await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
-
       await SpUtil.setStringList(PublicKeys.nowPlaySongDetails, [
-        _songMid,
-        //songmid
+        _songMid, //songmid
         _albumMid.length > 0
             ? "https://y.gtimg.cn/music/photo_new/T002R300x300M000$_albumMid.jpg"
             : "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
         //播放图片
-        _songName,
-        //歌名
-        _singer,
-        //歌手
+        _songName, //歌名
+        _singer, //歌手
       ]);
 
       if (context.read<PlayBarViewModel>().isPlay) {
@@ -209,6 +226,7 @@ class SearchViewModel extends ChangeNotifier {
             'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
       await LyricRequest.getLyric(_songMid);
       AppUtils.getContext().read<PlayBarViewModel>().updatePlayDetails();
+
       notifyListeners();
     }
     notifyListeners();

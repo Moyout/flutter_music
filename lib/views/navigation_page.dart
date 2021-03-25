@@ -12,47 +12,50 @@ class NavigationPage extends StatelessWidget {
     NavViewModel navModel = context.read<NavViewModel>();
     navModel.initSC(context);
     context.read<PlayBarViewModel>().initViewModel();
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: ScrollConfiguration(
-        behavior: OverScrollBehavior(),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            PageView(
-              controller: context.watch<NavViewModel>().pageController,
-              onPageChanged: (i) => navModel.pageTo(i),
-              children: <Widget>[
-                MusicHallPage(),
-                Container(),
-                PersonPage(),
-              ],
-            ),
-            Positioned(
-              bottom: 42.w + MediaQuery.of(context).padding.bottom / 2,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 45.w,
-                child: Consumer<NavViewModel>(
-                  builder: (_, NavViewModel navModel, __) {
-                    return ListView(
-                      controller: navModel.sc,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Container(
-                            width: MediaQuery.of(context).size.width - 50.w),
-                        PlayBarWidget(),
-                        Container(width: 60.w),
-                      ],
-                    );
-                  },
+    return MyBubble(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: ScrollConfiguration(
+          behavior: OverScrollBehavior(),
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              PageView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: context.watch<NavViewModel>().pageController,
+                onPageChanged: (i) => navModel.pageTo(i),
+                children: <Widget>[
+                  MusicHallPage(),
+                  Container(),
+                  PersonPage(),
+                ],
+              ),
+              Positioned(
+                bottom: 42.w + MediaQuery.of(context).padding.bottom / 2,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 45.w,
+                  child: Consumer<NavViewModel>(
+                    builder: (_, NavViewModel navModel, __) {
+                      return ListView(
+                        controller: navModel.sc,
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width - 50.w),
+                          PlayBarWidget(),
+                          Container(width: 60.w),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            bottomBar(navModel, context),
-            // PlayBarWidget(model, widget.model),
-          ],
+              bottomBar(navModel, context),
+              // PlayBarWidget(model, widget.model),
+            ],
+          ),
         ),
       ),
     );

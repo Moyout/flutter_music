@@ -4,8 +4,9 @@ class MyElevatedButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final IconData? icon;
   final double? size;
+  final Color? color;
 
-  MyElevatedButton(this.onPressed, this.icon, {this.size = 24});
+  MyElevatedButton(this.onPressed, this.icon, {this.size = 24, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class MyElevatedButton extends StatelessWidget {
       onPressed: onPressed,
       child: Icon(
         icon,
-        color: Theme.of(context).dividerColor,
+        color: color ?? Theme.of(context).dividerColor,
         size: size?.w,
       ),
     );

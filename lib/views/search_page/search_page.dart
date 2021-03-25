@@ -25,24 +25,26 @@ class _SearchPageState extends State<SearchPage>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => KeyboardUtil.closeKeyboardUtil(),
-      child: WillPopScope(
-        onWillPop: () async => context.read<SearchViewModel>().onWillPopScope(),
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Container(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                bodyWidget(),
-                searchWidget(context),
-                Positioned(
-                  bottom:
-                      MediaQueryData.fromWindow(window).padding.bottom.w + 2.w,
-                  child: PlayBarWidget(),
-                ),
-              ],
+    return MyBubble(
+      child: GestureDetector(
+        onTap: () => KeyboardUtil.closeKeyboardUtil(),
+        child: WillPopScope(
+          onWillPop: () async => context.read<SearchViewModel>().onWillPopScope(),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Container(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  bodyWidget(),
+                  searchWidget(context),
+                  Positioned(
+                    bottom:
+                        MediaQueryData.fromWindow(window).padding.bottom.w + 2.w,
+                    child: PlayBarWidget(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
