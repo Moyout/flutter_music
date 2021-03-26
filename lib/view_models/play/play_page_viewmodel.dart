@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
@@ -14,6 +15,7 @@ class PlayPageViewModel extends ChangeNotifier {
   List<String> lyrics = []; //歌词
   List<int> timeInt = []; //歌词时间seconds秒
   List<String> timeString = []; //歌词时间00:00.00格式
+  bool isLike = false; //是否收藏
   RegExp reg = RegExp('[0-9]');
   Timer? timer;
 
@@ -140,7 +142,38 @@ class PlayPageViewModel extends ChangeNotifier {
   }
 
   ///收藏
-  void setCollect(List list){
-    print(list);
+  Future<void> setCollect(List songDetails) async {
+    ///***************************存储收藏**********************************
+    List<String> list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
+    Map musicMap = {
+      PublicKeys.songmid: songDetails[0],
+      PublicKeys.albumMid: songDetails[1].length > 0 ? songDetails[1] : "",
+      PublicKeys.songName: songDetails[2],
+      PublicKeys.singer: songDetails[3],
+    };
+    if (!list.contains(jsonEncode(musicMap)))
+      list.insert(0, jsonEncode(musicMap));
+    else
+      list.remove(jsonEncode(musicMap));
+    await SpUtil.setStringList(PublicKeys.collectMusic, list);
+    print(SpUtil.getStringList(PublicKeys.collectMusic));
+
+    ///********************************end************************************
+    isLike = !isLike;
+    notifyListeners();
+  }
+
+  Future<void> initGetCollect(List songDetails) async {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      List<String> list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
+      Map musicMap = {
+        PublicKeys.songmid: songDetails[0],
+        PublicKeys.albumMid: songDetails[1].length > 0 ? songDetails[1] : "",
+        PublicKeys.songName: songDetails[2],
+        PublicKeys.singer: songDetails[3],
+      };
+      list.contains(jsonEncode(musicMap)) ? isLike = true : isLike = false;
+      notifyListeners();
+    });
   }
 }

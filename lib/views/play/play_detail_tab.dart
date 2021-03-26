@@ -17,6 +17,9 @@ class _PlayDetailTabState extends State<PlayDetailTab>
     context.read<PlayBarViewModel>().updatePlayDetails();
     context.read<PlayPageViewModel>().getLyric();
     context.read<PlayPageViewModel>().updatePaletteGenerator();
+    context
+        .read<PlayPageViewModel>()
+        .initGetCollect(context.read<PlayBarViewModel>().playDetails);
     super.initState();
   }
 
@@ -126,6 +129,9 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                           () => context.read<PlayPageViewModel>().setCollect(
                               context.read<PlayBarViewModel>().playDetails),
                           Icons.favorite_outline,
+                          color: context.watch<PlayPageViewModel>().isLike
+                              ? Colors.blue
+                              : null,
                         ),
                         MyElevatedButton(
                             () {}, Icons.arrow_circle_down_rounded),

@@ -6,9 +6,11 @@ class LyricRequest {
     List<String> lyrics = [];
     String url =
         "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid=$songmid&format=json";
-    var response = await BaseRequest().toGet(url,
-        options: Options(
-            headers: {"Referer": "https://y.qq.com/portal/player.html"}));
+    var response = await BaseRequest().toGet(
+      url,
+      options:
+          Options(headers: {"Referer": "https://y.qq.com/portal/player.html"}),
+    );
     LyricModel lyricModel = LyricModel.fromJson(response);
     if (lyricModel.lyric != null)
       lyrics = Base64.decodeBase64(lyricModel.lyric.toString()).split("\n");
