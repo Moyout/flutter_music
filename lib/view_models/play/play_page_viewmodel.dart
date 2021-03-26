@@ -143,28 +143,8 @@ class PlayPageViewModel extends ChangeNotifier {
 
   ///收藏
   Future<void> setCollect(List songDetails) async {
-    ///***************************存储收藏**********************************
-    List<String> list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
-    Map musicMap = {
-      PublicKeys.songmid: songDetails[0],
-      PublicKeys.albumMid: songDetails[1].length > 0 ? songDetails[1] : "",
-      PublicKeys.songName: songDetails[2],
-      PublicKeys.singer: songDetails[3],
-    };
-    if (!list.contains(jsonEncode(musicMap)))
-      list.insert(0, jsonEncode(musicMap));
-    else
-      list.remove(jsonEncode(musicMap));
-    await SpUtil.setStringList(PublicKeys.collectMusic, list);
-    print(SpUtil.getStringList(PublicKeys.collectMusic));
-
-    ///********************************end************************************
-    isLike = !isLike;
-    notifyListeners();
-  }
-
-  Future<void> initGetCollect(List songDetails) async {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    if (songDetails.length > 0) {
+      ///***************************存储收藏**********************************
       List<String> list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
       Map musicMap = {
         PublicKeys.songmid: songDetails[0],
@@ -172,8 +152,31 @@ class PlayPageViewModel extends ChangeNotifier {
         PublicKeys.songName: songDetails[2],
         PublicKeys.singer: songDetails[3],
       };
-      list.contains(jsonEncode(musicMap)) ? isLike = true : isLike = false;
+      if (!list.contains(jsonEncode(musicMap)))
+        list.insert(0, jsonEncode(musicMap));
+      else
+        list.remove(jsonEncode(musicMap));
+      await SpUtil.setStringList(PublicKeys.collectMusic, list);
+      ///********************************end************************************
+      isLike = !isLike;
       notifyListeners();
-    });
+    }
+  }
+
+
+
+  Future<void> initGetCollect(List songDetails) async {
+    if (songDetails.length > 0)
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        List<String> list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
+        Map musicMap = {
+          PublicKeys.songmid: songDetails[0],
+          PublicKeys.albumMid: songDetails[1].length > 0 ? songDetails[1] : "",
+          PublicKeys.songName: songDetails[2],
+          PublicKeys.singer: songDetails[3],
+        };
+        list.contains(jsonEncode(musicMap)) ? isLike = true : isLike = false;
+        notifyListeners();
+      });
   }
 }
