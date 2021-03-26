@@ -5,7 +5,7 @@ import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class PlayPageViewModel extends ChangeNotifier {
-  Color negColor = Color(0xffffffff);//取反色
+  Color negColor = Color(0xffffffff); //取反色
   PaletteGenerator? paletteGenerator;
   TabController? tabC; //tab控制器
   AnimationController? recordC; //唱片控制器
@@ -137,5 +137,10 @@ class PlayPageViewModel extends ChangeNotifier {
         });
       }
     });
+  }
+
+  ///收藏
+  void setCollect(List list){
+    print(list);
   }
 }

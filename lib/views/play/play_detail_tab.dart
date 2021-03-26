@@ -122,7 +122,11 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        MyElevatedButton(() {}, Icons.favorite_outline),
+                        MyElevatedButton(
+                          () => context.read<PlayPageViewModel>().setCollect(
+                              context.read<PlayBarViewModel>().playDetails),
+                          Icons.favorite_outline,
+                        ),
                         MyElevatedButton(
                             () {}, Icons.arrow_circle_down_rounded),
                         MyElevatedButton(() {}, Icons.comment),

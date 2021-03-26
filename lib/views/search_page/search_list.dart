@@ -76,7 +76,17 @@ class SearchList extends StatelessWidget {
                                       fontSize: 12.sp, color: Colors.grey),
                                 ),
                               ),
-                              onTap: () => svModel.getMusicVKey(context, index),
+                              onTap: () => svModel.getMusicVKey(
+                                  context,
+                                  svModel.smModel!.data!.song!.list![index]
+                                      .albummid!
+                                      .trim(),
+                                  svModel.smModel!.data!.song!.list![index]
+                                      .songmid!,
+                                  svModel.smModel!.data!.song!.list![index].songname!,
+                                  "${svModel.smModel!.data!.song!.list![index].singer![0]!.name} ${svModel.smModel!.data!.song!.list![index].singer!.length > 1 ? "/${svModel.smModel!.data!.song!.list![index].singer![1]!.name}" : ""}"
+
+                              ),
                             );
                           },
                         ),

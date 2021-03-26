@@ -168,15 +168,21 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   ///获取VKey并播放
-  void getMusicVKey(BuildContext context, int index) async {
+  void getMusicVKey(
+    BuildContext context,
+    String albumMid,
+    String songMid,
+    String songName,
+    String singer,
+  ) async {
     // print("index________________________________________________>$index");
-    String _albumMid = smModel!.data!.song!.list![index].albummid!.trim();
-    String _songMid = smModel!.data!.song!.list![index].songmid!;
-    String _songName = smModel!.data!.song!.list![index].songname!;
-    String _singer =
-        "${smModel!.data!.song!.list![index].singer![0]!.name} ${smModel!.data!.song!.list![index].singer!.length > 1 ? "/${smModel!.data!.song!.list![index].singer![1]!.name}" : ""}";
+    // String _albumMid = smModel!.data!.song!.list![index].albummid!.trim();
+    // String _songMid = smModel!.data!.song!.list![index].songmid!;
+    // String _songName = smModel!.data!.song!.list![index].songname!;
+    // String _singer =
+    //     "${smModel!.data!.song!.list![index].singer![0]!.name} ${smModel!.data!.song!.list![index].singer!.length > 1 ? "/${smModel!.data!.song!.list![index].singer![1]!.name}" : ""}";
 
-    musicKeyModel = await MusicKeyRequest.getMusicVKey(_songMid);
+    musicKeyModel = await MusicKeyRequest.getMusicVKey(songMid);
 
     if (musicKeyModel!.req0!.data!.midurlinfo![0].purl!.length == 0)
       Toast.showBotToast("此歌曲暂不支持播放");
@@ -186,12 +192,10 @@ class SearchViewModel extends ChangeNotifier {
       List<String> list = [];
       list = SpUtil.getStringList(PublicKeys.playHistory) ?? [];
       Map musicMap = {
-        PublicKeys.songmid: "$_songMid",
-        PublicKeys.albumMid: _albumMid.length > 0
-            ? "https://y.gtimg.cn/music/photo_new/T002R300x300M000$_albumMid.jpg"
-            : "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
-        PublicKeys.songName: "$_songName",
-        PublicKeys.singer: "$_singer",
+        PublicKeys.songmid: "$songMid",
+        PublicKeys.albumMid: albumMid.length > 0 ? albumMid : "",
+        PublicKeys.songName: "$songName",
+        PublicKeys.singer: "$singer",
       };
       if (!list.contains(jsonEncode(musicMap)))
         list.insert(0, jsonEncode(musicMap));
@@ -202,15 +206,13 @@ class SearchViewModel extends ChangeNotifier {
 
       String _playUrl = "http://ws.stream.qqmusic.qq.com/" +
           musicKeyModel!.req0!.data!.midurlinfo![0].purl!;
-      await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
+
+      // await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
       await SpUtil.setStringList(PublicKeys.nowPlaySongDetails, [
-        _songMid, //songmid
-        _albumMid.length > 0
-            ? "https://y.gtimg.cn/music/photo_new/T002R300x300M000$_albumMid.jpg"
-            : "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
-        //播放图片
-        _songName, //歌名
-        _singer, //歌手
+        songMid, //songmid
+        albumMid.length > 0 ? albumMid : "", //播放图片
+        songName, //歌名
+        singer, //歌手
       ]);
 
       if (context.read<PlayBarViewModel>().isPlay) {
@@ -218,13 +220,13 @@ class SearchViewModel extends ChangeNotifier {
         context.read<PlayBarViewModel>().audioPlayer?.pause();
       }
       context.read<PlayBarViewModel>().onPlay(_playUrl);
-      if (_albumMid.length > 0)
+      if (albumMid.length > 0)
         context.read<PlayBarViewModel>().picUrl =
-            "https://y.gtimg.cn/music/photo_new/T002R300x300M000$_albumMid.jpg";
+            "https://y.gtimg.cn/music/photo_new/T002R300x300M000$albumMid.jpg";
       else
         context.read<PlayBarViewModel>().picUrl =
             'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
-      await LyricRequest.getLyric(_songMid);
+      await LyricRequest.getLyric(songMid);
       AppUtils.getContext().read<PlayBarViewModel>().updatePlayDetails();
 
       notifyListeners();

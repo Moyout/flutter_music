@@ -7,15 +7,13 @@ class BaseRequest {
   static BaseRequest _instance = BaseRequest._internal();
   Dio? dio;
 
+  // CancelToken cancelToken = CancelToken();
   Response? response;
 
   factory BaseRequest() => _instance;
 
   BaseRequest._internal() {
-    dio = Dio(BaseOptions(
-      connectTimeout: 10000,
-      receiveTimeout: 5000,
-    ));
+    dio = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 5000));
   }
 
   ///拦截器
@@ -28,6 +26,7 @@ class BaseRequest {
           print("headers = ${options.headers}");
           print("params = ${options.data}");
           Toast.showLoadingToast(seconds: 10, clickClose: false);
+          // cancelToken.cancel();
         },
         onResponse: (Response response) {
           print("\n================== 响应数据 ==========================");
@@ -41,18 +40,39 @@ class BaseRequest {
           print("type = ${e.type}");
           print("message = ${e.message}");
           print("\n");
-          Toast.showBotToast(e.message);
+          // Toast.showBotToast(e.message);
+
+          /*error统一处理*/
+          if (e.type == DioErrorType.CONNECT_TIMEOUT)
+            Toast.showBotToast("连接超时");
+          else if (e.type == DioErrorType.SEND_TIMEOUT)
+            Toast.showBotToast("请求超时");
+          else if (e.type == DioErrorType.RECEIVE_TIMEOUT)
+            Toast.showBotToast("响应超时");
+          else if (e.type == DioErrorType.RESPONSE)
+            Toast.showBotToast("出现异常");
+          else if (e.type == DioErrorType.CANCEL)
+            Toast.showBotToast("请求取消");
+          else
+            Toast.showBotToast("请求错误");
         },
       ));
   }
 
   ///get请求
-  Future toGet(url,
-      {Map<String, dynamic>? parameters, Options? options}) async {
+  Future toGet(
+    url, {
+    Map<String, dynamic>? parameters,
+    Options? options,
+  }) async {
     interceptor();
     var result;
-    response =
-        await dio!.get(url, queryParameters: parameters, options: options);
+    response = await dio?.get(
+      url,
+      queryParameters: parameters,
+      options: options,
+      // cancelToken: cancelToken,
+    );
     try {
       result = await jsonDecode(response?.data);
     } catch (e) {
@@ -68,7 +88,12 @@ class BaseRequest {
       {data, Map<String, dynamic>? parameters, Options? options}) async {
     interceptor();
     response = await dio!
-        .post(url, queryParameters: parameters, options: options, data: data)
+        .post(
+      url,
+      queryParameters: parameters,
+      options: options,
+      data: data,
+    )
         .catchError((e) {
       print("===============================>$e");
     });

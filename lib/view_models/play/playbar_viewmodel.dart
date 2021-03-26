@@ -83,7 +83,10 @@ class PlayBarViewModel extends ChangeNotifier {
     }
     playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
     if (playDetails.length > 0) {
-      picUrl = playDetails[1];
+      // picUrl = playDetails[1];
+      if (playDetails[1].length > 0)
+        picUrl =
+            "https://y.gtimg.cn/music/photo_new/T002R300x300M000${playDetails[1]}.jpg";
       // notifyListeners();
     }
   }
