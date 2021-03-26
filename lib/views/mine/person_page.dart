@@ -40,15 +40,15 @@ class PersonPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       MyElevatedButton(
-                        () => RouteUtil.push(context, MyFavoritesPage(),
+                        () => RouteUtil.push(context, HistoryPage(),
                             animation: RouteAnimation.popLeft),
-                        Icons.favorite,
+                        Icons.history_outlined,
                         size: 44.w,
                       ),
                       MyElevatedButton(
-                        () => RouteUtil.push(context, HistoryPage(),
+                        () => RouteUtil.push(context, MyFavoritesPage(),
                             animation: RouteAnimation.popUp),
-                        Icons.history_outlined,
+                        Icons.favorite,
                         size: 44.w,
                       ),
                       MyElevatedButton(
