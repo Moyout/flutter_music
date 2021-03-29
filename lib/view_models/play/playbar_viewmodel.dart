@@ -4,8 +4,7 @@ import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 
 class PlayBarViewModel extends ChangeNotifier {
-  String picUrl =
-      "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"; //旋转头像
+  String picUrl = "http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg"; //旋转头像
   bool isPlay = false; //是否播放
   AnimationController? controller; //旋转图片控制器
   AudioPlayer? audioPlayer; //播放器
@@ -23,8 +22,7 @@ class PlayBarViewModel extends ChangeNotifier {
   void init(TickerProvider tickerProvider) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (controller == null) {
-        controller = AnimationController(
-            duration: Duration(seconds: 10), vsync: tickerProvider);
+        controller = AnimationController(duration: Duration(seconds: 10), vsync: tickerProvider);
         initRotateImage();
         notifyListeners();
       }
@@ -71,6 +69,7 @@ class PlayBarViewModel extends ChangeNotifier {
         audioPlayer?.pause();
         AppUtils.getContext().read<PlayPageViewModel>().recordC?.stop();
         AppUtils.getContext().read<PlayPageViewModel>().controllerAnimation();
+        AppUtils.getContext().read<PlayPageViewModel>().preAndNextSong();
         notifyListeners();
       });
       //播放错误操作
@@ -84,9 +83,7 @@ class PlayBarViewModel extends ChangeNotifier {
     playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
     if (playDetails.length > 0) {
       // picUrl = playDetails[1];
-      if (playDetails[1].length > 0)
-        picUrl =
-            "https://y.gtimg.cn/music/photo_new/T002R300x300M000${playDetails[1]}.jpg";
+      if (playDetails[1].length > 0) picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000${playDetails[1]}.jpg";
       // notifyListeners();
     }
   }
@@ -104,17 +101,11 @@ class PlayBarViewModel extends ChangeNotifier {
     notifyListeners();
     if (audioPlayer?.state == null) {
       if (playDetails.length > 0) {
-        AppUtils.getContext()
-            .read<SearchViewModel>()
-            .onPlay(playDetails[0])
-            .then((value) {
+        AppUtils.getContext().read<SearchViewModel>().onPlay(playDetails[0]).then((value) {
           if (value != null) {
             onPlay(value);
             AppUtils.getContext().read<PlayPageViewModel>().recordC?.forward();
-            AppUtils.getContext()
-                .read<PlayPageViewModel>()
-                .animationC
-                ?.forward();
+            AppUtils.getContext().read<PlayPageViewModel>().animationC?.forward();
           }
         });
       }

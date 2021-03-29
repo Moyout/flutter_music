@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
+import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class PlayPageViewModel extends ChangeNotifier {
@@ -40,12 +41,10 @@ class PlayPageViewModel extends ChangeNotifier {
   ///初始化动画控制器
   void initAnimationController(TickerProvider tickerProvider) {
     if (recordC == null) {
-      recordC = AnimationController(
-          duration: Duration(seconds: 10), vsync: tickerProvider);
+      recordC = AnimationController(duration: Duration(seconds: 10), vsync: tickerProvider);
     }
     if (animationC == null) {
-      animationC = AnimationController(
-          duration: Duration(seconds: 1), vsync: tickerProvider);
+      animationC = AnimationController(duration: Duration(seconds: 1), vsync: tickerProvider);
     }
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       if (recordC != null) {
@@ -60,8 +59,8 @@ class PlayPageViewModel extends ChangeNotifier {
     });
   }
 
-  void initRecord(BuildContext context) {
-    if (context.read<PlayBarViewModel>().isPlay) {
+  void initRecord() {
+    if (AppUtils.getContext().read<PlayBarViewModel>().isPlay) {
       animationC?.forward();
       recordC?.forward();
     } else {
@@ -69,6 +68,7 @@ class PlayPageViewModel extends ChangeNotifier {
     }
   }
 
+  ///唱片杆
   void controllerAnimation() {
     if (animationC?.status == AnimationStatus.dismissed) {
       animationC?.forward();
@@ -96,9 +96,7 @@ class PlayPageViewModel extends ChangeNotifier {
           }
         }
         for (var i = 0; i < timeString.length; i++) {
-          timeInt.add((double.parse(timeString[i].split(":")[0]) * 60 +
-                  double.parse(timeString[i].split(":")[1] * 1))
-              .toInt());
+          timeInt.add((double.parse(timeString[i].split(":")[0]) * 60 + double.parse(timeString[i].split(":")[1] * 1)).toInt());
         }
       }
       notifyListeners();
@@ -108,27 +106,13 @@ class PlayPageViewModel extends ChangeNotifier {
   ///歌词滚动
   void startLyric() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      if (AppUtils.getContext().read<PlayBarViewModel>().isPlay &&
-          sc!.hasClients &&
-          lyrics.length > 0) {
+      if (AppUtils.getContext().read<PlayBarViewModel>().isPlay && sc!.hasClients && lyrics.length > 0) {
         timer = Timer.periodic(Duration(seconds: 1), (timer) {
-          if (timeInt.contains(AppUtils.getContext()
-              .read<PlayBarViewModel>()
-              .position!
-              .inSeconds)) {
-            if (timeInt.indexOf(AppUtils.getContext()
-                    .read<PlayBarViewModel>()
-                    .position!
-                    .inSeconds) >
-                0) {
+          if (timeInt.contains(AppUtils.getContext().read<PlayBarViewModel>().position!.inSeconds)) {
+            if (timeInt.indexOf(AppUtils.getContext().read<PlayBarViewModel>().position!.inSeconds) > 0) {
               if (sc!.hasClients) {
                 sc?.animateTo(
-                  ((timeInt.indexOf(AppUtils.getContext()
-                              .read<PlayBarViewModel>()
-                              .position!
-                              .inSeconds) +
-                          1) *
-                      50.0),
+                  ((timeInt.indexOf(AppUtils.getContext().read<PlayBarViewModel>().position!.inSeconds) + 1) * 50.0),
                   duration: Duration(milliseconds: 500),
                   curve: Curves.decelerate,
                 );
@@ -157,14 +141,14 @@ class PlayPageViewModel extends ChangeNotifier {
       else
         list.remove(jsonEncode(musicMap));
       await SpUtil.setStringList(PublicKeys.collectMusic, list);
+
       ///********************************end************************************
       isLike = !isLike;
       notifyListeners();
     }
   }
 
-
-
+  ///获取收藏
   Future<void> initGetCollect(List songDetails) async {
     if (songDetails.length > 0)
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -178,5 +162,58 @@ class PlayPageViewModel extends ChangeNotifier {
         list.contains(jsonEncode(musicMap)) ? isLike = true : isLike = false;
         notifyListeners();
       });
+  }
+
+  ///下一首
+  Future<void> preAndNextSong({bool isPre = false}) async {
+    List<String> historyList = SpUtil.getStringList(PublicKeys.playHistory) ?? [];
+    int index = 0;
+    List<Map> list = [];
+    if (historyList.length > 0) {
+      historyList.forEach((element) => list.add(jsonDecode(element)));
+      for (; index < list.length; index++) {
+        if (list[index]["songmid"] == AppUtils.getContext().read<PlayBarViewModel>().playDetails[0]) {
+          // if (index + 1 == list.length) {
+          //   await AppUtils.getContext()
+          //       .read<SearchViewModel>()
+          //       .getMusicVKey(AppUtils.getContext(), list[0]["albumMid"], list[0]["songmid"], list[0]["songName"], list[0]["singer"]);
+          // } else {
+          //   await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(AppUtils.getContext(), list[index + 1]["albumMid"],
+          //       list[index + 1]["songmid"], list[index + 1]["songName"], list[index + 1]["singer"]);
+          // }
+          await nextSong(index, list, isPre: isPre);
+          WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+            initRecord();
+            AppUtils.getContext().read<PlayBarViewModel>().updatePlayDetails();
+            getLyric();
+            updatePaletteGenerator();
+            initGetCollect(AppUtils.getContext().read<PlayBarViewModel>().playDetails);
+            notifyListeners();
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  Future<void> nextSong(int index, List list, {bool isPre = false}) async {
+    if (!isPre) {
+      if (index + 1 == list.length) {
+        await AppUtils.getContext()
+            .read<SearchViewModel>()
+            .getMusicVKey(AppUtils.getContext(), list[0]["albumMid"], list[0]["songmid"], list[0]["songName"], list[0]["singer"]);
+      } else {
+        await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
+            AppUtils.getContext(), list[index + 1]["albumMid"], list[index + 1]["songmid"], list[index + 1]["songName"], list[index + 1]["singer"]);
+      }
+    } else {
+      if (index == 0) {
+        await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(AppUtils.getContext(), list[list.length - 1]["albumMid"],
+            list[list.length - 1]["songmid"], list[list.length - 1]["songName"], list[list.length - 1]["singer"]);
+      } else {
+        await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
+            AppUtils.getContext(), list[index - 1]["albumMid"], list[index - 1]["songmid"], list[index - 1]["songName"], list[index - 1]["singer"]);
+      }
+    }
   }
 }

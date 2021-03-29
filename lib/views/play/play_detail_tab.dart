@@ -8,18 +8,15 @@ class PlayDetailTab extends StatefulWidget {
   _PlayDetailTabState createState() => _PlayDetailTabState();
 }
 
-class _PlayDetailTabState extends State<PlayDetailTab>
-    with TickerProviderStateMixin {
+class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateMixin {
   @override
   void initState() {
     context.read<PlayPageViewModel>().initAnimationController(this);
-    context.read<PlayPageViewModel>().initRecord(context);
+    context.read<PlayPageViewModel>().initRecord();
     context.read<PlayBarViewModel>().updatePlayDetails();
     context.read<PlayPageViewModel>().getLyric();
     context.read<PlayPageViewModel>().updatePaletteGenerator();
-    context
-        .read<PlayPageViewModel>()
-        .initGetCollect(context.read<PlayBarViewModel>().playDetails);
+    context.read<PlayPageViewModel>().initGetCollect(context.read<PlayBarViewModel>().playDetails);
     super.initState();
   }
 
@@ -40,8 +37,7 @@ class _PlayDetailTabState extends State<PlayDetailTab>
             children: [
               Center(
                 child: RotationTransition(
-                  turns: Tween(begin: 0.0, end: 1.0)
-                      .animate(context.watch<PlayPageViewModel>().recordC!),
+                  turns: Tween(begin: 0.0, end: 1.0).animate(context.watch<PlayPageViewModel>().recordC!),
                   child: Container(
                     width: AppUtils.getWidth(context) / 2 + 50.w,
                     height: AppUtils.getWidth(context) / 2 + 50.w,
@@ -74,8 +70,7 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                   child: RotationTransition(
                     alignment: Alignment(0.6, -0.7),
                     // origin: Offset(10,20),
-                    turns: Tween(begin: -0.08, end: 0.001).animate(
-                        context.watch<PlayPageViewModel>().animationC!),
+                    turns: Tween(begin: -0.08, end: 0.001).animate(context.watch<PlayPageViewModel>().animationC!),
                     child: Container(
                       height: AppUtils.getWidth(context) / 2,
                       child: Image.asset(
@@ -90,9 +85,7 @@ class _PlayDetailTabState extends State<PlayDetailTab>
           ),
           SizedBox(height: 40.w),
           Text(
-            context.watch<PlayBarViewModel>().playDetails.length > 0
-                ? "${context.watch<PlayBarViewModel>().playDetails[2]}"
-                : "",
+            context.watch<PlayBarViewModel>().playDetails.length > 0 ? "${context.watch<PlayBarViewModel>().playDetails[2]}" : "",
             style: TextStyle(
               fontSize: 20.sp,
               color: context.watch<PlayPageViewModel>().negColor,
@@ -100,9 +93,7 @@ class _PlayDetailTabState extends State<PlayDetailTab>
           ),
           SizedBox(height: 20.w),
           Text(
-            context.watch<PlayBarViewModel>().playDetails.length > 0
-                ? "${context.watch<PlayBarViewModel>().playDetails[3]}"
-                : "",
+            context.watch<PlayBarViewModel>().playDetails.length > 0 ? "${context.watch<PlayBarViewModel>().playDetails[3]}" : "",
             style: TextStyle(
               fontSize: 18.sp,
               color: context.watch<PlayPageViewModel>().negColor,
@@ -126,25 +117,21 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         MyElevatedButton(
-                          () => context.read<PlayPageViewModel>().setCollect(
-                              context.read<PlayBarViewModel>().playDetails),
+                          () => context.read<PlayPageViewModel>().setCollect(context.read<PlayBarViewModel>().playDetails),
                           Icons.favorite_outline,
-                          color: context.watch<PlayPageViewModel>().isLike
-                              ? Colors.blue
-                              : null,
+                          color: context.watch<PlayPageViewModel>().isLike ? Colors.blue : null,
                         ),
-                        MyElevatedButton(
-                            () {}, Icons.arrow_circle_down_rounded),
+                        MyElevatedButton(() {}, Icons.arrow_circle_down_rounded),
                         MyElevatedButton(() {}, Icons.comment),
                       ],
                     ),
+
+                    ///*************************进度条***************************
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          pbModelR.position.toString().length < 8
-                              ? "0:00"
-                              : "${pbModelR.position.toString().substring(2, 7)}",
+                          pbModelR.position.toString().length < 8 ? "0:00" : "${pbModelR.position.toString().substring(2, 7)}",
                           style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.2.w,
@@ -157,23 +144,18 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                           width: AppUtils.getWidth(context) * 0.6.w,
                           child: Slider(
                             inactiveColor: Colors.white.withOpacity(0.5),
-                            activeColor:
-                                Colors.lightBlueAccent.withOpacity(0.5),
+                            activeColor: Colors.lightBlueAccent.withOpacity(0.5),
                             onChanged: (v) => pbModelR.setPlayProgress(v),
                             value: (pbModelR.position != null &&
                                     pbModelR.duration != null &&
                                     pbModelR.position!.inMilliseconds > 0 &&
-                                    pbModelR.position!.inMilliseconds <
-                                        pbModelR.duration!.inMilliseconds)
-                                ? pbModelR.position!.inMilliseconds /
-                                    pbModelR.duration!.inMilliseconds
+                                    pbModelR.position!.inMilliseconds < pbModelR.duration!.inMilliseconds)
+                                ? pbModelR.position!.inMilliseconds / pbModelR.duration!.inMilliseconds
                                 : 0.0,
                           ),
                         ),
                         Text(
-                          pbModelR.duration.toString().length < 8
-                              ? "0:00"
-                              : pbModelR.duration.toString().substring(2, 7),
+                          pbModelR.duration.toString().length < 8 ? "0:00" : pbModelR.duration.toString().substring(2, 7),
                           style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.2.w,
@@ -182,22 +164,20 @@ class _PlayDetailTabState extends State<PlayDetailTab>
                         ),
                       ],
                     ),
+
+                    ///*************************end*****************************
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MyElevatedButton(() {}, Icons.refresh),
-                        MyElevatedButton(() {}, Icons.skip_previous,
-                            size: 44.w),
+                        MyElevatedButton(() => context.read<PlayPageViewModel>().preAndNextSong(isPre: true), Icons.skip_previous, size: 44.w),
                         MyElevatedButton(
-                          () => context
-                              .read<PlayBarViewModel>()
-                              .getNowPlayMusic(),
-                          context.watch<PlayBarViewModel>().isPlay
-                              ? Icons.pause_circle_filled_rounded
-                              : Icons.play_arrow_rounded,
+                          () => context.read<PlayBarViewModel>().getNowPlayMusic(),
+                          context.watch<PlayBarViewModel>().isPlay ? Icons.pause_circle_filled_rounded : Icons.play_arrow_rounded,
                           size: 50.w,
                         ),
-                        MyElevatedButton(() {}, Icons.skip_next, size: 44.w),
+                        MyElevatedButton(() => context.read<PlayPageViewModel>().preAndNextSong(isPre: false), Icons.skip_next, size: 44.w),
                         MyElevatedButton(() {}, Icons.menu),
                       ],
                     ),

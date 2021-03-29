@@ -4,8 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
-import 'package:flutter_music/widget/appbar/my_appbar.dart';
-import 'package:flutter_music/widget/bubble/my_bubble.dart';
+
 
 class HistoryPage extends StatelessWidget {
   @override

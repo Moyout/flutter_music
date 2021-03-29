@@ -23,8 +23,7 @@ class SearchViewModel extends ChangeNotifier {
   ///初始化ViewModel
   Future<void> initViewModel() async {
     textC.clear();
-    searchHistoryList =
-        SpUtil.getStringList(PublicKeys.searchHistoryList) ?? [];
+    searchHistoryList = SpUtil.getStringList(PublicKeys.searchHistoryList) ?? [];
     searchHistoryListBool.clear();
     for (int i = 0; i < searchHistoryList.length; i++) {
       searchHistoryListBool.add(false);
@@ -32,8 +31,7 @@ class SearchViewModel extends ChangeNotifier {
     hmModel = await HotMusicRequest.getHotMusic();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       listController.addListener(() {
-        if (listController.position.maxScrollExtent ==
-            listController.position.pixels) {
+        if (listController.position.maxScrollExtent == listController.position.pixels) {
           page++;
           searchRequest(textC.text, page: page);
           notifyListeners();
@@ -49,8 +47,7 @@ class SearchViewModel extends ChangeNotifier {
   void initTabController(TickerProvider tickerProvider) {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (tabController == null) {
-        tabController =
-            TabController(initialIndex: 0, length: 2, vsync: tickerProvider);
+        tabController = TabController(initialIndex: 0, length: 2, vsync: tickerProvider);
         notifyListeners();
       } else {
         if (tabController?.index != 0) tabController?.animateTo(0);
@@ -156,8 +153,7 @@ class SearchViewModel extends ChangeNotifier {
       isLoading = true;
       SearchMusicRequest.getSearchMusic(songName, p: page).then((value) {
         if (value!.data!.song!.list!.length > 0) {
-          for (var item in value.data!.song!.list!)
-            smModel!.data!.song!.list!.add(item);
+          for (var item in value.data!.song!.list!) smModel!.data!.song!.list!.add(item);
         } else
           Toast.showBottomToast("已加载全部");
         isLoading = false;
@@ -168,7 +164,7 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   ///获取VKey并播放
-  void getMusicVKey(
+  Future<bool> getMusicVKey(
     BuildContext context,
     String albumMid,
     String songMid,
@@ -197,15 +193,13 @@ class SearchViewModel extends ChangeNotifier {
         PublicKeys.songName: "$songName",
         PublicKeys.singer: "$singer",
       };
-      if (!list.contains(jsonEncode(musicMap)))
-        list.insert(0, jsonEncode(musicMap));
+      if (!list.contains(jsonEncode(musicMap))) list.insert(0, jsonEncode(musicMap));
       await SpUtil.setStringList(PublicKeys.playHistory, list);
       print(SpUtil.getStringList(PublicKeys.playHistory));
 
       ///********************************end************************************
 
-      String _playUrl = "http://ws.stream.qqmusic.qq.com/" +
-          musicKeyModel!.req0!.data!.midurlinfo![0].purl!;
+      String _playUrl = "http://ws.stream.qqmusic.qq.com/" + musicKeyModel!.req0!.data!.midurlinfo![0].purl!;
 
       // await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
       await SpUtil.setStringList(PublicKeys.nowPlaySongDetails, [
@@ -220,18 +214,19 @@ class SearchViewModel extends ChangeNotifier {
         context.read<PlayBarViewModel>().audioPlayer?.pause();
       }
       context.read<PlayBarViewModel>().onPlay(_playUrl);
+
       if (albumMid.length > 0)
-        context.read<PlayBarViewModel>().picUrl =
-            "https://y.gtimg.cn/music/photo_new/T002R300x300M000$albumMid.jpg";
+        context.read<PlayBarViewModel>().picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000$albumMid.jpg";
       else
-        context.read<PlayBarViewModel>().picUrl =
-            'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
+        context.read<PlayBarViewModel>().picUrl = 'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
       await LyricRequest.getLyric(songMid);
       AppUtils.getContext().read<PlayBarViewModel>().updatePlayDetails();
 
       notifyListeners();
     }
     notifyListeners();
+
+    return AppUtils.getContext().read<PlayBarViewModel>().isPlay;
   }
 
   ///播放当前
@@ -242,8 +237,7 @@ class SearchViewModel extends ChangeNotifier {
       Toast.showBotToast("此歌曲暂不支持播放");
       return null;
     } else {
-      String _playUrl = "http://ws.stream.qqmusic.qq.com/" +
-          musicKeyModel!.req0!.data!.midurlinfo![0].purl!;
+      String _playUrl = "http://ws.stream.qqmusic.qq.com/" + musicKeyModel!.req0!.data!.midurlinfo![0].purl!;
       return _playUrl;
     }
   }
