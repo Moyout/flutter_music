@@ -96,7 +96,8 @@ class PlayPageViewModel extends ChangeNotifier {
           }
         }
         for (var i = 0; i < timeString.length; i++) {
-          timeInt.add((double.parse(timeString[i].split(":")[0]) * 60 + double.parse(timeString[i].split(":")[1] * 1)).toInt());
+          timeInt.add(
+              (double.parse(timeString[i].split(":")[0]) * 60 + double.parse(timeString[i].split(":")[1] * 1)).toInt());
         }
       }
       notifyListeners();
@@ -173,17 +174,14 @@ class PlayPageViewModel extends ChangeNotifier {
       historyList.forEach((element) => list.add(jsonDecode(element)));
       for (; index < list.length; index++) {
         if (list[index]["songmid"] == AppUtils.getContext().read<PlayBarViewModel>().playDetails[0]) {
-          // if (index + 1 == list.length) {
-          //   await AppUtils.getContext()
-          //       .read<SearchViewModel>()
-          //       .getMusicVKey(AppUtils.getContext(), list[0]["albumMid"], list[0]["songmid"], list[0]["songName"], list[0]["singer"]);
-          // } else {
-          //   await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(AppUtils.getContext(), list[index + 1]["albumMid"],
-          //       list[index + 1]["songmid"], list[index + 1]["songName"], list[index + 1]["singer"]);
-          // }
           await nextSong(index, list, isPre: isPre);
+
           WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-            initRecord();
+            // initRecord();
+            if (AppUtils.getContext().read<PlayBarViewModel>().isPlay) {
+              animationC?.forward();
+              recordC?.forward();
+            }
             AppUtils.getContext().read<PlayBarViewModel>().updatePlayDetails();
             getLyric();
             updatePaletteGenerator();
@@ -196,23 +194,36 @@ class PlayPageViewModel extends ChangeNotifier {
     }
   }
 
+
+
   Future<void> nextSong(int index, List list, {bool isPre = false}) async {
     if (!isPre) {
       if (index + 1 == list.length) {
-        await AppUtils.getContext()
-            .read<SearchViewModel>()
-            .getMusicVKey(AppUtils.getContext(), list[0]["albumMid"], list[0]["songmid"], list[0]["songName"], list[0]["singer"]);
+        await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
+            AppUtils.getContext(), list[0]["albumMid"], list[0]["songmid"], list[0]["songName"], list[0]["singer"]);
       } else {
         await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
-            AppUtils.getContext(), list[index + 1]["albumMid"], list[index + 1]["songmid"], list[index + 1]["songName"], list[index + 1]["singer"]);
+            AppUtils.getContext(),
+            list[index + 1]["albumMid"],
+            list[index + 1]["songmid"],
+            list[index + 1]["songName"],
+            list[index + 1]["singer"]);
       }
     } else {
       if (index == 0) {
-        await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(AppUtils.getContext(), list[list.length - 1]["albumMid"],
-            list[list.length - 1]["songmid"], list[list.length - 1]["songName"], list[list.length - 1]["singer"]);
+        await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
+            AppUtils.getContext(),
+            list[list.length - 1]["albumMid"],
+            list[list.length - 1]["songmid"],
+            list[list.length - 1]["songName"],
+            list[list.length - 1]["singer"]);
       } else {
         await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
-            AppUtils.getContext(), list[index - 1]["albumMid"], list[index - 1]["songmid"], list[index - 1]["songName"], list[index - 1]["singer"]);
+            AppUtils.getContext(),
+            list[index - 1]["albumMid"],
+            list[index - 1]["songmid"],
+            list[index - 1]["songName"],
+            list[index - 1]["singer"]);
       }
     }
   }
