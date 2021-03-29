@@ -80,4 +80,10 @@ class SpUtil {
     if (_prefs == null) return null;
     return _prefs?.getKeys();
   }
+
+  /// 删除key
+  static Future<bool>? remove(String key) {
+    if (_prefs == null) return null;
+    return _prefs?.remove(key);
+  }
 }

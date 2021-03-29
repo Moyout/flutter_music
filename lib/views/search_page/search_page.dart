@@ -12,8 +12,7 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage>
-    with SingleTickerProviderStateMixin {
+class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
@@ -39,8 +38,7 @@ class _SearchPageState extends State<SearchPage>
                   bodyWidget(),
                   searchWidget(context),
                   Positioned(
-                    bottom:
-                        MediaQueryData.fromWindow(window).padding.bottom.w + 2.w,
+                    bottom: MediaQueryData.fromWindow(window).padding.bottom.w + 2.w,
                     child: PlayBarWidget(),
                   ),
                 ],
@@ -62,12 +60,9 @@ class _SearchPageState extends State<SearchPage>
         child: ListView(
           controller: svModelW.listExternalController,
           // physics: BouncingScrollPhysics(),
-          physics: svModelW.tabController?.index == 0
-              ? BouncingScrollPhysics()
-              : NeverScrollableScrollPhysics(),
+          physics: svModelW.tabController?.index == 0 ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
           children: [
-            if (svModelW.searchHistoryList.length > 0 &&
-                svModelW.tabController!.index == 0)
+            if (svModelW.searchHistoryList.length > 0 && svModelW.tabController!.index == 0)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -85,9 +80,11 @@ class _SearchPageState extends State<SearchPage>
                             showCupertinoDialog(
                               context: context,
                               builder: (_) => MyCupertinoDialog(
-                                () => setState(
-                                    () => svModelR.clearSearchHistory()),
                                 title: "是否清除搜索历史",
+                                onYes: () {
+                                  setState(() => svModelR.clearSearchHistory());
+                                  RouteUtil.pop(context);
+                                },
                               ),
                             );
                           },
@@ -102,28 +99,25 @@ class _SearchPageState extends State<SearchPage>
                     child: Wrap(
                       spacing: 20.w,
                       runSpacing: 10.w,
-                      children: List.generate(svModelW.searchHistoryList.length,
-                          (index) {
+                      children: List.generate(svModelW.searchHistoryList.length, (index) {
                         return GestureDetector(
                           onPanDown: (_) => svModelR.onPanDown(index),
                           onPanCancel: () => svModelR.onPanCancel(index),
                           onHorizontalDragCancel: () => false,
                           onTap: () => false,
                           child: Chip(
-                            backgroundColor:
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? svModelW.searchHistoryListBool[index]
-                                        ? Colors.white
-                                        : Colors.grey
-                                    : svModelW.searchHistoryListBool[index]
-                                        ? Colors.blueGrey
-                                        : Colors.white,
+                            backgroundColor: Theme.of(context).brightness == Brightness.dark
+                                ? svModelW.searchHistoryListBool[index]
+                                    ? Colors.white
+                                    : Colors.grey
+                                : svModelW.searchHistoryListBool[index]
+                                    ? Colors.blueGrey
+                                    : Colors.white,
                             padding: EdgeInsets.symmetric(horizontal: 5.w),
                             label: Text(
                               "${svModelR.searchHistoryList[index]}",
                               style: TextStyle(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
+                                color: Theme.of(context).brightness == Brightness.dark
                                     ? svModelW.searchHistoryListBool[index]
                                         ? Colors.grey
                                         : Colors.white
@@ -134,8 +128,7 @@ class _SearchPageState extends State<SearchPage>
                                 letterSpacing: 1.2,
                               ),
                             ),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                         );
                       }),
@@ -148,8 +141,7 @@ class _SearchPageState extends State<SearchPage>
               children: <Widget>[
                 Container(
                   width: AppUtils.getWidth(context),
-                  padding:
-                      EdgeInsets.symmetric(vertical: 12.w, horizontal: 15.w),
+                  padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 15.w),
                   child: Text(
                     svModelR.tabController?.index == 0 ? "热门音乐TOP" : "搜索结果",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -206,14 +198,12 @@ class _SearchPageState extends State<SearchPage>
                             fontSize: 13.sp,
                           ),
                           textInputAction: TextInputAction.search,
-                          onSubmitted: (value) =>
-                              svModel.saveHistorySearch(value),
+                          onSubmitted: (value) => svModel.saveHistorySearch(value),
                           onChanged: (value) => setState(() {}),
                           controller: svModel.textC,
                           decoration: InputDecoration(
                             counterText: "",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(0, 0, 15.w, 15.w),
+                            contentPadding: EdgeInsets.fromLTRB(0, 0, 15.w, 15.w),
                             border: InputBorder.none,
                             suffixIcon: svModel.textC.text.length == 0
                                 ? null

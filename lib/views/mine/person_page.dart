@@ -7,6 +7,7 @@ import 'package:flutter_music/views/mine/login/login_page.dart';
 import 'package:flutter_music/views/mine/set/set_page.dart';
 
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PersonPage extends StatelessWidget {
   @override
@@ -40,20 +41,17 @@ class PersonPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       MyElevatedButton(
-                        () => RouteUtil.push(context, HistoryPage(),
-                            animation: RouteAnimation.popLeft),
+                        () => RouteUtil.push(context, HistoryPage(), animation: RouteAnimation.popLeft),
                         Icons.history_outlined,
                         size: 44.w,
                       ),
                       MyElevatedButton(
-                        () => RouteUtil.push(context, MyFavoritesPage(),
-                            animation: RouteAnimation.popUp),
+                        () => RouteUtil.push(context, MyFavoritesPage(), animation: RouteAnimation.popUp),
                         Icons.favorite,
                         size: 44.w,
                       ),
                       MyElevatedButton(
-                        () => RouteUtil.push(context, DownloadPage(),
-                            animation: RouteAnimation.popRight),
+                        () => RouteUtil.push(context, DownloadPage(), animation: RouteAnimation.popRight),
                         Icons.download_rounded,
                         size: 44.w,
                       )
@@ -62,11 +60,9 @@ class PersonPage extends StatelessWidget {
                 ),
                 InkWell(
                   customBorder: StadiumBorder(),
-                  onTap: () => RouteUtil.push(context, SetPage(),
-                      animation: RouteAnimation.popDown),
+                  onTap: () => RouteUtil.push(context, SetPage(), animation: RouteAnimation.popDown),
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.w, horizontal: 0.w),
+                    padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 0.w),
                     margin: EdgeInsets.symmetric(horizontal: 12.w),
                     child: Row(
                       children: [

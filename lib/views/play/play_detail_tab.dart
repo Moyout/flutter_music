@@ -45,9 +45,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/record.png"),
-                      ),
+                      image: DecorationImage(image: AssetImage("assets/images/record.png")),
                     ),
                     child: Material(
                       clipBehavior: Clip.antiAlias,
@@ -73,10 +71,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                     turns: Tween(begin: -0.08, end: 0.001).animate(context.watch<PlayPageViewModel>().animationC!),
                     child: Container(
                       height: AppUtils.getWidth(context) / 2,
-                      child: Image.asset(
-                        "assets/images/record_rod.png",
-                        fit: BoxFit.cover,
-                      ),
+                      child: Image.asset("assets/images/record_rod.png", fit: BoxFit.cover),
                     ),
                   ),
                 ),
@@ -85,19 +80,17 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
           ),
           SizedBox(height: 40.w),
           Text(
-            context.watch<PlayBarViewModel>().playDetails.length > 0 ? "${context.watch<PlayBarViewModel>().playDetails[2]}" : "",
-            style: TextStyle(
-              fontSize: 20.sp,
-              color: context.watch<PlayPageViewModel>().negColor,
-            ),
+            context.watch<PlayBarViewModel>().playDetails.length > 0
+                ? "${context.watch<PlayBarViewModel>().playDetails[2]}"
+                : "",
+            style: TextStyle(fontSize: 20.sp, color: context.watch<PlayPageViewModel>().negColor),
           ),
           SizedBox(height: 20.w),
           Text(
-            context.watch<PlayBarViewModel>().playDetails.length > 0 ? "${context.watch<PlayBarViewModel>().playDetails[3]}" : "",
-            style: TextStyle(
-              fontSize: 18.sp,
-              color: context.watch<PlayPageViewModel>().negColor,
-            ),
+            context.watch<PlayBarViewModel>().playDetails.length > 0
+                ? "${context.watch<PlayBarViewModel>().playDetails[3]}"
+                : "",
+            style: TextStyle(fontSize: 18.sp, color: context.watch<PlayPageViewModel>().negColor),
           ),
           Expanded(
             child: Container(
@@ -106,10 +99,8 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
               // color: Colors.indigo[200],
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.w),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12.w),
-                ),
+                decoration:
+                    BoxDecoration(color: Colors.grey.withOpacity(0.2), borderRadius: BorderRadius.circular(12.w)),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -117,7 +108,9 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         MyElevatedButton(
-                          () => context.read<PlayPageViewModel>().setCollect(context.read<PlayBarViewModel>().playDetails),
+                          () => context
+                              .read<PlayPageViewModel>()
+                              .setCollect(context.read<PlayBarViewModel>().playDetails),
                           Icons.favorite_outline,
                           color: context.watch<PlayPageViewModel>().isLike ? Colors.blue : null,
                         ),
@@ -131,7 +124,9 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          pbModelR.position.toString().length < 8 ? "0:00" : "${pbModelR.position.toString().substring(2, 7)}",
+                          pbModelR.position.toString().length < 8
+                              ? "0:00"
+                              : "${pbModelR.position.toString().substring(2, 7)}",
                           style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.2.w,
@@ -155,7 +150,9 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                           ),
                         ),
                         Text(
-                          pbModelR.duration.toString().length < 8 ? "0:00" : pbModelR.duration.toString().substring(2, 7),
+                          pbModelR.duration.toString().length < 8
+                              ? "0:00"
+                              : pbModelR.duration.toString().substring(2, 7),
                           style: TextStyle(
                             color: Colors.white,
                             letterSpacing: 1.2.w,
@@ -171,13 +168,21 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MyElevatedButton(() {}, Icons.refresh),
-                        MyElevatedButton(() => context.read<PlayPageViewModel>().preAndNextSong(isPre: true), Icons.skip_previous, size: 44.w),
+                        MyElevatedButton(
+                            () => context.read<PlayPageViewModel>().preAndNextSong(isPre: true), Icons.skip_previous,
+                            size: 44.w),
                         MyElevatedButton(
                           () => context.read<PlayBarViewModel>().getNowPlayMusic(),
-                          context.watch<PlayBarViewModel>().isPlay ? Icons.pause_circle_filled_rounded : Icons.play_arrow_rounded,
+                          context.watch<PlayBarViewModel>().isPlay
+                              ? Icons.pause_circle_filled_rounded
+                              : Icons.play_arrow_rounded,
                           size: 50.w,
                         ),
-                        MyElevatedButton(() => context.read<PlayPageViewModel>().preAndNextSong(isPre: false), Icons.skip_next, size: 44.w),
+                        MyElevatedButton(
+                          () => context.read<PlayPageViewModel>().preAndNextSong(isPre: false),
+                          Icons.skip_next,
+                          size: 44.w,
+                        ),
                         MyElevatedButton(() {}, Icons.menu),
                       ],
                     ),
