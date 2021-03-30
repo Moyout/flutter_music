@@ -68,9 +68,7 @@ class BaseRequest {
     interceptor();
     var result;
     response = await dio?.get(
-      url,
-      queryParameters: parameters,
-      options: options,
+      url, queryParameters: parameters, options: options,
       // cancelToken: cancelToken,
     );
     try {
@@ -84,21 +82,36 @@ class BaseRequest {
   }
 
   ///post请求
-  Future<dynamic> toPost(url,
-      {data, Map<String, dynamic>? parameters, Options? options}) async {
+  Future<dynamic> toPost(url, {data, Map<String, dynamic>? parameters, Options? options}) async {
     interceptor();
-    response = await dio!
-        .post(
-      url,
-      queryParameters: parameters,
-      options: options,
-      data: data,
-    )
-        .catchError((e) {
-      print("===============================>$e");
+    response = await dio!.post(url, queryParameters: parameters, options: options, data: data).catchError((e) {
+      print("=======post错误========================>$e");
     });
     // print("################${response.data}");
 
     return response?.data;
+  }
+
+  /*
+   * 下载文件
+   */
+  Future<dynamic> downloadFile(urlPath, savePath) async {
+    try {
+      String progress = "";
+      response = await dio?.download(
+        urlPath,
+        savePath,
+        onReceiveProgress: (int count, int total) {
+          //进度
+          print("${(count / total).toStringAsFixed(2)}");
+          progress = (count / total).toStringAsFixed(2);
+        },
+        // cancelToken: CancelToken(),//取消操作
+      );
+      return progress;
+    } on DioError catch (e) {
+      print('downloadFile error---------$e');
+      return response;
+    }
   }
 }

@@ -12,20 +12,17 @@ class MyElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onLongPress: onLongPress,
+      onLongPress: onLongPress ?? null,
       style: ElevatedButton.styleFrom(
         primary: Colors.transparent,
+        onPrimary: Colors.transparent,
         shape: const CircleBorder(),
         padding: EdgeInsets.all(15.w),
         shadowColor: Colors.white,
         elevation: 0,
       ),
-      onPressed: onPressed,
-      child: Icon(
-        icon,
-        color: color ?? Theme.of(context).dividerColor,
-        size: size?.w,
-      ),
+      onPressed: onPressed ?? null,
+      child: Icon(icon, color: color ?? Theme.of(context).dividerColor, size: size?.w),
     );
   }
 }

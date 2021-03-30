@@ -5,11 +5,11 @@ class MusicKeyRequest {
   static Future<MusicKeyModel?> getMusicVKey(String songmid) async {
     String dataURL =
         'http://u.y.qq.com/cgi-bin/musicu.fcg?data={"req_0":{"module":"vkey.GetVkeyServer","method":"CgiGetVkey","param":{"guid":"5339940689","songmid":["$songmid"],"songtype":[0],"uin":"","platform":"20"}}}';
-    var date = await BaseRequest().toGet(
+    var data = await BaseRequest().toGet(
       dataURL,
       options: Options(responseType: ResponseType.plain),
     );
-    MusicKeyModel musicKeyModel = MusicKeyModel.fromJson(date);
+    MusicKeyModel musicKeyModel = MusicKeyModel.fromJson(data);
     return musicKeyModel;
   }
 }

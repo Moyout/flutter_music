@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter_music/models/play/download_model.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
@@ -17,7 +20,9 @@ class PlayPageViewModel extends ChangeNotifier {
   List<int> timeInt = []; //歌词时间seconds秒
   List<String> timeString = []; //歌词时间00:00.00格式
   bool isLike = false; //是否收藏
+  bool isDownload = false; //是否下载
   RegExp reg = RegExp('[0-9]');
+  int downloadProgress = 0; //下载进度
   Timer? timer;
 
   Future<void> updatePaletteGenerator() async {
@@ -126,7 +131,7 @@ class PlayPageViewModel extends ChangeNotifier {
     });
   }
 
-  ///收藏
+  ///设置收藏
   Future<void> setCollect(List songDetails) async {
     if (songDetails.length > 0) {
       ///***************************存储收藏**********************************
@@ -186,6 +191,7 @@ class PlayPageViewModel extends ChangeNotifier {
             getLyric();
             updatePaletteGenerator();
             initGetCollect(AppUtils.getContext().read<PlayBarViewModel>().playDetails);
+            getIsDownload();
             notifyListeners();
           });
           break;
@@ -193,8 +199,6 @@ class PlayPageViewModel extends ChangeNotifier {
       }
     }
   }
-
-
 
   Future<void> nextSong(int index, List list, {bool isPre = false}) async {
     if (!isPre) {
@@ -226,5 +230,43 @@ class PlayPageViewModel extends ChangeNotifier {
             list[index - 1]["singer"]);
       }
     }
+  }
+
+  ///下载歌曲
+  Future<void> downloadSong() async {
+    if (!await getIsDownload(isCheck: true)) {
+      if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
+        String downloadUrl =
+            await DownloadRequest.downloadSong(AppUtils.getContext().read<PlayBarViewModel>().playDetails[0]);
+        Dio dio = Dio();
+        await dio.download(
+          downloadUrl,
+          "${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.m4a",
+          onReceiveProgress: (int count, int total) {
+            downloadProgress = ((count / total) * 100).toInt();
+            if (downloadProgress == 100) {
+              Toast.showBottomToast("下载完成");
+              getIsDownload();
+            }
+            notifyListeners();
+          },
+        ).catchError((e) {
+          Toast.showBottomToast("下载错误\n$e");
+          print("下载错误$e");
+        });
+      }
+    }
+  }
+
+  Future<bool> getIsDownload({bool isCheck = false}) async {
+    File file = File(
+        "${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.m4a");
+    if (await file.exists()) {
+      isDownload = true;
+      if (isCheck) Toast.showBottomToast("已下载");
+    } else
+      isDownload = false;
+    notifyListeners();
+    return isDownload;
   }
 }

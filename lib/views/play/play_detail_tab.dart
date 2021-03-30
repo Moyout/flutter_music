@@ -17,6 +17,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
     context.read<PlayPageViewModel>().getLyric();
     context.read<PlayPageViewModel>().updatePaletteGenerator();
     context.read<PlayPageViewModel>().initGetCollect(context.read<PlayBarViewModel>().playDetails);
+    context.read<PlayPageViewModel>().getIsDownload();
     super.initState();
   }
 
@@ -114,7 +115,17 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                           Icons.favorite_outline,
                           color: context.watch<PlayPageViewModel>().isLike ? Colors.blue : null,
                         ),
-                        MyElevatedButton(() {}, Icons.arrow_circle_down_rounded),
+                        // context.watch<PlayPageViewModel>().downloadProgress != 0
+                        //     ? Text("${context.watch<PlayPageViewModel>().downloadProgress}%")
+                        //     :
+                        MyElevatedButton(
+                          // context.watch<PlayPageViewModel>().isDownload
+                          //     ? () {}
+                          //     :
+                              () => context.read<PlayPageViewModel>().downloadSong(),
+                          Icons.arrow_circle_down_rounded,
+                          color: context.watch<PlayPageViewModel>().isDownload ? Colors.blue : null,
+                        ),
                         MyElevatedButton(() {}, Icons.comment),
                       ],
                     ),
@@ -133,21 +144,39 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                             fontSize: 14.sp,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          height: 50.w,
-                          width: AppUtils.getWidth(context) * 0.6.w,
-                          child: Slider(
-                            inactiveColor: Colors.white.withOpacity(0.5),
-                            activeColor: Colors.lightBlueAccent.withOpacity(0.5),
-                            onChanged: (v) => pbModelR.setPlayProgress(v),
-                            value: (pbModelR.position != null &&
-                                    pbModelR.duration != null &&
-                                    pbModelR.position!.inMilliseconds > 0 &&
-                                    pbModelR.position!.inMilliseconds < pbModelR.duration!.inMilliseconds)
-                                ? pbModelR.position!.inMilliseconds / pbModelR.duration!.inMilliseconds
-                                : 0.0,
-                          ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 200.w,
+                              height: 3.w,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    context.watch<PlayPageViewModel>().negColor.withOpacity(0.6),
+                                    Colors.transparent
+                                  ],
+                                  stops: [context.watch<PlayPageViewModel>().downloadProgress * 0.01, 0.0],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              height: 50.w,
+                              width: AppUtils.getWidth(context) * 0.6.w,
+                              child: Slider(
+                                inactiveColor: Colors.white.withOpacity(0.5),
+                                activeColor: Colors.lightBlueAccent.withOpacity(0.5),
+                                onChanged: (v) => pbModelR.setPlayProgress(v),
+                                value: (pbModelR.position != null &&
+                                        pbModelR.duration != null &&
+                                        pbModelR.position!.inMilliseconds > 0 &&
+                                        pbModelR.position!.inMilliseconds < pbModelR.duration!.inMilliseconds)
+                                    ? pbModelR.position!.inMilliseconds / pbModelR.duration!.inMilliseconds
+                                    : 0.0,
+                              ),
+                            ),
+                          ],
                         ),
                         Text(
                           pbModelR.duration.toString().length < 8

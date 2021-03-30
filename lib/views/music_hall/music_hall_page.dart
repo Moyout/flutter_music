@@ -1,4 +1,5 @@
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/widget/banner/banner_widget.dart';
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
 
@@ -7,8 +8,7 @@ class MusicHallPage extends StatefulWidget {
   _MusicHallPageState createState() => _MusicHallPageState();
 }
 
-class _MusicHallPageState extends State<MusicHallPage>
-    with AutomaticKeepAliveClientMixin {
+class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
