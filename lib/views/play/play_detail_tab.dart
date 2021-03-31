@@ -63,17 +63,13 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
               Positioned(
                 top: -10.w,
                 right: 15.w,
-                child: GestureDetector(
-                  // onTap: () =>
-                  //     context.read<PlayPageViewModel>().controllerAnimation(),
-                  child: RotationTransition(
-                    alignment: Alignment(0.6, -0.7),
-                    // origin: Offset(10,20),
-                    turns: Tween(begin: -0.08, end: 0.001).animate(context.watch<PlayPageViewModel>().animationC!),
-                    child: Container(
-                      height: AppUtils.getWidth(context) / 2,
-                      child: Image.asset("assets/images/record_rod.png", fit: BoxFit.cover),
-                    ),
+                child: RotationTransition(
+                  alignment: Alignment(0.6, -0.7),
+                  // origin: Offset(10,20),
+                  turns: Tween(begin: -0.08, end: 0.001).animate(context.watch<PlayPageViewModel>().animationC!),
+                  child: Container(
+                    height: AppUtils.getWidth(context) / 2,
+                    child: Image.asset("assets/images/record_rod.png", fit: BoxFit.cover),
                   ),
                 ),
               )

@@ -12,7 +12,7 @@ class PublicKeys {
   static const String albumMid = "albumMid"; //albumMid
   static const String songName = "songName"; //songName
   static const String singer = "singer"; //singer
-  static const String sdcardRoot = "/storage/emulated/0/"; //手机根目录
-  static const String musicRoot = "/storage/emulated/0/SimpleMusic/music/"; //music目录
+  static const String sdcardRoot = "/storage/emulated/0/"; //android手机存储根目录
+  static const String musicRoot = "/storage/emulated/0/SimpleMusic/music/"; //Android的music目录
 
 }

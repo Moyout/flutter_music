@@ -13,8 +13,7 @@ class PlayPage extends StatefulWidget {
   _PlayPageState createState() => _PlayPageState();
 }
 
-class _PlayPageState extends State<PlayPage>
-    with SingleTickerProviderStateMixin {
+class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     context.read<PlayPageViewModel>().initViewModel(this);
@@ -46,8 +45,7 @@ class _PlayPageState extends State<PlayPage>
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
               child: Container(
-                padding: EdgeInsets.only(
-                    top: MediaQueryData.fromWindow(window).padding.top / 1.2),
+                padding: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top / 1.2),
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -63,8 +61,7 @@ class _PlayPageState extends State<PlayPage>
                           tabBar(),
                           Spacer(),
                           MyElevatedButton(
-                            ///todo:分享音乐
-                            () {},
+                            () => context.read<PlayPageViewModel>().shareMusic(),
                             const IconData(0xe6b6, fontFamily: "MyIcons"),
                             size: 20.w,
                           ),

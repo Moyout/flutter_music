@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_music/models/play/download_model.dart';
+import 'package:flutter_music/util/native/native_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:share_extend/share_extend.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PlayPageViewModel extends ChangeNotifier {
   Color negColor = Color(0xffffffff); //取反色
@@ -233,40 +236,86 @@ class PlayPageViewModel extends ChangeNotifier {
   }
 
   ///下载歌曲
-  Future<void> downloadSong() async {
+  Future<bool> downloadSong() async {
+    // if (Platform.isAndroid) {
+    //   print(await Permission.storage.isGranted);
+    //   if (await Permission.storage.request().isPermanentlyDenied) {
+    //     openAppSettings();
+    //   }
+    // }
+
+    // await NativeUtil.getPermission();
+    if (Platform.isIOS) await Permission.photos.request().isGranted;
     if (!await getIsDownload(isCheck: true)) {
       if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
         String downloadUrl =
             await DownloadRequest.downloadSong(AppUtils.getContext().read<PlayBarViewModel>().playDetails[0]);
         Dio dio = Dio();
-        await dio.download(
-          downloadUrl,
-          "${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.m4a",
-          onReceiveProgress: (int count, int total) {
-            downloadProgress = ((count / total) * 100).toInt();
-            if (downloadProgress == 100) {
-              Toast.showBottomToast("下载完成");
-              getIsDownload();
-            }
-            notifyListeners();
-          },
-        ).catchError((e) {
+
+        ///临时文件
+        Directory dir = await getTemporaryDirectory();
+        String savePath = '';
+        if (Platform.isAndroid)
+          savePath =
+              "${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3";
+        if (Platform.isIOS)
+          savePath =
+              "${dir.path}/music/${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3";
+
+        await dio.download(downloadUrl, savePath, onReceiveProgress: (int count, int total) {
+          downloadProgress = ((count / total) * 100).toInt();
+          if (downloadProgress == 100) {
+            Toast.showBottomToast("下载完成");
+            getIsDownload();
+          }
+          notifyListeners();
+        }).catchError((e) {
           Toast.showBottomToast("下载错误\n$e");
           print("下载错误$e");
+        }).whenComplete(() {
+          return getIsDownload;
         });
       }
     }
+    return getIsDownload();
   }
 
   Future<bool> getIsDownload({bool isCheck = false}) async {
-    File file = File(
-        "${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.m4a");
-    if (await file.exists()) {
-      isDownload = true;
-      if (isCheck) Toast.showBottomToast("已下载");
-    } else
-      isDownload = false;
-    notifyListeners();
+    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
+      Directory dir = await getTemporaryDirectory();
+      File file = Platform.isAndroid
+          ? File(
+              "${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3")
+          : File(
+              "${dir.path}/music/${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3");
+
+      if (await file.exists()) {
+        isDownload = true;
+        if (isCheck) Toast.showBottomToast("已下载");
+      } else
+        isDownload = false;
+      notifyListeners();
+    }
     return isDownload;
+  }
+
+  ///分享歌曲
+  Future<void> shareMusic() async {
+    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
+      Directory dir = await getTemporaryDirectory();
+      File file = Platform.isAndroid
+          ? File(
+              "${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3")
+          : File(
+              "${dir.path}/music/${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3");
+
+      if (await file.exists())
+        ShareExtend.share(file.path, "file");
+      else {
+        downloadSong().then((value) async {
+          if (value) await ShareExtend.share(file.path, "file");
+        });
+      }
+    }
   }
 }
