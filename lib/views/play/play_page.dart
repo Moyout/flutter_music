@@ -102,7 +102,10 @@ class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin
         behavior: OverScrollBehavior(),
         child: TabBarView(
           controller: context.watch<PlayPageViewModel>().tabC,
-          children: [PlayDetailTab(), PlayLyricTab()],
+          children: [
+            PlayDetailTab(),
+            PlayLyricTab(),
+          ],
         ),
       ),
     );

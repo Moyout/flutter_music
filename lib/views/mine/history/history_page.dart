@@ -53,7 +53,6 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget buildHistoryList(List history) {
     List decodeList = [];
     history.forEach((element) => decodeList.add(jsonDecode(element)));
-    print("dasda");
     return decodeList.length == 0
         ? Center(child: Text("空"))
         : ScrollConfiguration(

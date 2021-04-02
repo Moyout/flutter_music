@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
+import 'package:flutter_music/views/mine/history/history_page.dart';
+import 'package:flutter_music/widget/common/route_animation.dart';
 
 class PlayDetailTab extends StatefulWidget {
   @override
@@ -113,12 +115,11 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                         ),
                         // context.watch<PlayPageViewModel>().downloadProgress != 0
                         //     ? Text("${context.watch<PlayPageViewModel>().downloadProgress}%")
-                        //     :
+                        //     :// context.watch<PlayPageViewModel>().isDownload
+                        //                           //     ? () {}
+                        //                           //     :
                         MyElevatedButton(
-                          // context.watch<PlayPageViewModel>().isDownload
-                          //     ? () {}
-                          //     :
-                              () => context.read<PlayPageViewModel>().downloadSong(),
+                          () => context.read<PlayPageViewModel>().downloadSong(),
                           Icons.arrow_circle_down_rounded,
                           color: context.watch<PlayPageViewModel>().isDownload ? Colors.blue : null,
                         ),
@@ -140,39 +141,21 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                             fontSize: 14.sp,
                           ),
                         ),
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: 200.w,
-                              height: 3.w,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    context.watch<PlayPageViewModel>().negColor.withOpacity(0.6),
-                                    Colors.transparent
-                                  ],
-                                  stops: [context.watch<PlayPageViewModel>().downloadProgress * 0.01, 0.0],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                              height: 50.w,
-                              width: AppUtils.getWidth(context) * 0.6.w,
-                              child: Slider(
-                                inactiveColor: Colors.white.withOpacity(0.5),
-                                activeColor: Colors.lightBlueAccent.withOpacity(0.5),
-                                onChanged: (v) => pbModelR.setPlayProgress(v),
-                                value: (pbModelR.position != null &&
-                                        pbModelR.duration != null &&
-                                        pbModelR.position!.inMilliseconds > 0 &&
-                                        pbModelR.position!.inMilliseconds < pbModelR.duration!.inMilliseconds)
-                                    ? pbModelR.position!.inMilliseconds / pbModelR.duration!.inMilliseconds
-                                    : 0.0,
-                              ),
-                            ),
-                          ],
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          height: 50.w,
+                          width: AppUtils.getWidth(context) * 0.6.w,
+                          child: Slider(
+                            inactiveColor: Colors.white.withOpacity(0.5),
+                            activeColor: Colors.lightBlueAccent.withOpacity(0.5),
+                            onChanged: (v) => pbModelR.setPlayProgress(v),
+                            value: (pbModelR.position != null &&
+                                    pbModelR.duration != null &&
+                                    pbModelR.position!.inMilliseconds > 0 &&
+                                    pbModelR.position!.inMilliseconds < pbModelR.duration!.inMilliseconds)
+                                ? pbModelR.position!.inMilliseconds / pbModelR.duration!.inMilliseconds
+                                : 0.0,
+                          ),
                         ),
                         Text(
                           pbModelR.duration.toString().length < 8
@@ -192,7 +175,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MyElevatedButton(() {}, Icons.refresh),
+                        MyElevatedButton(() => pbModelR.setPlayProgress(0.0), Icons.refresh),
                         MyElevatedButton(
                             () => context.read<PlayPageViewModel>().preAndNextSong(isPre: true), Icons.skip_previous,
                             size: 44.w),
@@ -208,7 +191,10 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                           Icons.skip_next,
                           size: 44.w,
                         ),
-                        MyElevatedButton(() {}, Icons.menu),
+                        MyElevatedButton(
+                          () => RouteUtil.push(context, HistoryPage(), animation: RouteAnimation.popRight),
+                          Icons.menu,
+                        ),
                       ],
                     ),
                   ],

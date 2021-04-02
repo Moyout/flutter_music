@@ -237,12 +237,13 @@ class PlayPageViewModel extends ChangeNotifier {
 
   ///下载歌曲
   Future<bool> downloadSong() async {
-    // if (Platform.isAndroid) {
-    //   print(await Permission.storage.isGranted);
-    //   if (await Permission.storage.request().isPermanentlyDenied) {
-    //     openAppSettings();
-    //   }
-    // }
+    bool success = false;
+    if (Platform.isAndroid) {
+      print(await Permission.storage.isGranted);
+      if (await Permission.storage.request().isPermanentlyDenied) {
+        openAppSettings();
+      }
+    }
 
     // await NativeUtil.getPermission();
     if (Platform.isIOS) await Permission.photos.request().isGranted;
