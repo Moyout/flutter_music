@@ -140,7 +140,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
             Column(
               children: <Widget>[
                 Container(
-                  width: AppUtils.getWidth(context),
+                  width: AppUtils.getWidth(),
                   padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 15.w),
                   child: Text(
                     svModelR.tabController?.index == 0 ? "热门音乐TOP" : "搜索结果",
@@ -149,7 +149,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                 ),
                 if (svModelW.tabController != null)
                   Container(
-                    height: AppUtils.getHeight(context) * 0.76,
+                    height: AppUtils.getHeight() * 0.76,
                     child: TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       controller: svModelW.tabController,
@@ -170,7 +170,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
       top: MediaQueryData.fromWindow(window).padding.top,
       child: Container(
         color: ThemeUtil.scaffoldColor(context),
-        width: AppUtils.getWidth(context),
+        width: AppUtils.getWidth(),
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.w),
         height: 44.w,
         child: Stack(

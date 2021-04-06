@@ -63,7 +63,6 @@ class _HistoryPageState extends State<HistoryPage> {
                   itemExtent: 50.w,
                   itemCount: decodeList.length,
                   itemBuilder: (context, index) {
-                    // return Text("asdasd");
                     return ListTile(
                       selectedTileColor: Theme.of(context).dividerColor.withOpacity(0.4),
                       isThreeLine: true,

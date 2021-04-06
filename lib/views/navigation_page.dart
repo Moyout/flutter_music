@@ -76,7 +76,7 @@ class NavigationPage extends StatelessWidget {
         ),
         padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(
             bottom: MediaQuery.of(context).padding.bottom.w / 2)),
-        width: AppUtils.getWidth(context),
+        width: AppUtils.getWidth(),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -99,7 +99,7 @@ class NavigationPage extends StatelessWidget {
             ),
             ...List.generate(navModel.itemList.length, (index) {
               return Positioned(
-                width: (AppUtils.getWidth(context) - 80.w) / 3,
+                width: (AppUtils.getWidth() - 80.w) / 3,
                 left: index == 0 ? 0 : null,
                 right: index == 2 ? 0 : null,
                 child: GestureDetector(

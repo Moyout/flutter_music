@@ -155,7 +155,7 @@ class SearchViewModel extends ChangeNotifier {
         if (value!.data!.song!.list!.length > 0) {
           for (var item in value.data!.song!.list!) smModel!.data!.song!.list!.add(item);
         } else
-          Toast.showBottomToast("已加载全部");
+          Toast.showBottomToast("已加载更多");
         isLoading = false;
         notifyListeners();
       });
@@ -218,7 +218,8 @@ class SearchViewModel extends ChangeNotifier {
       if (albumMid.length > 0)
         context.read<PlayBarViewModel>().picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000$albumMid.jpg";
       else
-        context.read<PlayBarViewModel>().picUrl = 'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
+        context.read<PlayBarViewModel>().picUrl =
+            'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
       await LyricRequest.getLyric(songMid);
       AppUtils.getContext().read<PlayBarViewModel>().updatePlayDetails();
 

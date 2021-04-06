@@ -21,7 +21,7 @@ class HotSearchList extends StatelessWidget {
               )
             : ListView(
                 physics: NeverScrollableScrollPhysics(),
-                itemExtent: AppUtils.getHeight(context) * 0.76 / 10,
+                itemExtent: AppUtils.getHeight() * 0.76 / 10,
                 children: List.generate(10, (index) {
                   return ListTile(
                     contentPadding: EdgeInsets.all(0),

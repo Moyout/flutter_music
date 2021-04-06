@@ -14,8 +14,8 @@ class BannerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: AppUtils.getWidth(context) * 0.8.w,
-      height: AppUtils.getHeight(context) * 0.2.w,
+      width: AppUtils.getWidth() * 0.8.w,
+      height: AppUtils.getHeight() * 0.2.w,
       child: ClipRRect(
         child: Swiper(
           onTap: (v) {

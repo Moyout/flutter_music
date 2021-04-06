@@ -26,7 +26,7 @@ class StartUpPage extends StatelessWidget {
             ),
           ),
         ),
-        width: AppUtils.getWidth(context),
+        width: AppUtils.getWidth(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -36,14 +36,14 @@ class StartUpPage extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 50.w),
               child: Image.asset(
                 "assets/images/logo.png",
-                width: AppUtils.getWidth(context) / 2 - 40.w,
+                width: AppUtils.getWidth() / 2 - 40.w,
                 fit: BoxFit.contain,
               ),
             ),
             Container(
               child: Image.asset(
                 "assets/images/logo2.png",
-                width: AppUtils.getWidth(context) / 2 - 20.w,
+                width: AppUtils.getWidth() / 2 - 20.w,
               ),
             ),
             Spacer(),

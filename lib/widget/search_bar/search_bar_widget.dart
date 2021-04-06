@@ -12,7 +12,7 @@ class SearchBarWidget extends StatelessWidget {
     return Container(
       color: Colors.transparent,
       padding: EdgeInsets.all(10.w),
-      width: AppUtils.getWidth(context),
+      width: AppUtils.getWidth(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

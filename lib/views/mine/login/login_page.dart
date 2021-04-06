@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage>
                   ),
                 ),
                 Container(
-                  width: AppUtils.getWidth(context),
+                  width: AppUtils.getWidth(),
                   padding: EdgeInsets.symmetric(horizontal: 40.w),
                   margin: EdgeInsets.only(
                       bottom: MediaQuery.of(context).padding.bottom / 2),

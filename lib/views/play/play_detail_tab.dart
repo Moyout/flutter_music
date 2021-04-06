@@ -42,8 +42,8 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                 child: RotationTransition(
                   turns: Tween(begin: 0.0, end: 1.0).animate(context.watch<PlayPageViewModel>().recordC!),
                   child: Container(
-                    width: AppUtils.getWidth(context) / 2 + 50.w,
-                    height: AppUtils.getWidth(context) / 2 + 50.w,
+                    width: AppUtils.getWidth() / 2 + 50.w,
+                    height: AppUtils.getWidth() / 2 + 50.w,
                     padding: EdgeInsets.all(55.w),
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
@@ -70,7 +70,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                   // origin: Offset(10,20),
                   turns: Tween(begin: -0.08, end: 0.001).animate(context.watch<PlayPageViewModel>().animationC!),
                   child: Container(
-                    height: AppUtils.getWidth(context) / 2,
+                    height: AppUtils.getWidth() / 2,
                     child: Image.asset("assets/images/record_rod.png", fit: BoxFit.cover),
                   ),
                 ),
@@ -144,7 +144,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                         Container(
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                           height: 50.w,
-                          width: AppUtils.getWidth(context) * 0.6.w,
+                          width: AppUtils.getWidth() * 0.6.w,
                           child: Slider(
                             inactiveColor: Colors.white.withOpacity(0.5),
                             activeColor: Colors.lightBlueAccent.withOpacity(0.5),

@@ -1,5 +1,6 @@
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/login/login_viewmodel.dart';
+import 'package:flutter_music/view_models/music_hall/musichall_viewmodel.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
@@ -21,6 +22,7 @@ List<SingleChildWidget> independentServices = [
   ChangeNotifierProvider(create: (_) => SearchViewModel()),
   ChangeNotifierProvider(create: (_) => LoginViewModel()),
   ChangeNotifierProvider(create: (_) => PlayPageViewModel()),
+  ChangeNotifierProvider(create: (_) => MusicHallViewModel()),
 ];
 
 //这里使用ProxyProvider来定义需要依赖其他Provider的服务

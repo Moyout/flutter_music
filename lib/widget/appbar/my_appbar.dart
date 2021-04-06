@@ -8,7 +8,10 @@ class MyAppBar extends AppBar {
   MyAppBar({this.title, this.isShowLeading = true, this.actions})
       : super(
           leading: isShowLeading
-              ? MyElevatedButton(() => RouteUtil.pop(AppUtils.getContext()), Icons.arrow_back_outlined)
+              ? MyElevatedButton(
+                  () => RouteUtil.pop(AppUtils.getContext()),
+                  Icons.arrow_back_outlined,
+                )
               : Container(),
           title: title,
           backgroundColor: Colors.transparent,

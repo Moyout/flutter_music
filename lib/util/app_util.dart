@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
 
 class AppUtils {
@@ -14,12 +17,12 @@ class AppUtils {
   // }
 
   //获取屏幕宽度
-  static double getWidth(BuildContext context) {
-    return MediaQuery.of(context).size.width;
+  static double getWidth() {
+    return MediaQueryData.fromWindow(window).size.width;
   }
 
   //获取屏幕高度
-  static double getHeight(BuildContext context) {
-    return MediaQuery.of(context).size.height;
+  static double getHeight() {
+    return MediaQueryData.fromWindow(window).size.height;
   }
 }
