@@ -71,15 +71,19 @@ class _HistoryPageState extends State<HistoryPage> {
                         "《${decodeList[index]["songName"]}》",
                         style: TextStyle(fontSize: 14.sp),
                       ),
+                      subtitle: const Text(""),
+
+                      ///*****************************当前播放判断*****************
                       selected: context.watch<PlayBarViewModel>().playDetails[2] == decodeList[index]["songName"] &&
                           context.watch<PlayBarViewModel>().playDetails[3] == decodeList[index]["singer"],
-                      subtitle: const Text(""),
                       trailing: context.watch<PlayBarViewModel>().isPlay
                           ? (context.watch<PlayBarViewModel>().playDetails[2] == decodeList[index]["songName"] &&
                                   context.watch<PlayBarViewModel>().playDetails[3] == decodeList[index]["singer"]
                               ? Image.asset("assets/images/playing.webp", width: 20.w, height: 20.w)
                               : null)
                           : null,
+
+                      ///********************************************************
                       title: Text(
                         "${decodeList[index]["singer"]}",
                         style: TextStyle(fontSize: 12.sp),

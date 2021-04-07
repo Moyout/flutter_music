@@ -23,5 +23,6 @@ export 'package:flutter_music/common/base64.dart';
 export 'package:flutter_music/util/color_util.dart';
 export 'package:flutter_music/widget/bubble/my_bubble.dart';
 export 'package:flutter_music/widget/appbar/my_appbar.dart';
+export 'package:palette_generator/palette_generator.dart';
 
 

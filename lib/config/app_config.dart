@@ -7,6 +7,8 @@ class AppConfig {
     await SpUtil.getInstance();
   }
 
+
+  ///错误widget
   static void errorWidget() {
     ///错误Widget
     ErrorWidget.builder = (FlutterErrorDetails details) {
@@ -31,5 +33,11 @@ class AppConfig {
         ),
       );
     };
+  }
+
+
+  ///强制竖屏
+  static void setPreferredOrientations(){
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 }

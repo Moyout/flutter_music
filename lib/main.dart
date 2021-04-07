@@ -5,11 +5,11 @@ import 'package:flutter_music/views/startup_page.dart';
 
 void main() {
   Provider.debugCheckInvalidValueType = null; //Provider 状态管理，同步数据
-  WidgetsFlutterBinding
-      .ensureInitialized(); //WidgetsFlutterBinding 承担各类的初始化以及功能配置
+  WidgetsFlutterBinding.ensureInitialized(); //WidgetsFlutterBinding 承担各类的初始化以及功能配置
   ScreenUtil.initialize(); //初始化屏幕适配
   AppConfig.initSp(); //初始化SP
   AppConfig.errorWidget(); //错误widget
+  AppConfig.setPreferredOrientations(); //竖屏
 
   runApp(MultiProvider(providers: providers, child: MyApp()));
 }
@@ -27,9 +27,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: AppUtils.navigatorKey,
       // initialRoute: '/',
       routes: {},
-      themeMode: context.watch<SetViewModel>().isDark
-          ? ThemeMode.dark
-          : ThemeMode.light,
+      themeMode: context.watch<SetViewModel>().isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeUtil.lightTheme(),
       darkTheme: ThemeUtil.darkTheme(),
     );

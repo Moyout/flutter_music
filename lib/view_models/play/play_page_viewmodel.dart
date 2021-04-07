@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_music/models/play/download_model.dart';
-import 'package:flutter_music/util/native/native_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
