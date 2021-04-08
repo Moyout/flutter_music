@@ -163,12 +163,16 @@ class _SongSheetPageState extends State<SongSheetPage> {
               "${mHVModel.ssdModel.cdlist![0].songlist?[index].name}",
               style: TextStyle(fontSize: 14.sp),
             ),
-            selected:
-                context.watch<PlayBarViewModel>().playDetails[0] == mHVModel.ssdModel.cdlist![0].songlist![index].mid,
+            selected: context.watch<PlayBarViewModel>().playDetails.length > 0
+                ? context.watch<PlayBarViewModel>().playDetails[0] == mHVModel.ssdModel.cdlist![0].songlist![index].mid
+                : false,
             trailing: context.watch<PlayBarViewModel>().isPlay
-                ? (context.watch<PlayBarViewModel>().playDetails[0] == mHVModel.ssdModel.cdlist![0].songlist![index].mid
-                    ? Image.asset("assets/images/playing.webp", width: 20.w, height: 20.w)
-                    : null)
+                ? context.watch<PlayBarViewModel>().playDetails.length > 0
+                    ? (context.watch<PlayBarViewModel>().playDetails[0] ==
+                            mHVModel.ssdModel.cdlist![0].songlist![index].mid
+                        ? Image.asset("assets/images/playing.webp", width: 20.w, height: 20.w)
+                        : null)
+                    : null
                 : null,
             onTap: () => context.read<MusicHallViewModel>().onTapItem(index),
           );

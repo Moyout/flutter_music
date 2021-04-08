@@ -82,9 +82,21 @@ class BaseRequest {
   }
 
   ///post请求
-  Future<dynamic> toPost(url, {data, Map<String, dynamic>? parameters, Options? options}) async {
+  Future<dynamic> toPost(
+    url, {
+    data,
+    Map<String, dynamic>? parameters,
+    Options? options,
+  }) async {
     interceptor();
-    response = await dio!.post(url, queryParameters: parameters, options: options, data: data).catchError((e) {
+    response = await dio!
+        .post(
+      url,
+      queryParameters: parameters,
+      options: options,
+      data: data,
+    )
+        .catchError((e) {
       print("=======post错误========================>$e");
     });
     // print("################${response.data}");

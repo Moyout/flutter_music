@@ -7,8 +7,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
-    with SingleTickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     context.read<LoginViewModel>().initViewModel(this);
@@ -28,8 +27,7 @@ class _LoginPageState extends State<LoginPage>
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top / 2),
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top / 2),
                   height: 280.w,
                   color: Theme.of(context).dividerColor,
                   child: Stack(
@@ -46,7 +44,7 @@ class _LoginPageState extends State<LoginPage>
                         top: MediaQuery.of(context).padding.top / 2,
                         left: 10.w,
                         child: MyElevatedButton(
-                              () => RouteUtil.pop(context),
+                          () => RouteUtil.pop(context),
                           Icons.arrow_back_outlined,
                           size: 32.w,
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -57,13 +55,9 @@ class _LoginPageState extends State<LoginPage>
                 ),
                 TabBar(
                   labelPadding: EdgeInsets.symmetric(vertical: 10.w),
-                  indicatorColor: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.blueGrey,
+                  indicatorColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.blueGrey,
                   indicatorSize: TabBarIndicatorSize.label,
-                  labelColor: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.blueGrey,
+                  labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.blueGrey,
                   unselectedLabelColor: Colors.grey,
                   controller: lvModelW.tabController,
                   tabs: [
@@ -87,8 +81,7 @@ class _LoginPageState extends State<LoginPage>
                 Container(
                   width: AppUtils.getWidth(),
                   padding: EdgeInsets.symmetric(horizontal: 40.w),
-                  margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom / 2),
+                  margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom / 2),
                   child: ElevatedButton(
                     onPressed: () => lvModelR.onSubmitted(),
                     // onPressed: () {
@@ -148,16 +141,10 @@ class _LoginPageState extends State<LoginPage>
           hintText: "邮箱",
           helperText: isEmail(lvModelW.textEmailC.text) ? null : "邮箱格式不正确",
           prefixIcon: Icons.email,
-          inputFormatter: [
-            FilteringTextInputFormatter(RegExp("[a-zA-Z0-9@.]"), allow: true)
-          ],
+          inputFormatter: [FilteringTextInputFormatter(RegExp("[a-zA-Z0-9@.]"), allow: true)],
           suffixIcon: InkWell(
             customBorder: StadiumBorder(),
-            onTap: () {
-              WidgetsBinding.instance!.addPostFrameCallback((_) {
-                KeyboardUtil.closeKeyboardUtil();
-              });
-            },
+            onTap: () => lvModelR.sendCode(),
             child: Icon(Icons.send, color: Colors.blue),
           ),
           onTap: () => lvModelR.onTap(),
@@ -167,9 +154,7 @@ class _LoginPageState extends State<LoginPage>
           hintText: "验证码",
           prefixIcon: Icons.format_list_numbered,
           maxLength: 6,
-          inputFormatter: [
-            FilteringTextInputFormatter(RegExp("[a-zA-Z0-9]"), allow: true)
-          ],
+          inputFormatter: [FilteringTextInputFormatter(RegExp("[a-zA-Z0-9]"), allow: true)],
           onTap: () => lvModelR.onTap(),
         ),
       ],

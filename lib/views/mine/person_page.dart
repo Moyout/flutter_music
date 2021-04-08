@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/login/login_viewmodel.dart';
 import 'package:flutter_music/views/mine/download/download_page.dart';
 import 'package:flutter_music/views/mine/favorite/myfavorites_page.dart';
 import 'package:flutter_music/views/mine/history/history_page.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_music/views/mine/login/login_page.dart';
 import 'package:flutter_music/views/mine/set/set_page.dart';
 
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
-import 'package:flutter_svg/svg.dart';
 
 class PersonPage extends StatelessWidget {
   @override
@@ -27,14 +27,27 @@ class PersonPage extends StatelessWidget {
                       elevation: 0,
                       shape: CircleBorder(),
                     ),
-                    child: Icon(
-                      Icons.person_pin,
-                      size: 100.w,
-                      color: Theme.of(context).dividerColor,
-                    ),
+                    child: context.watch<LoginViewModel>().isLogin
+                        ? Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(shape: BoxShape.circle),
+                            child:
+                                Image.asset("assets/images/login.png", width: 100.w, height: 100.w, fit: BoxFit.cover),
+                          )
+                        : Icon(Icons.person_pin, size: 100.w, color: Theme.of(context).dividerColor),
                     onPressed: () => RouteUtil.push2(context, LoginPage()),
                   ),
                 ),
+                if (context.watch<LoginViewModel>().isLogin)
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 12.w),
+                      child: Text(
+                        "${context.watch<LoginViewModel>().userName}",
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                    ),
+                  ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.w),
                   child: Row(

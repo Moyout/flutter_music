@@ -1,15 +1,20 @@
 import 'dart:async';
 
+import 'package:flutter_music/models/login/login_model.dart';
+import 'package:flutter_music/models/login/send_code_model.dart';
+import 'package:flutter_music/models/login/sign_model.dart';
 import 'package:flutter_music/util/tools.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  TextEditingController textC = TextEditingController();
-  TextEditingController textPswC = TextEditingController();
-  TextEditingController textEmailC = TextEditingController();
-  TextEditingController textCodeC = TextEditingController();
+  TextEditingController textC = TextEditingController(); //用户名
+  TextEditingController textPswC = TextEditingController(); //密码
+  TextEditingController textEmailC = TextEditingController(); //邮箱
+  TextEditingController textCodeC = TextEditingController(); //验证码
   bool isHide = true; //是否显示输入文字
   String teddyStatus = "idle"; //flare动画
   TabController? tabController;
+  bool isLogin = false; //是否登录
+  String userName = ""; //用户名
 
   ///初始化
   void initViewModel(TickerProvider tickerProvider) {
@@ -106,5 +111,51 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onSubmitted() {}
+  ///发送验证码
+  void sendCode() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      KeyboardUtil.closeKeyboardUtil();
+      if (isEmail(textEmailC.text) && textC.text.length >= 6 && textPswC.text.length >= 6) {
+        await SendCodeRequest.sendCode(textEmailC.text).then((value) {
+          BotToast.showText(text: value.message.toString());
+        });
+      } else
+        BotToast.showText(text: "请输入完整信息");
+    });
+  }
+
+  ///登录/注册
+  void onSubmitted() async {
+    if (tabController?.index == 0) {
+      if (textC.text.length >= 6 &&
+          textPswC.text.length >= 6 &&
+          isEmail(textEmailC.text) &&
+          textCodeC.text.length == 6) {
+        await SignRequest.getSign(
+          textC.text,
+          textPswC.text,
+          textEmailC.text,
+          textCodeC.text,
+        ).then((value) {
+          BotToast.showText(text: value.message.toString());
+          if (value.message == "注册成功") tabController?.animateTo(1);
+        });
+      } else
+        BotToast.showText(text: "请输入完整信息");
+    } else {
+      if (textC.text.length > 0 && textPswC.text.length >= 6) {
+        await LoginRequest.getLogin(userName: textC.text, passWord: textPswC.text).then((value) async {
+          BotToast.showText(text: value.message.toString());
+          if (value.message == "登录成功!") {
+            RouteUtil.pop(AppUtils.getContext());
+            isLogin = true;
+            userName = value.userName ?? "";
+            await SpUtil.setString(PublicKeys.token, value.token ?? "");
+            notifyListeners();
+          }
+        });
+      } else
+        BotToast.showText(text: "请输入完整信息");
+    }
+  }
 }
