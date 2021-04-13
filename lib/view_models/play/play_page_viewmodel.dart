@@ -25,7 +25,9 @@ class PlayPageViewModel extends ChangeNotifier {
   bool isDownload = false; //是否下载
   RegExp reg = RegExp('[0-9]');
   int downloadProgress = 0; //下载进度
-  Timer? timer;
+  bool isBulletChat = false;
+  Timer? timer; //歌词滚动
+  Timer? timer2; //弹幕
 
   Future<void> updatePaletteGenerator() async {
     paletteGenerator = await PaletteGenerator.fromImageProvider(
@@ -127,6 +129,7 @@ class PlayPageViewModel extends ChangeNotifier {
               }
             }
           }
+
           notifyListeners();
         });
       }
@@ -248,7 +251,7 @@ class PlayPageViewModel extends ChangeNotifier {
 
   ///下载歌曲
   Future<bool> downloadSong() async {
-     if (Platform.isAndroid) {
+    if (Platform.isAndroid) {
       print(await Permission.storage.isGranted);
       if (await Permission.storage.request().isPermanentlyDenied) {
         openAppSettings();
@@ -328,5 +331,17 @@ class PlayPageViewModel extends ChangeNotifier {
         });
       }
     }
+  }
+
+  void setBulletChat() {
+    isBulletChat = !isBulletChat;
+    if (isBulletChat) {
+      timer2 = Timer.periodic(Duration(seconds: 3), (timer) {
+        Toast.showBulletChat("132456456");
+      });
+    } else {
+      timer2?.cancel();
+    }
+    notifyListeners();
   }
 }

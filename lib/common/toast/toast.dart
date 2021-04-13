@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class Toast {
   //toast提示
@@ -11,20 +12,19 @@ class Toast {
     );
   }
 
-  static showBottomToast(String text) {
+  static showBottomToast(String text, {Alignment? alignment}) {
     return BotToast.showText(
       text: text,
+      align: alignment,
 //      contentColor: Colors.white,
 //      backgroundColor: Colors.grey
     );
   }
 
   static showOnTap(String text, {Offset offset = Offset.zero}) {
-
     return BotToast.showText(
       text: text,
-      align: Alignment(
-          offset.dx / MediaQuery.of(AppUtils.getContext()).size.width,
+      align: Alignment(offset.dx / MediaQuery.of(AppUtils.getContext()).size.width,
           offset.dy / MediaQuery.of(AppUtils.getContext()).size.height),
     );
   }
@@ -35,6 +35,39 @@ class Toast {
       clickClose: clickClose,
       crossPage: false,
       backButtonBehavior: BackButtonBehavior.ignore, //拦截返回按键
+    );
+  }
+
+  static showBulletChat(String text, {Duration? duration}) {
+    return showToastWidget(
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: Image.asset(
+              "assets/images/login.png",
+              width: 50.w,
+              height: 50.w,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Text(
+            text,
+            style: TextStyle(color: Theme.of(AppUtils.getContext()).dividerColor),
+          ),
+        ],
+      ),
+      curve: Curves.elasticOut,
+      position: StyledToastPosition.center,
+      dismissOtherToast: false,
+      startOffset: Offset(0, 5),
+      endOffset: Offset(0.2, 0),
+      reverseAnimation: StyledToastAnimation.slideToTopFade,
+      animation: StyledToastAnimation.slideFromBottom,
+      animDuration: Duration(milliseconds: 2500),
+      duration: Duration(milliseconds: 6000),
     );
   }
 
