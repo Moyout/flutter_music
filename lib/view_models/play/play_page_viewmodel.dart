@@ -206,38 +206,49 @@ class PlayPageViewModel extends ChangeNotifier {
     if (!isPre) {
       if (index + 1 == list.length) {
         await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
-            AppUtils.getContext(), list[0]["albumMid"], list[0]["songmid"], list[0]["songName"], list[0]["singer"]);
+              AppUtils.getContext(),
+              list[0]["albumMid"],
+              list[0]["songmid"],
+              list[0]["songName"],
+              list[0]["singer"],
+              list[0]["topid"],
+            );
       } else {
         await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
-            AppUtils.getContext(),
-            list[index + 1]["albumMid"],
-            list[index + 1]["songmid"],
-            list[index + 1]["songName"],
-            list[index + 1]["singer"]);
+              AppUtils.getContext(),
+              list[index + 1]["albumMid"],
+              list[index + 1]["songmid"],
+              list[index + 1]["songName"],
+              list[index + 1]["singer"],
+              list[index + 1]["topid"],
+            );
       }
     } else {
       if (index == 0) {
         await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
-            AppUtils.getContext(),
-            list[list.length - 1]["albumMid"],
-            list[list.length - 1]["songmid"],
-            list[list.length - 1]["songName"],
-            list[list.length - 1]["singer"]);
+              AppUtils.getContext(),
+              list[list.length - 1]["albumMid"],
+              list[list.length - 1]["songmid"],
+              list[list.length - 1]["songName"],
+              list[list.length - 1]["singer"],
+              list[list.length - 1]["topid"],
+            );
       } else {
         await AppUtils.getContext().read<SearchViewModel>().getMusicVKey(
-            AppUtils.getContext(),
-            list[index - 1]["albumMid"],
-            list[index - 1]["songmid"],
-            list[index - 1]["songName"],
-            list[index - 1]["singer"]);
+              AppUtils.getContext(),
+              list[index - 1]["albumMid"],
+              list[index - 1]["songmid"],
+              list[index - 1]["songName"],
+              list[index - 1]["singer"],
+              list[index - 1]["topid"],
+            );
       }
     }
   }
 
   ///下载歌曲
   Future<bool> downloadSong() async {
-    bool success = false;
-    if (Platform.isAndroid) {
+     if (Platform.isAndroid) {
       print(await Permission.storage.isGranted);
       if (await Permission.storage.request().isPermanentlyDenied) {
         openAppSettings();

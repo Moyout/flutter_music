@@ -80,7 +80,9 @@ class MyFavoritesPage extends StatelessWidget {
                           decodeList[index]["albumMid"],
                           decodeList[index]["songmid"],
                           decodeList[index]["songName"],
-                          decodeList[index]["singer"]),
+                          decodeList[index]["singer"],
+                          decodeList[index]["topid"],
+                      ),
                     );
                   }),
             ),

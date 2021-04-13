@@ -54,6 +54,8 @@ dependencies:
   flutter_svg: ^0.19.3
   # 分享
   share_extend: ^1.1.9
+  # webSocket
+  web_socket_channel: ^1.2.0
 
 #  path_provider: ^1.6.22
 #  path_provider_windows: ^0.0.4

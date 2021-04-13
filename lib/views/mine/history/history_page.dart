@@ -88,8 +88,14 @@ class _HistoryPageState extends State<HistoryPage> {
                         "${decodeList[index]["singer"]}",
                         style: TextStyle(fontSize: 12.sp),
                       ),
-                      onTap: () => context.read<SearchViewModel>().getMusicVKey(context, decodeList[index]["albumMid"],
-                          decodeList[index]["songmid"], decodeList[index]["songName"], decodeList[index]["singer"]),
+                      onTap: () => context.read<SearchViewModel>().getMusicVKey(
+                            context,
+                            decodeList[index]["albumMid"],
+                            decodeList[index]["songmid"],
+                            decodeList[index]["songName"],
+                            decodeList[index]["singer"],
+                            decodeList[index]["topid"],
+                          ),
                     );
                   }),
             ),

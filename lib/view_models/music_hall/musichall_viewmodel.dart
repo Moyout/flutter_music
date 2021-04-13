@@ -1,4 +1,3 @@
-
 import 'package:flutter_music/models/music_hall/songsheet_detailed_model.dart';
 import 'package:flutter_music/models/music_hall/songsheet_model/recommend_songsheet_model.dart';
 import 'package:flutter_music/util/tools.dart';
@@ -52,6 +51,7 @@ class MusicHallViewModel extends ChangeNotifier {
           "${ssdModel.cdlist![0].songlist![index].mid}",
           "${ssdModel.cdlist![0].songlist![index].title}",
           "${ssdModel.cdlist![0].songlist![index].singer?[0].name}",
+          "${ssdModel.cdlist![0].songlist![index].id}",
         );
   }
 }

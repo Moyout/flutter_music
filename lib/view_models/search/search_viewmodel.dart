@@ -170,6 +170,7 @@ class SearchViewModel extends ChangeNotifier {
     String songMid,
     String songName,
     String singer,
+    String topid,
   ) async {
     // print("index________________________________________________>$index");
     // String _albumMid = smModel!.data!.song!.list![index].albummid!.trim();
@@ -192,6 +193,7 @@ class SearchViewModel extends ChangeNotifier {
         PublicKeys.albumMid: albumMid.length > 0 ? albumMid : "",
         PublicKeys.songName: "$songName",
         PublicKeys.singer: "$singer",
+        PublicKeys.topid: "$topid",
       };
       if (!list.contains(jsonEncode(musicMap))) list.insert(0, jsonEncode(musicMap));
       await SpUtil.setStringList(PublicKeys.playHistory, list);
@@ -207,6 +209,7 @@ class SearchViewModel extends ChangeNotifier {
         albumMid.length > 0 ? albumMid : "", //播放图片
         songName, //歌名
         singer, //歌手
+        topid,//歌曲评论id
       ]);
 
       if (context.read<PlayBarViewModel>().isPlay) {
