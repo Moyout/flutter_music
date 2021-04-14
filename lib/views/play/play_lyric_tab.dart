@@ -19,6 +19,8 @@ class _PlayLyricTabState extends State<PlayLyricTab> {
   @override
   void dispose() {
     AppUtils.getContext().read<PlayPageViewModel>().timer?.cancel();
+    AppUtils.getContext().read<PlayPageViewModel>().timer2?.cancel();
+    AppUtils.getContext().read<PlayPageViewModel>().isBulletChat = false;
     super.dispose();
   }
 

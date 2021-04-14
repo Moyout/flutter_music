@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter_music/models/play/commentlist_model.dart';
 import 'package:flutter_music/models/play/download_model.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,8 +26,11 @@ class PlayPageViewModel extends ChangeNotifier {
   RegExp reg = RegExp('[0-9]');
   int downloadProgress = 0; //下载进度
   bool isBulletChat = false;
+  CommentListModel? clModel;
   Timer? timer; //歌词滚动
   Timer? timer2; //弹幕
+  int index = 0; //歌曲评论列表index
+  int page = 0; //歌曲评论列表页
 
   Future<void> updatePaletteGenerator() async {
     paletteGenerator = await PaletteGenerator.fromImageProvider(
@@ -197,6 +200,8 @@ class PlayPageViewModel extends ChangeNotifier {
             updatePaletteGenerator();
             initGetCollect(AppUtils.getContext().read<PlayBarViewModel>().playDetails);
             getIsDownload();
+            getCommentList();
+            page = 0;
             notifyListeners();
           });
           break;
@@ -333,15 +338,39 @@ class PlayPageViewModel extends ChangeNotifier {
     }
   }
 
-  void setBulletChat() {
-    isBulletChat = !isBulletChat;
-    if (isBulletChat) {
-      timer2 = Timer.periodic(Duration(seconds: 3), (timer) {
-        Toast.showBulletChat("132456456");
-      });
-    } else {
-      timer2?.cancel();
-    }
-    notifyListeners();
+  ///歌曲弹幕
+  Future<void> setBulletChat() async {
+    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
+      isBulletChat = !isBulletChat;
+      if (isBulletChat) {
+        getCommentList();
+        timer2 = Timer.periodic(Duration(milliseconds: 4000), (timer) {
+          if (clModel!.comment?.commentlist?[index].avatarurl != null) {
+            if (index == 24) {
+              index = 0;
+              page++;
+              getCommentList();
+            } else {
+              Toast.showBulletChat(
+                "${clModel!.comment?.commentlist?[index].avatarurl}",
+                "${clModel!.comment?.commentlist?[index].rootcommentcontent}",
+              );
+              index++;
+            }
+          } else
+            getCommentList();
+        });
+      } else
+        timer2?.cancel();
+      notifyListeners();
+    } else
+      Toast.showBotToast("无播放歌曲");
+  }
+
+  void getCommentList() async {
+    clModel = (await CommentListRequest.getCommentList(
+      AppUtils.getContext().read<PlayBarViewModel>().playDetails[4],
+      page: page,
+    ))!;
   }
 }

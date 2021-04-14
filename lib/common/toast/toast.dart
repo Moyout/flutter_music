@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -12,7 +14,7 @@ class Toast {
     );
   }
 
-  static showBottomToast(String text, {Alignment? alignment}) {
+  static showBottomToast(String text, {Alignment? alignment = const Alignment(0, 0.8)}) {
     return BotToast.showText(
       text: text,
       align: alignment,
@@ -38,35 +40,60 @@ class Toast {
     );
   }
 
-  static showBulletChat(String text, {Duration? duration}) {
+  static showBulletChat(String avatarUrl, String text, {Duration? duration}) {
     return showToastWidget(
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(shape: BoxShape.circle),
-            child: Image.asset(
-              "assets/images/login.png",
-              width: 50.w,
-              height: 50.w,
-              fit: BoxFit.cover,
+      Container(
+        // margin: EdgeInsets.only(left: 20.w),
+        clipBehavior: Clip.antiAlias,
+        padding: EdgeInsets.all(3.0.w),
+        decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(40.w),
+        ),
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(shape: BoxShape.circle),
+              child: Image.network(
+                "$avatarUrl",
+                width: 45.w,
+                height: 45.w,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Text(
-            text,
-            style: TextStyle(color: Theme.of(AppUtils.getContext()).dividerColor),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: 0,
+                  maxWidth: MediaQueryData.fromWindow(window).size.width - 120.w,
+                ),
+                child: Text(
+                  "$text",
+                  style: TextStyle(
+                    color: Theme.of(AppUtils.getContext()).dividerColor,
+                    fontSize: 16.sp,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-      curve: Curves.elasticOut,
-      position: StyledToastPosition.center,
+      // curve: Curves.elasticOut,
+      curve: Curves.easeIn,
+      position: StyledToastPosition.left,
       dismissOtherToast: false,
-      startOffset: Offset(0, 5),
-      endOffset: Offset(0.2, 0),
+      startOffset: Offset(0, 4),
+      endOffset: Offset(0, 2),
       reverseAnimation: StyledToastAnimation.slideToTopFade,
       animation: StyledToastAnimation.slideFromBottom,
-      animDuration: Duration(milliseconds: 2500),
+      animDuration: Duration(milliseconds: 3000),
       duration: Duration(milliseconds: 6000),
     );
   }
