@@ -1,12 +1,33 @@
+import 'dart:async';
+
 import 'package:flutter/rendering.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
+import 'package:flutter_music/views/home/mv_page.dart';
 import 'package:flutter_music/views/mine/person_page.dart';
 import 'package:flutter_music/views/music_hall/music_hall_page.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
+import 'package:connectivity/connectivity.dart';
 
-class NavigationPage extends StatelessWidget {
+class NavigationPage extends StatefulWidget {
+  @override
+  _NavigationPageState createState() => _NavigationPageState();
+}
+
+class _NavigationPageState extends State<NavigationPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<NavViewModel>().checkNet();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    context.read<NavViewModel>().subscription?.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     NavViewModel navModel = context.read<NavViewModel>();
@@ -26,7 +47,7 @@ class NavigationPage extends StatelessWidget {
                 onPageChanged: (i) => navModel.pageTo(i),
                 children: <Widget>[
                   MusicHallPage(),
-                  Container(),
+                  MVPage(),
                   PersonPage(),
                 ],
               ),
@@ -42,8 +63,7 @@ class NavigationPage extends StatelessWidget {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         children: [
-                          Container(
-                              width: MediaQuery.of(context).size.width - 50.w),
+                          Container(width: MediaQuery.of(context).size.width - 50.w),
                           PlayBarWidget(),
                           Container(width: 60.w),
                         ],
@@ -70,12 +90,9 @@ class NavigationPage extends StatelessWidget {
           // color: Colors.white,
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
-          boxShadow: [
-            BoxShadow(color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2))
-          ],
+          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2))],
         ),
-        padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom.w / 2)),
+        padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom.w / 2)),
         width: AppUtils.getWidth(),
         child: Stack(
           alignment: Alignment.center,
@@ -110,9 +127,7 @@ class NavigationPage extends StatelessWidget {
                     children: [
                       Icon(
                         navModel.itemList[index].icon,
-                        color: navModel.itemList[index].isActive
-                            ? Colors.white
-                            : Colors.grey,
+                        color: navModel.itemList[index].isActive ? Colors.white : Colors.grey,
                         size: 22.sp,
                       ),
                       SizedBox(width: 10.w, height: 45.w),

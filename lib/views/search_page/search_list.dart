@@ -17,7 +17,7 @@ class SearchList extends StatelessWidget {
         child: svModel.smModel?.data == null
             ? Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
-                child: const CupertinoActivityIndicator(),
+                child: Center(child: Text("空")),
               )
             : svModel.smModel?.data?.song?.list?.length == 0
                 ? Center(child: const Text("无结果"))

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_music/models/login/login_model.dart';
 import 'package:flutter_music/util/tools.dart';
@@ -11,9 +14,10 @@ class NavViewModel extends ChangeNotifier {
     BottomItem("我的", Icons.person),
   ];
   ScrollController? sc; //播放条滚动
-
+  StreamSubscription<ConnectivityResult>? subscription;
   bool isOnTap = false;
   int navIndex = 0;
+  ConnectivityResult? netMode;
   PageController pageController = PageController();
 
   void pageTo(int index) async {
@@ -70,6 +74,23 @@ class NavViewModel extends ChangeNotifier {
           duration: Duration(milliseconds: 200),
           curve: Curves.bounceOut,
         );
+      });
+    }
+  }
+
+  ///检查网络状态
+  void checkNet() async {
+    netMode = await Connectivity().checkConnectivity();
+    if (subscription == null) {
+      subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+        if (result == ConnectivityResult.mobile) {
+          Toast.showBottomToast("当前为流量连接,请注意使用");
+        } else if (result == ConnectivityResult.wifi) {
+        } else if (result == ConnectivityResult.none) {
+          Toast.showBottomToast("网络错误");
+        }
+        netMode = result;
+        notifyListeners();
       });
     }
   }

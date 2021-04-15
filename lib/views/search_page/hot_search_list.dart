@@ -17,7 +17,7 @@ class HotSearchList extends StatelessWidget {
         child: svModel.hmModel?.songlist == null
             ? Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
-                child: const CupertinoActivityIndicator(),
+                child: Center(child: Text("空")),
               )
             : ListView(
                 physics: NeverScrollableScrollPhysics(),
@@ -30,28 +30,23 @@ class HotSearchList extends StatelessWidget {
                       child: Text(
                         "${index + 1}",
                         style: TextStyle(
-                          color: index == 0 || index == 1 || index == 2
-                              ? Colors.deepOrange
-                              : Colors.grey,
+                          color: index == 0 || index == 1 || index == 2 ? Colors.deepOrange : Colors.grey,
                         ),
                       ),
                     ),
                     title: Text(
                       svModel.hmModel!.songlist![index].data!.songname!,
                       style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
+                        color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
                         fontSize: 14.sp,
                       ),
                     ),
                     subtitle: Text(
                       "${svModel.hmModel!.songlist![index].data!.singer![0].name}" +
-                              svModel.hmModel!.songlist![index].data!.albumdesc!,
+                          svModel.hmModel!.songlist![index].data!.albumdesc!,
                       style: TextStyle(fontSize: 12.sp),
                     ),
-                    onTap: () => svModel.onHotSearchItem(
-                        svModel.hmModel!.songlist![index].data!.songname!),
+                    onTap: () => svModel.onHotSearchItem(svModel.hmModel!.songlist![index].data!.songname!),
                   );
                 }),
               ),

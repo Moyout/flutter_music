@@ -2,15 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter_music/util/tools.dart';
 
 class SongSheetDetailedRequest {
-  static Future<SongSheetDetailedModel> getSongSheetList(int id) async {
+  static Future<SongSheetDetailedModel?> getSongSheetList(int id) async {
     String url =
         'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg?type=1&json=1&utf8=1&onlysong=0&new_format=1&disstid=$id&format=json&notice=0&song_begin=0&song_num=20';
     var response = await BaseRequest().toGet(
       url,
       options: Options(headers: {"referer": "https://y.qq.com/"}),
     );
-    SongSheetDetailedModel ssdModel = SongSheetDetailedModel.fromJson(response);
-    return ssdModel;
+    if (response!=null) {
+      SongSheetDetailedModel ssdModel = SongSheetDetailedModel.fromJson(response);
+      return ssdModel;
+    }
+    return null;
   }
 }
 

@@ -51,13 +51,17 @@ dependencies:
   # 图片颜色
   palette_generator: ^0.3.0
   # SVG
-  flutter_svg: ^0.19.3
+#  flutter_svg: ^0.19.3
   # 分享
   share_extend: ^1.1.9
   # webSocket
   web_socket_channel: ^1.2.0
   # toast
   flutter_styled_toast: ^2.0.0
+  # 下拉刷新
+  pull_to_refresh: ^1.6.5
+  # 网络状态
+  connectivity: ^3.0.3
 
 
 #  path_provider: ^1.6.22

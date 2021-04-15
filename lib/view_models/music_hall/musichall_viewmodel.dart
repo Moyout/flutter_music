@@ -2,10 +2,12 @@ import 'package:flutter_music/models/music_hall/songsheet_detailed_model.dart';
 import 'package:flutter_music/models/music_hall/songsheet_model/recommend_songsheet_model.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MusicHallViewModel extends ChangeNotifier {
   RecommendSongSheetModel r17model = RecommendSongSheetModel();
   SongSheetDetailedModel ssdModel = SongSheetDetailedModel();
+  RefreshController rController = RefreshController();
   PaletteGenerator? paletteGenerator;
   Color bgColor = Color(0xffffffff);
 
@@ -17,16 +19,24 @@ class MusicHallViewModel extends ChangeNotifier {
   ///获取推荐歌单
   void getRecommendSongSheet() async {
     await RecommendSongSheetRequest.getSongSheet().then((value) {
-      if (value.recomPlaylist?.data?.vHot != null) r17model = value;
-      notifyListeners();
-    });
+      if (value != null) {
+        if (value.recomPlaylist?.data?.vHot != null) {
+          r17model = value;
+          notifyListeners();
+        } else {
+          rController.refreshFailed();
+        }
+      }
+    }).whenComplete(() => rController.refreshToIdle());
   }
 
   ///获取歌单列表
   void getSongSheetList(int id) async {
     await SongSheetDetailedRequest.getSongSheetList(id).then((value) {
-      if (value.cdlist![0].songlist != null) ssdModel = value;
-      notifyListeners();
+      if (value != null) {
+        if (value.cdlist![0].songlist != null) ssdModel = value;
+        notifyListeners();
+      }
     }).then((value) {
       updatePaletteGenerator();
     });

@@ -2,10 +2,14 @@ import 'package:flutter_music/util/tools.dart';
 
 class HotMusicRequest {
   static Future<HotMusicModel?> getHotMusic() async {
-    var date = await BaseRequest().toGet(
-        "https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?format=json&type=top&topid=27");
-    HotMusicModel hotMusicModel = HotMusicModel.fromJson(date);
-    return hotMusicModel;
+    var date =
+        await BaseRequest().toGet("https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg?format=json&type=top&topid=27");
+    if (date != null) {
+      HotMusicModel hotMusicModel = HotMusicModel.fromJson(date);
+
+      return hotMusicModel;
+    } else
+      return null;
   }
 }
 
@@ -49,8 +53,7 @@ class HotMusicModel {
         songlist?.add(new Songlist.fromJson(v));
       });
     }
-    topinfo =
-        json['topinfo'] != null ? new Topinfo.fromJson(json['topinfo']) : null;
+    topinfo = json['topinfo'] != null ? new Topinfo.fromJson(json['topinfo']) : null;
     totalSongNum = json['total_song_num'];
     updateTime = json['update_time'];
   }
@@ -83,12 +86,7 @@ class Songlist {
   String? inCount;
   String? oldCount;
 
-  Songlist(
-      {this.frankingValue,
-      this.curCount,
-      this.data,
-      this.inCount,
-      this.oldCount});
+  Songlist({this.frankingValue, this.curCount, this.data, this.inCount, this.oldCount});
 
   Songlist.fromJson(Map<String, dynamic> json) {
     frankingValue = json['Franking_value'];
@@ -190,8 +188,7 @@ class Data {
     label = json['label'];
     msgid = json['msgid'];
     pay = json['pay'] != null ? new Pay.fromJson(json['pay']) : null;
-    preview =
-        json['preview'] != null ? new Preview.fromJson(json['preview']) : null;
+    preview = json['preview'] != null ? new Preview.fromJson(json['preview']) : null;
     rate = json['rate'];
     if (json['singer'] != null) {
       singer = [];

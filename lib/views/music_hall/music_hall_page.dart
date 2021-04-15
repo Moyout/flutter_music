@@ -6,6 +6,7 @@ import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/views/music_hall/song_sheet/song_sheet_page.dart';
 import 'package:flutter_music/widget/banner/banner_widget.dart';
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:web_socket_channel/io.dart';
 
 class MusicHallPage extends StatefulWidget {
@@ -26,6 +27,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
   //
   //   channel.stream.listen((message) {
   //     channel.sink.add('received!');
+  //
   //     channel.sink.close(message.goingAway);
   //   });
   // }
@@ -37,69 +39,62 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
     return Scaffold(
       body: Container(
         // color: Colors.blueGrey,
-        color: Theme
-            .of(context)
-            .scaffoldBackgroundColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           children: [
             SafeArea(bottom: false, child: SearchBarWidget(title: "音乐馆")),
             Expanded(
-              child: mHVModel.r17model.recomPlaylist?.data == null
-                  ? Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
-                child: const CupertinoActivityIndicator(),
-              )
-                  : SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  children: [
-                    ...List.generate(mHVModel.r17model.recomPlaylist!.data!.vHot!.length, (index) {
-                      return Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () =>
-                              RouteUtil.push(context,
-                                  SongSheetPage(mHVModel.r17model.recomPlaylist!.data!.vHot![index].contentId!)),
-                          child: Container(
-                            height: 180.w,
-                            width: 180.w,
-                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-                            child: Stack(
-                              children: [
-                                FadeInImage.assetNetwork(
-                                  image: "${mHVModel.r17model.recomPlaylist!.data?.vHot ? [index].cover}",
-                                  fit: BoxFit.contain,
-                                  placeholder: "assets/images/0.gif",
+              child: SmartRefresher(
+                controller: context.watch<MusicHallViewModel>().rController,
+                onRefresh: () {
+                  context.read<MusicHallViewModel>().getRecommendSongSheet();
+                },
+                child: SingleChildScrollView(
+                  // physics: BouncingScrollPhysics(),
+                  child: mHVModel.r17model.recomPlaylist?.data == null
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
+                          child: Center(child: Text("空")),
+                        )
+                      : Wrap(
+                          alignment: WrapAlignment.center,
+                          children: [
+                            ...List.generate(mHVModel.r17model.recomPlaylist!.data!.vHot!.length, (index) {
+                              return Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () => RouteUtil.push(context,
+                                      SongSheetPage(mHVModel.r17model.recomPlaylist!.data!.vHot![index].contentId!)),
+                                  child: Container(
+                                    height: 180.w,
+                                    width: 180.w,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+                                    child: Stack(
+                                      children: [
+                                        FadeInImage.assetNetwork(
+                                          image: "${mHVModel.r17model.recomPlaylist!.data?.vHot?[index].cover}",
+                                          fit: BoxFit.contain,
+                                          placeholder: "assets/images/logo.webp",
+                                        ),
+                                        Text(
+                                          "${mHVModel.r17model.recomPlaylist!.data?.vHot?[index].title}",
+                                          style: TextStyle(fontSize: 14.sp),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(
-                                  "${mHVModel.r17model.recomPlaylist!.data?.vHot ? [index].title}",
-                                  style: TextStyle(fontSize: 14.sp),
-                                  textAlign: TextAlign.center,
-                                ),
-                                // Positioned(
-                                //   bottom: -10.w,
-                                //   right: -10.w,
-                                //   child: MyElevatedButton(() {}, Icons.play_circle_filled_outlined),
-                                // ),
-                                // Positioned(
-                                //   bottom: 10.w,
-                                //   left: 10.w,
-                                //   child: Text(
-                                //     "播放量${mHVModel.r17model.recomPlaylist!.data?.vHot?[index].listenNum}",
-                                //     style: TextStyle(fontSize: 12.sp),
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                          ),
+                              );
+                            }),
+                          ],
                         ),
-                      );
-                    }),
-                  ],
                 ),
               ),
             ),
+            SizedBox(
+              height: 50,
+            )
           ],
         ),
       ),

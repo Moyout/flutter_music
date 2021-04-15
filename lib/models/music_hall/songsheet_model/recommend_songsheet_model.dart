@@ -2,27 +2,29 @@ import 'package:dio/dio.dart';
 import 'package:flutter_music/util/tools.dart';
 
 class RecommendSongSheetRequest {
-  static Future<RecommendSongSheetModel> getSongSheet() async {
+  static Future<RecommendSongSheetModel?> getSongSheet() async {
     String map =
         '{"comm": {"ct": 24},"recomPlaylist": {"method":"get_hot_recommend","param":{"async":1,"cmd":2},"module":"playlist.HotRecommendServer"}}';
-    print(map);
     String url = 'http://u.y.qq.com/cgi-bin/musicu.fcg?data=$map&format=json&platform=yqq.json';
     var response = await BaseRequest().toGet(url, options: Options(responseType: ResponseType.plain));
-    RecommendSongSheetModel rSSModel = RecommendSongSheetModel.fromJson(response);
-    return rSSModel;
+    if (response != null) {
+      RecommendSongSheetModel rSSModel = RecommendSongSheetModel.fromJson(response);
+      return rSSModel;
+    }
+    return null;
   }
 }
 
 class RecommendSongSheetModel {
-  int? code;
+  String? code;
   int? ts;
   int? startTs;
   RecomPlaylist? recomPlaylist;
 
-  RecommendSongSheetModel({this.code, this.ts, this.startTs, this.recomPlaylist});
+  RecommendSongSheetModel({this.code = " ", this.ts, this.startTs, this.recomPlaylist});
 
   RecommendSongSheetModel.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
+    code = json['code'].toString();
     ts = json['ts'];
     startTs = json['start_ts'];
     recomPlaylist = json['recomPlaylist'] != null ? new RecomPlaylist.fromJson(json['recomPlaylist']) : null;
