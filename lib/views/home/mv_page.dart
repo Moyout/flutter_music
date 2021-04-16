@@ -1,8 +1,11 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/mv/mv_viewmodel.dart';
+import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:video_player/video_player.dart';
 
 class MVPage extends StatefulWidget {
   @override
@@ -18,6 +21,7 @@ class _MVPageState extends State<MVPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    MvViewModel mvModel = context.watch<MvViewModel>();
     super.build(context);
     return Scaffold(
       body: Column(
@@ -31,14 +35,69 @@ class _MVPageState extends State<MVPage> with AutomaticKeepAliveClientMixin {
               onLoading: () => context.read<MvViewModel>().loadMore(),
               onOffsetChange: (bool up, double offset) {},
               controller: context.watch<MvViewModel>().reController,
-              child: ListView.builder(
-                itemExtent: 100,
-                itemCount: context.watch<MvViewModel>().count,
-                padding: EdgeInsets.only(bottom: 30),
-                itemBuilder: (_, index) {
-                  return Text("$index");
-                },
-              ),
+              child: context.read<NavViewModel>().netMode == ConnectivityResult.none
+                  ? Center(child: Text("请检查网络", style: TextStyle(color: Colors.red)))
+                  : mvModel.mvrModel != null
+                      ? ListView.builder(
+                          itemExtent: 240.w,
+                          itemCount: context.watch<MvViewModel>().count,
+                          padding: EdgeInsets.only(bottom: 30),
+                          itemBuilder: (_, index) {
+                            return GestureDetector(
+                              onTap: () => context.read<MvViewModel>().playMV(index),
+                              child: Container(
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    mvModel.isBoolList[index]
+                                        ? VideoPlayer(mvModel.vpController)
+                                        : Image.network(
+                                            mvModel.mvrModel!.request!.data!.rankList![index].videoInfo!.coverPic!,
+                                            fit: BoxFit.fitWidth,
+                                          ),
+                                    Positioned(
+                                      top: 10.w,
+                                      left: 10.w,
+                                      child: Offstage(
+                                        offstage: !mvModel.isBoolList[index],
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 8.w,
+                                              height: 8.w,
+                                              decoration: BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+                                            ),
+                                            Text("正在播放", style: TextStyle(color: Colors.white))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    AnimatedSwitcher(
+                                      transitionBuilder: (child, anim) {
+                                        context.read<MvViewModel>().opacity = anim.value;
+                                        return ScaleTransition(child: child, scale: anim);
+                                      },
+                                      duration: Duration(milliseconds: 500),
+                                      child: Offstage(
+                                        key: ValueKey(mvModel.isBoolList[index]),
+                                        offstage: mvModel.isBoolList[index],
+                                        child: Icon(
+                                          mvModel.isBoolList[index]
+                                              ? Icons.pause_circle_filled_rounded
+                                              : Icons.play_circle_fill_rounded,
+                                          size: 60,
+                                          key: ValueKey(mvModel.isBoolList[index]),
+                                          color: Theme.of(context).dividerColor.withOpacity(0.5),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : const SizedBox(),
             ),
           ),
           Container(color: Colors.transparent, height: 50.w)

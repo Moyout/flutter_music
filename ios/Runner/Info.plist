@@ -48,5 +48,12 @@
     	</dict>
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>分享文件</string>
+
+    <key>NSAppTransportSecurity</key>
+        <dict>
+            <key>NSAllowsArbitraryLoads</key>
+            <true/>
+        </dict>
+
 </dict>
 </plist>
