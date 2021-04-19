@@ -1,11 +1,9 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/mv/mv_viewmodel.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:video_player/video_player.dart';
 
 class MVPage extends StatefulWidget {
   @override
@@ -18,6 +16,14 @@ class _MVPageState extends State<MVPage> with AutomaticKeepAliveClientMixin {
     context.read<MvViewModel>().initViewModel();
     super.initState();
   }
+
+  // @override
+  // void dispose() {
+  //   context.read<MvViewModel>().vpController.dispose();
+  //   context.read<MvViewModel>().chewieController?.pause();
+  //   super.dispose();
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +56,12 @@ class _MVPageState extends State<MVPage> with AutomaticKeepAliveClientMixin {
                                   alignment: Alignment.center,
                                   children: [
                                     mvModel.isBoolList[index]
-                                        ? VideoPlayer(mvModel.vpController)
+                                        // ? VideoPlayer(mvModel.vpController)
+                                        ? Chewie(
+                                            controller: mvModel.chewieController!,
+                                            title: "《${mvModel.mvrModel!.request!.data!.rankList![index].videoInfo!.name}》 -" +
+                                                "  ${mvModel.mvrModel!.request!.data!.rankList![index].videoInfo!.singers![0].name}",
+                                          )
                                         : Image.network(
                                             mvModel.mvrModel!.request!.data!.rankList![index].videoInfo!.coverPic!,
                                             fit: BoxFit.fitWidth,

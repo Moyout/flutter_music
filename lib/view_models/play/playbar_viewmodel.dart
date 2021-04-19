@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/mv/mv_viewmodel.dart';
 import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 
@@ -83,7 +84,8 @@ class PlayBarViewModel extends ChangeNotifier {
     playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
     if (playDetails.length > 0) {
       // picUrl = playDetails[1];
-      if (playDetails[1].length > 0) picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000${playDetails[1]}.jpg";
+      if (playDetails[1].length > 0)
+        picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000${playDetails[1]}.jpg";
       // notifyListeners();
     }
   }
@@ -99,6 +101,13 @@ class PlayBarViewModel extends ChangeNotifier {
   void getNowPlayMusic() {
     playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
     notifyListeners();
+    if (AppUtils.getContext().read<MvViewModel>().chewieController != null &&
+        AppUtils.getContext().read<MvViewModel>().chewieController!.isPlaying) {
+         AppUtils.getContext().read<MvViewModel>().chewieController?.pause();
+     }
+    // AppUtils.getContext().read<MvViewModel>().vpController.pause();
+    // AppUtils.getContext().read<MvViewModel>().chewieController?.pause();
+    // print( AppUtils.getContext().read<MvViewModel>().vpController.value);
     if (audioPlayer?.state == null) {
       if (playDetails.length > 0) {
         AppUtils.getContext().read<SearchViewModel>().onPlay(playDetails[0]).then((value) {

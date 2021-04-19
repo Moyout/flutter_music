@@ -64,6 +64,9 @@ dependencies:
   connectivity: ^3.0.3
   # 视频播放
   video_player: ^2.1.1
+  # 屏幕唤醒锁
+  wakelock: ^0.5.1
+#  chewie: 1.0.0
 
 
 #  path_provider: ^1.6.22

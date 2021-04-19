@@ -1,15 +1,15 @@
 import 'package:flutter_music/models/mv/mv_detail_model.dart';
 import 'package:flutter_music/models/mv/mv_ranklist_model.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:video_player/video_player.dart';
 
 class MvViewModel extends ChangeNotifier {
   RefreshController reController = RefreshController();
   MvRankListModel? mvrModel;
   List<bool> isBoolList = [];
   late VideoPlayerController vpController;
-
+  ChewieController? chewieController;
   double opacity = 1; //透明度
   int count = 4; //mv数量
 
@@ -52,17 +52,27 @@ class MvViewModel extends ChangeNotifier {
     }
   }
 
+  void initVPController() {
+    if (AppUtils.getContext().read<PlayBarViewModel>().isPlay) {
+      AppUtils.getContext().read<PlayBarViewModel>().getNowPlayMusic();
+    }
+  }
+
   ///播放MV操作
   playMV(int index) async {
+    initVPController();
     if (!isBoolList[index]) {
       List.generate(isBoolList.length, (index) => isBoolList[index] = false);
-      await MvDetailRequest.getMvDetail(mvrModel!.request!.data!.rankList![index].videoInfo!.vid!).then((value) {
+      await MvDetailRequest.getMvDetail(mvrModel!.request!.data!.rankList![index].videoInfo!.vid!).then((value) async {
         if (value != null) {
-          vpController = VideoPlayerController.network(value)
-            ..initialize().then((_) {
-              vpController.play();
-              notifyListeners();
-            });
+          vpController = VideoPlayerController.network(value);
+          await vpController.initialize();
+          chewieController = ChewieController(
+            videoPlayerController: vpController,
+            autoPlay: true,
+            looping: true,
+            playbackSpeeds: [0.5, 1, 1.5, 2],
+          );
         } else {
           Toast.showBotToast("获取MV失败");
         }

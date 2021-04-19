@@ -147,11 +147,18 @@ class LoginViewModel extends ChangeNotifier {
         await LoginRequest.getLogin(userName: textC.text, passWord: textPswC.text).then((value) async {
           BotToast.showText(text: value.message.toString());
           if (value.message == "登录成功!") {
-            RouteUtil.pop(AppUtils.getContext());
+            teddyStatus = "success";
+            notifyListeners();
+
             isLogin = true;
             userName = value.userName ?? "";
             await SpUtil.setString(PublicKeys.token, value.token ?? "");
+            await Future.delayed(Duration(milliseconds: 1500), () {
+              RouteUtil.pop(AppUtils.getContext());
+            });
             notifyListeners();
+          } else {
+            setTeddyFail();
           }
         });
       } else

@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_music/models/login/login_model.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/login/login_viewmodel.dart';
+import 'package:flutter_music/view_models/mv/mv_viewmodel.dart';
 import 'package:flutter_music/views/navigation_page.dart';
 
 class NavViewModel extends ChangeNotifier {
@@ -46,6 +47,8 @@ class NavViewModel extends ChangeNotifier {
           });
         }
       }
+
+
       notifyListeners();
     }
   }
