@@ -115,7 +115,9 @@ class LoginViewModel extends ChangeNotifier {
   void sendCode() {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       KeyboardUtil.closeKeyboardUtil();
-      if (isEmail(textEmailC.text) && textC.text.length >= 6 && textPswC.text.length >= 6) {
+      if (isEmail(textEmailC.text) &&
+          textC.text.length >= 6 &&
+          textPswC.text.length >= 6) {
         await SendCodeRequest.sendCode(textEmailC.text).then((value) {
           BotToast.showText(text: value.message.toString());
         });
@@ -144,7 +146,9 @@ class LoginViewModel extends ChangeNotifier {
         BotToast.showText(text: "请输入完整信息");
     } else {
       if (textC.text.length > 0 && textPswC.text.length >= 6) {
-        await LoginRequest.getLogin(userName: textC.text, passWord: textPswC.text).then((value) async {
+        await LoginRequest.getLogin(
+                userName: textC.text, passWord: textPswC.text)
+            .then((value) async {
           BotToast.showText(text: value.message.toString());
           if (value.message == "登录成功!") {
             teddyStatus = "success";

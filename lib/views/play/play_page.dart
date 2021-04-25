@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter_music/util/tools.dart';
-import 'file:///C:/Users/Administrator/Desktop/AndroidStudioProjects/flutter_music/lib/views/play/play_detail_tab.dart';
 import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
+import 'package:flutter_music/views/play/play_detail_tab.dart';
 import 'package:flutter_music/views/play/play_lyric_tab.dart';
 import 'package:flutter_music/widget/button/myelevated_button.dart';
 
@@ -13,7 +13,8 @@ class PlayPage extends StatefulWidget {
   _PlayPageState createState() => _PlayPageState();
 }
 
-class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin {
+class _PlayPageState extends State<PlayPage>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
     context.read<PlayPageViewModel>().initViewModel(this);
@@ -45,7 +46,8 @@ class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
               child: Container(
-                padding: EdgeInsets.only(top: MediaQueryData.fromWindow(window).padding.top / 1.2),
+                padding: EdgeInsets.only(
+                    top: MediaQueryData.fromWindow(window).padding.top / 1.2),
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -61,7 +63,8 @@ class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin
                           tabBar(),
                           Spacer(),
                           MyElevatedButton(
-                            () => context.read<PlayPageViewModel>().shareMusic(),
+                            () =>
+                                context.read<PlayPageViewModel>().shareMusic(),
                             const IconData(0xe6b6, fontFamily: "MyIcons"),
                             size: 20.w,
                           ),

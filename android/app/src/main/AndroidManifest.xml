@@ -33,7 +33,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/launcher_icon"
-        android:label="flutter_music"
+        android:label="简音悦"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
 

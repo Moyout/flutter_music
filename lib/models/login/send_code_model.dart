@@ -5,6 +5,7 @@ class SendCodeRequest {
     String url = 'http://api.moyou.website/verificationCode?mailBox=$email';
     var response = await BaseRequest().toGet(url);
     SendCodeModel scModel = SendCodeModel.fromJson(response);
+
     return scModel;
   }
 }
