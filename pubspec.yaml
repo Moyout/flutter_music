@@ -31,7 +31,7 @@ dependencies:
   # Toast
   bot_toast: ^4.0.0+1
   # Dio 网络请求
-  dio: ^3.0.10
+  dio: ^4.0.0
   # 状态管理
   provider: ^5.0.0
   # 本地持久化存储
@@ -68,7 +68,10 @@ dependencies:
   wakelock: ^0.5.1
   #  视频播放控制框
   #  chewie: 1.0.0  ()
-
+  # 图片选择
+  image_picker: ^0.7.4
+  # 图片裁剪
+  image_cropper: ^1.4.0
 
 #  path_provider: ^1.6.22
 #  path_provider_windows: ^0.0.4

@@ -38,11 +38,19 @@ class _SetPageState extends State<SetPage> {
                     ),
                   ),
                 ),
+                ListTile(
+                  title: Text("上传头像"),
+                  onTap: () => context.read<SetViewModel>().setAvatar(),
+                  trailing: SizedBox(
+                    child: context.watch<SetViewModel>().croppedFile != null
+                        ? Image.file(context.watch<SetViewModel>().croppedFile!)
+                        : Icon(Icons.add_circle_outlined,size: 30.w,),
+                  ),
+                ),
                 SwitchListTile(
                   title: Text("边听边存"),
                   value: context.watch<SetViewModel>().listenCache,
-                  onChanged: (v) =>
-                      context.read<SetViewModel>().setListenAndSave(),
+                  onChanged: (v) => context.read<SetViewModel>().setListenAndSave(),
                 ),
                 SwitchListTile(
                   title: Text("开启小爪"),

@@ -17,47 +17,50 @@ class BaseRequest {
 
   BaseRequest._internal() {
     dio = Dio(BaseOptions(connectTimeout: 10000, receiveTimeout: 5000));
+    interceptor();
   }
 
   ///拦截器
   void interceptor() {
-    if (dio?.interceptors.length == 0) {
+    // if (dio?.interceptors.length == 0) {
       dio?.interceptors.add(InterceptorsWrapper(
-        onRequest: (RequestOptions options) {
+        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
           print("\n================== 请求数据 ==========================");
           print("url = ${options.uri.toString()}");
           print("headers = ${options.headers}");
           print("params = ${options.data}");
+          handler.next(options);
           Toast.showLoadingToast(seconds: 10, clickClose: false);
           // cancelToken.cancel();
         },
-        onResponse: (Response response) {
+        onResponse: (Response response, ResponseInterceptorHandler handler) {
           print("\n================== 响应数据 ==========================");
           print("code = ${response.statusCode}");
           print("data = ${response.data}");
           print("\n");
+          handler.next(response);
           Toast.closeLoading();
         },
-        onError: (DioError e) async {
+        onError: (DioError e, ErrorInterceptorHandler handler) async {
           print("\n================== 错误响应数据 ======================");
           print("type = ${e.type}");
           print("message = ${e.message}");
           print("\n");
+          handler.next(e);
+
           // Toast.showBotToast(e.message);
 
           /*error统一处理*/
-          if (e.type == DioErrorType.CONNECT_TIMEOUT)
+          if (e.type == DioErrorType.connectTimeout)
             Toast.showBotToast("连接超时");
-          else if (e.type == DioErrorType.SEND_TIMEOUT)
+          else if (e.type == DioErrorType.sendTimeout)
             Toast.showBotToast("请求超时");
-          else if (e.type == DioErrorType.RECEIVE_TIMEOUT)
+          else if (e.type == DioErrorType.receiveTimeout)
             Toast.showBotToast("响应超时");
-          else if (e.type == DioErrorType.RESPONSE)
+          else if (e.type == DioErrorType.response)
             Toast.showBotToast("出现异常");
-          else if (e.type == DioErrorType.CANCEL)
+          else if (e.type == DioErrorType.cancel)
             Toast.showBotToast("请求取消");
-          else if (e.type == DioErrorType.DEFAULT)
-            Toast.showBotToast("请求错误");
           else
             Toast.showBotToast("请求错误");
           Future.delayed(Duration(milliseconds: 1000), () {
@@ -65,7 +68,7 @@ class BaseRequest {
           });
         },
       ));
-    }
+    // }
   }
 
   ///get请求
@@ -75,11 +78,9 @@ class BaseRequest {
     Options? options,
   }) async {
     var result;
-    if (AppUtils.getContext().read<NavViewModel>().netMode ==
-        ConnectivityResult.none) {
+    if (AppUtils.getContext().read<NavViewModel>().netMode == ConnectivityResult.none) {
       Toast.showBotToast("请检查网络");
     } else {
-      interceptor();
       response = await dio?.get(
         url, queryParameters: parameters, options: options,
         // cancelToken: cancelToken,
@@ -102,11 +103,9 @@ class BaseRequest {
     Map<String, dynamic>? parameters,
     Options? options,
   }) async {
-    if (AppUtils.getContext().read<NavViewModel>().netMode ==
-        ConnectivityResult.none) {
+    if (AppUtils.getContext().read<NavViewModel>().netMode == ConnectivityResult.none) {
       Toast.showBotToast("请检查网络");
     } else {
-      interceptor();
       response = await dio!
           .post(
         url,
