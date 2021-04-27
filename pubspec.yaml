@@ -37,15 +37,15 @@ dependencies:
   # 本地持久化存储
   shared_preferences: any
   # 权限管理
-  permission_handler: ^5.1.0+2
+  permission_handler: ^7.0.0
   # Flare 动画
-  flare_flutter: ^2.0.6
+  flare_flutter: ^3.0.0
   # app图标
   flutter_launcher_icons: any
   # 异步锁
   synchronized: ^3.0.0
   # 音频播放器
-  audioplayers: ^0.17.4
+  audioplayers: ^0.18.3
   # 轮播图
   flutter_swiper: ^1.1.6
   # 获取图片颜色
@@ -53,13 +53,14 @@ dependencies:
   # SVG
   #  flutter_svg: ^0.19.3
   # 打开文件
-  share_extend: ^1.1.9
+  share_extend: ^2.0.0
   # webSocket
 #  web_socket_channel: ^1.2.0
   # Toast
   flutter_styled_toast: ^2.0.0
   # 下拉刷新
-  pull_to_refresh: ^1.6.5
+#  pull_to_refresh: ^1.6.5
+  pull_to_refresh: 1.6.4-nullsafety.0
   # 网络状态
   connectivity: ^3.0.3
   # 视频播放

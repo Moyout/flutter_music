@@ -12,7 +12,7 @@ class MyRefreshWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshConfiguration(
       headerBuilder: () => CustomHeader(
-        builder: (BuildContext context, RefreshStatus mode) {
+        builder: (BuildContext context, RefreshStatus? mode) {
           Widget body;
           if (mode == RefreshStatus.idle)
             body = Row(
@@ -53,7 +53,7 @@ class MyRefreshWidget extends StatelessWidget {
       ),
       // Configure the default header indicator. If you have the same header indicator for each page, you need to set this
       footerBuilder: () => CustomFooter(
-        builder: (BuildContext context, LoadStatus mode) {
+        builder: (BuildContext context, LoadStatus? mode) {
           Widget body;
           if (mode == LoadStatus.idle)
             body = Row(
@@ -100,7 +100,7 @@ class MyRefreshWidget extends StatelessWidget {
       // Disable pull-up to load more functionality when Viewport is less than one screen
       enableBallisticLoad: true,
       // trigger load more by BallisticScrollActivity
-      child: child,
+      child: child!,
     );
   }
 }

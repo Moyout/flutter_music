@@ -19,38 +19,38 @@ public class MainActivity extends FlutterActivity {
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
 
         super.configureFlutterEngine(flutterEngine);
-        getPermission(flutterEngine);
+//        getPermission(flutterEngine);
     }
 
-    //获取权限
-    private void getPermission(FlutterEngine flutterEngine) {
-        String name = "android/permission";
-        MethodChannel methodChannel = new MethodChannel(flutterEngine.getDartExecutor(), name);
-        methodChannel.setMethodCallHandler((methodCall, result) -> {
-//            String apkPath = methodCall.argument("apkPath");
-//            System.out.println(apkPath);
-
-            if (methodCall.method.equals("checkPermission")) {
-//                System.out.println(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q);
-//                System.out.println(Environment.getExternalStorageDirectory());
-
-                Intent intent = new Intent();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                    System.out.println(Environment.isExternalStorageLegacy());
-
-                    //Environment.isExternalStorageManager()
-                    if (!Environment.isExternalStorageLegacy()) {
-                        intent.setAction(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
-                        intent.setData(Uri.parse("package:" + getPackageName()));
-                        startActivityForResult(intent, 1024);
-                    } else {
-                        result.success(true);
-                    }
-                } else {
-                    result.success(true);
-                }
-            }
-        });
-    }
+//    //获取权限
+//    private void getPermission(FlutterEngine flutterEngine) {
+//        String name = "android/permission";
+//        MethodChannel methodChannel = new MethodChannel(flutterEngine.getDartExecutor(), name);
+//        methodChannel.setMethodCallHandler((methodCall, result) -> {
+////            String apkPath = methodCall.argument("apkPath");
+////            System.out.println(apkPath);
+//
+//            if (methodCall.method.equals("checkPermission")) {
+////                System.out.println(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q);
+////                System.out.println(Environment.getExternalStorageDirectory());
+//
+//                Intent intent = new Intent();
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+////                    System.out.println(Environment.isExternalStorageLegacy());
+//
+//                    //Environment.isExternalStorageManager()
+//                    if (!Environment.isExternalStorageLegacy()) {
+//                        intent.setAction(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+//                        intent.setData(Uri.parse("package:" + getPackageName()));
+//                        startActivityForResult(intent, 1024);
+//                    } else {
+//                        result.success(true);
+//                    }
+//                } else {
+//                    result.success(true);
+//                }
+//            }
+//        });
+//    }
 
 }

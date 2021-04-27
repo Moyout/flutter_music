@@ -32,3 +32,11 @@ samples, guidance on mobile development, and a full API reference.
 # flutter run --no-sound-null-safety
 
 #  flutter build apk --target-platform android-arm --split-per-abi --no-sound-null-safety
+
+#  keytool.exe -list -keystore C:\Users\Administrator\Desktop\AndroidStudioProjects\djt.jks -v
+
+
+# jks转keystore
+keytool -importkeystore -srckeystore C:\Users\Administrator\Desktop\AndroidStudioProjects\djt.jks -srcstoretype JKS -deststoretype PKCS12 -destkeystore test.p12
+  
+ keytool -v -importkeystore -srckeystore C:\Users\Administrator\Desktop\AndroidStudioProjects\test.p12 -srcstoretype PKCS12 -destkeystore C:\Users\Administrator\Desktop\AndroidStudioProjects\test.keystore -deststoretype JKS

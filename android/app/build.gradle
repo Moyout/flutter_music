@@ -24,8 +24,9 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     lintOptions {
         disable 'InvalidPackage'
@@ -35,7 +36,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.moyou.flutter_music"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -47,6 +48,23 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    signingConfigs {
+        release {
+            storeFile file("./djt.jks")
+            storePassword "daijintao."
+            keyAlias "moyou"
+            keyPassword "daijintao."
+            v2SigningEnabled true
+        }
+        debug {
+            storeFile file("./djt.jks")
+            storePassword "daijintao."
+            keyAlias "moyou"
+            keyPassword "daijintao."
+
+        }
+    }
+
 }
 
 flutter {
