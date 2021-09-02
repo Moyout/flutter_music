@@ -1,4 +1,5 @@
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_music/provider/click_effect_provider.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
@@ -14,13 +15,12 @@ class NavigationPage extends StatefulWidget {
   _NavigationPageState createState() => _NavigationPageState();
 }
 
-class _NavigationPageState extends State<NavigationPage>
-    with SingleTickerProviderStateMixin {
+class _NavigationPageState extends State<NavigationPage> {
   @override
   void initState() {
     super.initState();
     context.read<NavViewModel>().checkNet();
-    context.read<ClickEffectProvider>().initAnimationController(this);
+    // AppUtils.getContext().read<ClickEffectProvider>().initAnimationController(this);
   }
 
   @override
@@ -34,56 +34,55 @@ class _NavigationPageState extends State<NavigationPage>
     NavViewModel navModel = context.read<NavViewModel>();
     navModel.initSC(context);
     context.read<PlayBarViewModel>().initViewModel();
-    return MyBubble(
-      child: ClickEffectWidget(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: ScrollConfiguration(
-            behavior: OverScrollBehavior(),
-            child: Stack(
-              // fit: StackFit.expand,
-              alignment: Alignment.center,
-              children: <Widget>[
-                PageView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: context.watch<NavViewModel>().pageController,
-                  onPageChanged: (i) => navModel.pageTo(i),
-                  children: <Widget>[
-                    MusicHallPage(),
-                    MVPage(),
-                    PersonPage(),
-                  ],
-                ),
-                Positioned(
-                  bottom: 42.w + MediaQuery.of(context).padding.bottom / 2,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 45.w,
-                    child: Consumer<NavViewModel>(
-                      builder: (_, NavViewModel navModel, __) {
-                        return ListView(
-                          controller: navModel.sc,
-                          physics: BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            Container(
-                                width: MediaQuery.of(context).size.width - 50.w),
-                            PlayBarWidget(),
-                            Container(width: 60.w),
-                          ],
-                        );
-                      },
-                    ),
+    return ClickEffectWidget(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: ScrollConfiguration(
+          behavior: OverScrollBehavior(),
+          child: Stack(
+            // fit: StackFit.expand,
+            alignment: Alignment.center,
+            children: <Widget>[
+              PageView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: context.watch<NavViewModel>().pageController,
+                onPageChanged: (i) => navModel.pageTo(i),
+                children: <Widget>[
+                  MusicHallPage(),
+                  MVPage(),
+                  PersonPage(),
+                ],
+              ),
+              Positioned(
+                bottom: 42.w + MediaQuery.of(context).padding.bottom / 2,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 45.w,
+                  child: Consumer<NavViewModel>(
+                    builder: (_, NavViewModel navModel, __) {
+                      return ListView(
+                        controller: navModel.sc,
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Container(
+                              width:
+                                  MediaQuery.of(context).size.width - 50.w),
+                          PlayBarWidget(),
+                          Container(width: 60.w),
+                        ],
+                      );
+                    },
                   ),
                 ),
-                bottomBar(navModel, context),
-                // CustomPaint(
-                //   foregroundPainter: BubblePaintWidget(_path),
-                //   // painter: BubblePaintWidget(_points),
-                // ),
-                // PlayBarWidget(model, widget.model),
-              ],
-            ),
+              ),
+              bottomBar(navModel, context),
+              // CustomPaint(
+              //   foregroundPainter: BubblePaintWidget(_path),
+              //   // painter: BubblePaintWidget(_points),
+              // ),
+              // PlayBarWidget(model, widget.model),
+            ],
           ),
         ),
       ),

@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_music/provider/click_effect_provider.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 import 'package:flutter_music/views/search_page/hot_search_list.dart';
 import 'package:flutter_music/views/search_page/search_list.dart';
+import 'package:flutter_music/widget/bubble/click_effect_widget.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,19 +14,21 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateMixin {
+class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       context.read<SearchViewModel>().initViewModel();
     });
     context.read<SearchViewModel>().initTabController(this);
+
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return MyBubble(
+    return ClickEffectWidget(
       child: GestureDetector(
         onTap: () => KeyboardUtil.closeKeyboardUtil(),
         child: WillPopScope(

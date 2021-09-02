@@ -15,7 +15,7 @@ class MyCupertinoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyBubble(
+    return ClickEffectWidget(
       child: WillPopScope(
         onWillPop: () async {
           Navigator.of(context).pop();

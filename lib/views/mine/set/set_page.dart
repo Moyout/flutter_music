@@ -19,7 +19,7 @@ class _SetPageState extends State<SetPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MyBubble(
+    return ClickEffectWidget(
       child: Scaffold(
         appBar: MyAppBar(),
         body: SingleChildScrollView(

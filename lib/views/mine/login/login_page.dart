@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     LoginViewModel lvModelW = context.watch<LoginViewModel>();
     LoginViewModel lvModelR = context.read<LoginViewModel>();
-    return MyBubble(
+    return ClickEffectWidget(
       child: GestureDetector(
         onTap: () => lvModelR.onBlank(context),
         child: Scaffold(

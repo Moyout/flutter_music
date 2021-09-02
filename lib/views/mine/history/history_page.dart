@@ -14,7 +14,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     List list = SpUtil.getStringList(PublicKeys.playHistory) ?? [];
-    return MyBubble(
+    return ClickEffectWidget(
       child: Scaffold(
         appBar: MyAppBar(
           isShowLeading: false,

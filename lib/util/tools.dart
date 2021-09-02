@@ -27,3 +27,4 @@ export 'package:palette_generator/palette_generator.dart';
 export 'package:connectivity/connectivity.dart';
 export 'package:video_player/video_player.dart';
 export 'package:flutter_music/flutter/chewie/src/chewie_player.dart';
+export 'package:flutter_music/widget/bubble/click_effect_widget.dart';

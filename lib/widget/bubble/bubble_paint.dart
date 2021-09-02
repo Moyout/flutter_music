@@ -5,25 +5,22 @@
 import 'package:flutter_music/util/tools.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
+
 class BubblePaint extends CustomPainter {
   // final List<List<Offset>> path;
   final List<ClickEffect> path;
   final ui.Image? assetImageFrame;
   final AnimationController controller;
 
-  BubblePaint(this.path,
-      {this.assetImageFrame, required this.controller});
-
-  Paint _paint = Paint()
-    ..color = Colors.blue
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = 3;
+  BubblePaint(this.path, {this.assetImageFrame, required this.controller});
 
   void paint(Canvas canvas, Size size) {
     path.forEach((item) {
       // canvas.drawCircle(item.offset, 10.w, item.paint);
       // return ;
-      canvas.drawImage(assetImageFrame!, item.offset.translate(-20, -20),item. paint);
+      canvas.drawImage(
+          assetImageFrame!, item.offset.translate(-20, -20), item.paint);
     });
     if (path.length > 0) {
       bool opc = path.first.opacityChange(controller);
@@ -35,7 +32,11 @@ class BubblePaint extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // return false;
+    // return true;
+    return path.length != 0 ? true : false;
+  }
 }
 
 class ClickEffect {

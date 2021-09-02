@@ -9,7 +9,7 @@ class MyFavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
-    return MyBubble(
+    return ClickEffectWidget(
       child: Scaffold(
         appBar: MyAppBar(
           isShowLeading: false,

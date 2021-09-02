@@ -31,7 +31,7 @@ class _PlayPageState extends State<PlayPage>
 
   @override
   Widget build(BuildContext context) {
-    return MyBubble(
+    return ClickEffectWidget(
       child: Scaffold(
         body: Stack(
           children: [
