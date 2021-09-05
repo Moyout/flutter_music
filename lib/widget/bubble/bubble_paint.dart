@@ -5,10 +5,8 @@
 import 'dart:ui';
 
 import 'package:flutter_music/models/other/footprint_model.dart';
-import 'package:flutter_music/provider/click_effect_provider.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'dart:ui' as ui;
-
 import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 
 ///[ClickEffect]
@@ -28,12 +26,6 @@ class BubblePaint extends CustomPainter {
   BubblePaint(this.path, {this.assetImageFrame, required this.controller});
 
   void paint(Canvas canvas, Size size) {
-    // if(AppUtils.getContext().watch<ClickEffectProvider>().footprints)
-
-    // if (AppUtils.getContext().read<SetViewModel>().assetsFootprintString ==
-    //     AppUtils.getContext().read<SetViewModel>().footprints[2].assetImage) {
-    //   print("asdasdasd");
-    // }
     AppUtils.getContext().read<SetViewModel>().footprints.forEach((FootprintModel footItem) {
       if (footItem.clickEffect == ClickEffect.waterRipple && footItem.isSelect) {
         path.forEach((ClickEffectModel item) {
@@ -71,11 +63,9 @@ class BubblePaint extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    // return false;
-    // return true;
-
-      return true;
-   }
+    // return path.length == 0 ? false : true;
+    return true;
+  }
 }
 
 class ClickEffectModel {
@@ -90,11 +80,12 @@ class ClickEffectModel {
 
   bool opacityChange(AnimationController controller) {
     opacity = controller.value;
-    if (Colors.blue.opacity - double.parse(opacity.toStringAsFixed(1)) <= 0) return true;
     paint = Paint()
       ..color = Colors.blue.withOpacity(Colors.blue.opacity - double.parse(opacity.toStringAsFixed(1)))
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
+    if (Colors.blue.opacity - double.parse(opacity.toStringAsFixed(1)) <= 0) return true;
+
     return false;
   }
 }
