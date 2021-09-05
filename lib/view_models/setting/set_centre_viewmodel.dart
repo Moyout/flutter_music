@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter_music/common/keys/public_keys.dart';
+import 'package:flutter_music/models/other/footprint_model.dart';
+import 'package:flutter_music/provider/click_effect_provider.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/widget/bubble/bubble_paint.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 
@@ -13,6 +16,12 @@ class SetViewModel extends ChangeNotifier {
   bool openPaw = false;
   File? image;
   File? croppedFile;
+  String assetsFootprintString = "";
+  List<FootprintModel> footprints = [
+    FootprintModel("assets/images/paw.png"),
+    FootprintModel("assets/images/icons/click.png"),
+    FootprintModel("assets/images/icons/click2.png", clickEffect: ClickEffect.waterRipple),
+  ];
 
   ///初始化ViewModel
   void initViewModel() {
@@ -27,6 +36,13 @@ class SetViewModel extends ChangeNotifier {
       !isDark ? status = dayIdle : status = nightIdle;
       listenCache = SpUtil.getBool(PublicKeys.darkTheme) ?? false;
       openPaw = SpUtil.getBool(PublicKeys.openPaw) ?? false;
+      assetsFootprintString = SpUtil.getString(PublicKeys.assetFootprintString) ?? "";
+      if (assetsFootprintString.length > 0) {
+        AppUtils.getContext().read<ClickEffectProvider>().setAssetImage(assetImagesString: assetsFootprintString);
+        footprints.forEach((item) {
+          if (item.assetImage == assetsFootprintString) item.isSelect = true;
+        });
+      }
       notifyListeners();
     });
   }
@@ -52,17 +68,30 @@ class SetViewModel extends ChangeNotifier {
     }
   }
 
-  ///边听边存
-  Future<void> setListenAndSave() async {
-    listenCache = !listenCache;
-    await SpUtil.setBool(PublicKeys.listenCache, listenCache);
-    notifyListeners();
-  }
+  // ///边听边存
+  // Future<void> setListenAndSave() async {
+  //   listenCache = !listenCache;
+  //   await SpUtil.setBool(PublicKeys.listenCache, listenCache);
+  //   notifyListeners();
+  // }
 
   ///开启小爪
   Future<void> setPaw() async {
     openPaw = !openPaw;
     await SpUtil.setBool(PublicKeys.openPaw, openPaw);
+    if (openPaw) {
+      assetsFootprintString = SpUtil.getString(PublicKeys.assetFootprintString) ?? "";
+      print(assetsFootprintString);
+      if (assetsFootprintString.length == 0) {
+        assetsFootprintString = "assets/images/paw.png";
+        await SpUtil.setString(PublicKeys.assetFootprintString, assetsFootprintString);
+        footprints.forEach((item) {
+          if (item.assetImage == assetsFootprintString) item.isSelect = true;
+        });
+      } else {
+        AppUtils.getContext().read<ClickEffectProvider>().setAssetImage(assetImagesString: assetsFootprintString);
+      }
+    }
     notifyListeners();
   }
 
@@ -105,10 +134,17 @@ class SetViewModel extends ChangeNotifier {
         lockAspectRatio: true,
         hideBottomControls: false,
       ),
-      iosUiSettings: IOSUiSettings(
-        minimumAspectRatio: 1.0,
-      ),
+      iosUiSettings: IOSUiSettings(minimumAspectRatio: 1.0),
     );
+    notifyListeners();
+  }
+
+  Future<void> selectFootprint(int index) async {
+    footprints.forEach((FootprintModel item) => item.isSelect = false);
+    footprints[index].isSelect = true;
+    await SpUtil.setString(PublicKeys.assetFootprintString, footprints[index].assetImage);
+    AppUtils.getContext().read<ClickEffectProvider>().setAssetImage(assetImagesString: footprints[index].assetImage);
+    // print(footprints.elementAt(index).isSelect=true);
     notifyListeners();
   }
 }

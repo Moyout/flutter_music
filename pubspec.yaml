@@ -45,7 +45,7 @@ dependencies:
   # 异步锁
   synchronized: ^3.0.0
   # 音频播放器
-  audioplayers: ^0.18.3
+  audioplayers: ^0.19.1
   # 轮播图
   flutter_swiper: ^1.1.6
   # 获取图片颜色
@@ -73,6 +73,7 @@ dependencies:
   image_picker: ^0.7.4
   # 图片裁剪
   image_cropper: ^1.4.0
+
 
 #  path_provider: ^1.6.22
 #  path_provider_windows: ^0.0.4
@@ -116,6 +117,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/images/icons/
 #    - assets/svg/
   # To add assets to your application, add an assets section, like this:
   # assets:

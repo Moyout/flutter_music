@@ -16,4 +16,5 @@ class PublicKeys {
   static const String sdcardRoot = "/storage/emulated/0/"; //android手机存储根目录
   static const String musicRoot = "/storage/emulated/0/SimpleMusic/music/"; //Android的music目录
   static const String token = "userToken"; //user token
+  static const String assetFootprintString   = "assetFootprintString"; //assetFootprintString
 }

@@ -2,27 +2,65 @@
 ///author: DJT
 ///created on: 2021/8/25 10:30
 ///
+import 'dart:ui';
+
+import 'package:flutter_music/models/other/footprint_model.dart';
+import 'package:flutter_music/provider/click_effect_provider.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'dart:ui' as ui;
 
 import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 
+///[ClickEffect]
+/// [ordinaryImage]普通图片效果
+///[waterRipple] 水波纹效果
+enum ClickEffect {
+  Image,
+  waterRipple,
+}
+
 class BubblePaint extends CustomPainter {
   // final List<List<Offset>> path;
-  final List<ClickEffect> path;
+  final List<ClickEffectModel> path;
   final ui.Image? assetImageFrame;
   final AnimationController controller;
 
   BubblePaint(this.path, {this.assetImageFrame, required this.controller});
 
   void paint(Canvas canvas, Size size) {
-    path.forEach((item) {
-      // canvas.drawCircle(item.offset, 10.w, item.paint);
-      // return ;
-      canvas.drawImage(
-          assetImageFrame!, item.offset.translate(-20, -20), item.paint);
+    // if(AppUtils.getContext().watch<ClickEffectProvider>().footprints)
+
+    // if (AppUtils.getContext().read<SetViewModel>().assetsFootprintString ==
+    //     AppUtils.getContext().read<SetViewModel>().footprints[2].assetImage) {
+    //   print("asdasdasd");
+    // }
+    AppUtils.getContext().read<SetViewModel>().footprints.forEach((FootprintModel footItem) {
+      if (footItem.clickEffect == ClickEffect.waterRipple && footItem.isSelect) {
+        path.forEach((ClickEffectModel item) {
+          // canvas.drawPoints(PointMode.points, [item.offset], item.paint..strokeWidth=20.w);
+          canvas.drawCircle(item.offset, 10.w * controller.value, item.paint);
+          canvas.drawCircle(
+            item.offset,
+            14.w * controller.value,
+            item.paint
+              ..color = item.paint.color.withOpacity(0.2)
+              ..strokeWidth = 8.w,
+          );
+          // return ;
+          // canvas.drawImage(assetImageFrame!, item.offset.translate(-20, -20), item.paint);
+        });
+      } else if (footItem.isSelect) {
+        path.forEach((ClickEffectModel item) {
+          canvas.drawImage(assetImageFrame!, item.offset.translate(-20, -20), item.paint);
+        });
+      }
     });
-    if (path.length > 0) {
+    // path.forEach((item) {
+    //   // canvas.drawCircle(item.offset, 10.w, item.paint);
+    //   // return ;
+    //   canvas.drawImage(assetImageFrame!, item.offset.translate(-20, -20), item.paint);
+    // });
+    if (path.length != 0) {
       bool opc = path.first.opacityChange(controller);
       if (opc) {
         path.removeAt(0);
@@ -35,11 +73,12 @@ class BubblePaint extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     // return false;
     // return true;
-    return path.length != 0 ? true : false;
-  }
+
+      return true;
+   }
 }
 
-class ClickEffect {
+class ClickEffectModel {
   double opacity = 1;
   Offset offset = Offset.zero;
   Paint paint = Paint()
@@ -47,15 +86,13 @@ class ClickEffect {
     ..style = PaintingStyle.stroke
     ..strokeWidth = 3;
 
-  ClickEffect(this.offset, {this.opacity = 1});
+  ClickEffectModel(this.offset, {this.opacity = 1});
 
   bool opacityChange(AnimationController controller) {
     opacity = controller.value;
-    if (Colors.blue.opacity - double.parse(opacity.toStringAsFixed(1)) <= 0)
-      return true;
+    if (Colors.blue.opacity - double.parse(opacity.toStringAsFixed(1)) <= 0) return true;
     paint = Paint()
-      ..color = Colors.blue.withOpacity(
-          Colors.blue.opacity - double.parse(opacity.toStringAsFixed(1)))
+      ..color = Colors.blue.withOpacity(Colors.blue.opacity - double.parse(opacity.toStringAsFixed(1)))
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
     return false;

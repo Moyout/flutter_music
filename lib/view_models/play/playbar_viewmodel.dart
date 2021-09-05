@@ -118,13 +118,13 @@ class PlayBarViewModel extends ChangeNotifier {
           }
         });
       }
-    } else if (audioPlayer?.state == AudioPlayerState.PAUSED) {
+    } else if (audioPlayer?.state == PlayerState.PAUSED) {
       audioPlayer?.resume();
       isPlay = true;
       controller?.forward();
       AppUtils.getContext().read<PlayPageViewModel>().recordC?.forward();
       AppUtils.getContext().read<PlayPageViewModel>().animationC?.forward();
-    } else if (audioPlayer?.state == AudioPlayerState.PLAYING) {
+    } else if (audioPlayer?.state == PlayerState.PLAYING) {
       isPlay = false;
       audioPlayer?.pause();
       controller?.stop();

@@ -4,7 +4,7 @@ import 'package:flutter_music/util/tools.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MyRefreshWidget extends StatelessWidget {
-  final MaterialApp? child;
+  final Widget? child;
 
   MyRefreshWidget({this.child});
 

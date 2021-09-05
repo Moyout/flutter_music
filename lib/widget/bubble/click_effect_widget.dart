@@ -20,7 +20,7 @@ class _ClickEffectWidgetState extends State<ClickEffectWidget>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    AppUtils.getContext().read<ClickEffectProvider>().getAssetImage();
+    AppUtils.getContext().read<ClickEffectProvider>().setAssetImage();
     AppUtils.getContext()
         .read<ClickEffectProvider>()
         .initAnimationController(this);
