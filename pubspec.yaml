@@ -47,7 +47,8 @@ dependencies:
   # 音频播放器
   audioplayers: ^0.19.1
   # 轮播图
-  flutter_swiper: ^1.1.6
+  #  flutter_swiper: ^1.1.6 (非空安全)
+  flutter_swiper_null_safety: ^1.0.2
   # 获取图片颜色
   palette_generator: ^0.3.0
   # SVG
@@ -74,6 +75,8 @@ dependencies:
   # 图片裁剪
   image_cropper: ^1.4.0
 
+  # webview
+  webview_flutter: ^2.0.12
 
 #  path_provider: ^1.6.22
 #  path_provider_windows: ^0.0.4

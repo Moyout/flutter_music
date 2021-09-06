@@ -1,3 +1,4 @@
+import 'package:flutter_music/models/music_hall/banner_model.dart';
 import 'package:flutter_music/models/music_hall/songsheet_detailed_model.dart';
 import 'package:flutter_music/models/music_hall/songsheet_model/recommend_songsheet_model.dart';
 import 'package:flutter_music/util/tools.dart';
@@ -7,6 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class MusicHallViewModel extends ChangeNotifier {
   RecommendSongSheetModel r17model = RecommendSongSheetModel();
   SongSheetDetailedModel ssdModel = SongSheetDetailedModel();
+  BannerModel bannerModel = BannerModel();
   RefreshController rController = RefreshController();
   PaletteGenerator? paletteGenerator;
   Color bgColor = Color(0xffffffff);
@@ -14,6 +16,13 @@ class MusicHallViewModel extends ChangeNotifier {
   ///初始化
   void initViewModel() {
     getRecommendSongSheet();
+    getBanner();
+  }
+
+  ///获取[玩安卓]banner
+  Future<void> getBanner() async {
+    bannerModel = (await BannerModelRequest.getBannerList())!;
+    notifyListeners();
   }
 
   ///获取推荐歌单

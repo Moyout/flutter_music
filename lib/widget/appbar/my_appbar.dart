@@ -4,13 +4,20 @@ class MyAppBar extends AppBar {
   final Widget? title;
   final bool isShowLeading;
   final List<Widget>? actions;
+  final PreferredSizeWidget? bottom;
+  final IconData? icon;
 
-  MyAppBar({this.title, this.isShowLeading = true, this.actions})
-      : super(
+  MyAppBar({
+    this.title,
+    this.isShowLeading = true,
+    this.actions,
+    this.bottom,
+    this.icon = Icons.arrow_back_outlined,
+  }) : super(
           leading: isShowLeading
               ? MyElevatedButton(
                   () => RouteUtil.pop(AppUtils.getContext()),
-                  Icons.arrow_back_outlined,
+                  icon,
                 )
               : Container(),
           title: title,
@@ -18,5 +25,6 @@ class MyAppBar extends AppBar {
           elevation: 0,
           centerTitle: true,
           actions: actions,
+          bottom: bottom,
         );
 }

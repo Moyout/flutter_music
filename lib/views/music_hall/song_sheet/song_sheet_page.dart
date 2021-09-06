@@ -23,14 +23,16 @@ class _SongSheetPageState extends State<SongSheetPage> {
   @override
   Widget build(BuildContext context) {
     MusicHallViewModel mHVModel = context.watch<MusicHallViewModel>();
-    return Scaffold(
-      body: ScrollConfiguration(
-        behavior: OverScrollBehavior(),
-        child: CustomScrollView(
-          slivers: [
-            if (mHVModel.ssdModel.cdlist != null) buildSliverAppBar(mHVModel),
-            if (mHVModel.ssdModel.cdlist != null) buildSliverFixedExtentList(mHVModel),
-          ],
+    return ClickEffectWidget(
+      child: Scaffold(
+        body: ScrollConfiguration(
+          behavior: OverScrollBehavior(),
+          child: CustomScrollView(
+            slivers: [
+              if (mHVModel.ssdModel.cdlist != null) buildSliverAppBar(mHVModel),
+              if (mHVModel.ssdModel.cdlist != null) buildSliverFixedExtentList(mHVModel),
+            ],
+          ),
         ),
       ),
     );
