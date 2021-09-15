@@ -25,7 +25,6 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ClickEffectWidget(
@@ -153,11 +152,14 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                 ),
                 if (svModelW.tabController != null)
                   Container(
-                    height: AppUtils.getHeight() * 0.76,
+                    height: 10 * 60.w,
                     child: TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       controller: svModelW.tabController,
-                      children: [HotSearchList(svModelW), SearchList(svModelW)],
+                      children: [
+                        HotSearchList(svModelW),
+                        SearchList(svModelW),
+                      ],
                     ),
                   ),
               ],

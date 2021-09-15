@@ -60,12 +60,12 @@ class _WebViewWidgetState extends State<WebViewWidget> {
         body: WebView(
           onWebViewCreated: (WebViewController controller) => webC = controller,
           navigationDelegate: (NavigationRequest request) {
-            //对于需要拦截的操作 做判断
-            if (request.url.startsWith("bilibili://")) {
-              return NavigationDecision.prevent;
+            //不需要拦截的操作 做判断
+            if (request.url.startsWith("http://") || request.url.startsWith("https://")) {
+              return NavigationDecision.navigate;
             }
-            //不需要拦截的操作
-            return NavigationDecision.navigate;
+            //需要拦截的操作
+            return NavigationDecision.prevent;
           },
           javascriptMode: JavascriptMode.unrestricted,
           initialUrl: widget.url,

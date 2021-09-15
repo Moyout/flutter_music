@@ -103,12 +103,13 @@ class PlayBarViewModel extends ChangeNotifier {
     notifyListeners();
     if (AppUtils.getContext().read<MvViewModel>().chewieController != null &&
         AppUtils.getContext().read<MvViewModel>().chewieController!.isPlaying) {
-         AppUtils.getContext().read<MvViewModel>().chewieController?.pause();
-     }
+      AppUtils.getContext().read<MvViewModel>().chewieController?.pause();
+    }
     // AppUtils.getContext().read<MvViewModel>().vpController.pause();
     // AppUtils.getContext().read<MvViewModel>().chewieController?.pause();
     // print( AppUtils.getContext().read<MvViewModel>().vpController.value);
-    if (audioPlayer?.state == null) {
+     if (audioPlayer?.state == null||audioPlayer?.state==PlayerState.STOPPED) {
+    // if (audioPlayer?.state == null) {
       if (playDetails.length > 0) {
         AppUtils.getContext().read<SearchViewModel>().onPlay(playDetails[0]).then((value) {
           if (value != null) {
