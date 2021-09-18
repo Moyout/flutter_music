@@ -8,6 +8,8 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 
+import com.moyou.flutter_music.flutter_method_channel.FlutterMethodChannel;
+
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
@@ -20,7 +22,28 @@ public class MainActivity extends FlutterActivity {
 
         super.configureFlutterEngine(flutterEngine);
 //        getPermission(flutterEngine);
+        FlutterMethodChannel flutterMethodChannel = new FlutterMethodChannel();
+        flutterMethodChannel.backToDesktop(flutterEngine,this);
     }
+
+//    private void backToDesktop(FlutterEngine flutterEngine) {
+//        String channelName = "backToDesktopChannelName";
+//        MethodChannel methodChannel = new MethodChannel(flutterEngine.getDartExecutor(), channelName);
+//        methodChannel.setMethodCallHandler((methodCall, result) -> {
+//            if (methodCall.method.equals("backToDesktop")) {
+//                try {
+//                    Intent home = new Intent(Intent.ACTION_MAIN);
+//                    home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    home.addCategory(Intent.CATEGORY_HOME);
+//                    startActivity(home);
+//                    result.success(true);
+//                } catch (Error error) {
+//                    result.success(false);
+//                }
+//            }
+//        });
+//    }
+
 
 //    //获取权限
 //    private void getPermission(FlutterEngine flutterEngine) {

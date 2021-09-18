@@ -2,7 +2,7 @@ import 'package:flutter_music/util/tools.dart';
 
 class SendCodeRequest {
   static Future<SendCodeModel> sendCode(String email) async {
-    String url = 'http://api.moyou.website/verificationCode?mailBox=$email';
+    String url = 'http://106.52.246.134:5000/verificationCode?mailBox=$email';
     var response = await BaseRequest().toGet(url);
     SendCodeModel scModel = SendCodeModel.fromJson(response);
 

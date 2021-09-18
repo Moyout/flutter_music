@@ -9,7 +9,7 @@ class LoginRequest {
   }) async {
     Map<String, dynamic> map = {"userName": userName ?? "", "passWord": passWord ?? ""};
     var response = await BaseRequest().toPost(
-      "http://api.moyou.website/login",
+      "http://106.52.246.134:5000/login",
       data: FormData.fromMap(map),
       options: Options(headers: headers),
     );

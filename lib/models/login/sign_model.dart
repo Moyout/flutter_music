@@ -8,7 +8,7 @@ class SignRequest {
     String code,
   ) async {
     String url =
-        'http://api.moyou.website/sign?userName=$userName&passWord=$passWord&mailBox=$email&verificationCode=$code';
+        'http://106.52.246.134:5000/sign?userName=$userName&passWord=$passWord&mailBox=$email&verificationCode=$code';
     var response = await BaseRequest().toPost(url);
     SignModel sModel = SignModel.fromJson(response);
     return sModel;

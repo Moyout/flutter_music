@@ -58,48 +58,114 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                             BannerWidget(),
                             Column(
                               children: [
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(15.w, 10.w, 15.w, 10.w),
+                                  margin: EdgeInsets.only(top: 10.w),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      print("asd");
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "推荐歌单",
+                                          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                                        ),
+                                        Icon(Icons.chevron_right, size: 20.w)
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 mHVModel.r17model.recomPlaylist?.data == null
                                     ? Padding(
                                         padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
                                         child: Center(child: CircularProgressIndicator()),
                                       )
-                                    : Wrap(
-                                        alignment: WrapAlignment.center,
-                                        children: [
-                                          ...List.generate(mHVModel.r17model.recomPlaylist!.data!.vHot!.length,
-                                              (index) {
-                                            return Material(
-                                              color: Colors.transparent,
-                                              child: InkWell(
+                                    : Container(
+                                        alignment: Alignment.center,
+                                        // color: Colors.pink[200],
+                                        child: Wrap(
+                                          // alignment: WrapAlignment.spaceEvenly,
+                                          runSpacing: 28.w,
+                                          spacing: 10.w,
+                                           children: [
+                                            ...List.generate(6,
+                                                (index) {
+                                              return GestureDetector(
                                                 onTap: () => RouteUtil.push(
                                                     context,
                                                     SongSheetPage(mHVModel
                                                         .r17model.recomPlaylist!.data!.vHot![index].contentId!)),
                                                 child: Container(
-                                                  height: 180.w,
-                                                  width: 180.w,
-                                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
-                                                  child: Stack(
+                                                  // height: 120.w,
+                                                  width: 125.w,
+                                                  // padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+                                                  child: Column(
                                                     children: [
-                                                      FadeInImage.assetNetwork(
-                                                        image:
-                                                            "${mHVModel.r17model.recomPlaylist!.data?.vHot?[index].cover}",
-                                                        fit: BoxFit.contain,
-                                                        placeholder: "assets/images/logo.webp",
+                                                      Material(
+                                                        clipBehavior: Clip.antiAlias,
+                                                        borderRadius: BorderRadius.circular(8.w),
+                                                        child: FadeInImage.assetNetwork(
+                                                          image:
+                                                              "${mHVModel.r17model.recomPlaylist!.data?.vHot?[index].cover}",
+                                                          fit: BoxFit.contain,
+                                                          placeholder: "assets/images/logo.webp",
+                                                        ),
                                                       ),
+                                                      SizedBox(height: 5.w),
                                                       Text(
                                                         "${mHVModel.r17model.recomPlaylist!.data?.vHot?[index].title}",
                                                         style: TextStyle(fontSize: 14.sp),
-                                                        textAlign: TextAlign.center,
+                                                        // textAlign: TextAlign.center,
+                                                        // textDirection: TextDirection.ltr,
                                                       ),
                                                     ],
                                                   ),
                                                 ),
-                                              ),
-                                            );
-                                          }),
-                                        ],
-                                      ),
+                                              );
+                                            }),
+                                          ],
+                                        ),
+                                      )
+
+                                // : Wrap(
+                                //     alignment: WrapAlignment.center,
+                                //     children: [
+                                //       ...List.generate(mHVModel.r17model.recomPlaylist!.data!.vHot!.length,
+                                //           (index) {
+                                //         return Material(
+                                //           color: Colors.transparent,
+                                //           child: InkWell(
+                                //             onTap: () => RouteUtil.push(
+                                //                 context,
+                                //                 SongSheetPage(mHVModel
+                                //                     .r17model.recomPlaylist!.data!.vHot![index].contentId!)),
+                                //             child: Container(
+                                //               height: 180.w,
+                                //               width: 180.w,
+                                //               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
+                                //               child: Stack(
+                                //                 children: [
+                                //                   FadeInImage.assetNetwork(
+                                //                     image:
+                                //                         "${mHVModel.r17model.recomPlaylist!.data?.vHot?[index].cover}",
+                                //                     fit: BoxFit.contain,
+                                //                     placeholder: "assets/images/logo.webp",
+                                //                   ),
+                                //                   Text(
+                                //                     "${mHVModel.r17model.recomPlaylist!.data?.vHot?[index].title}",
+                                //                     style: TextStyle(fontSize: 14.sp),
+                                //                     textAlign: TextAlign.center,
+                                //                   ),
+                                //                 ],
+                                //               ),
+                                //             ),
+                                //           ),
+                                //         );
+                                //       }),
+                                //     ],
+                                //   ),
                               ],
                             ),
                             SizedBox(height: 50)

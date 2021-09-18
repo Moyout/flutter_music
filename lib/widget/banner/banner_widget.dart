@@ -23,11 +23,12 @@ class BannerWidget extends StatelessWidget {
       child: ClipRRect(
         child: Swiper(
           onTap: (int index) {
-             RouteUtil.push(
+            RouteUtil.push(
                 context,
                 WebViewWidget(
-                  title: context.read<MusicHallViewModel>().bannerModel.data![index].title!,
-                  url: context.read<MusicHallViewModel>().bannerModel.data![index].url!,
+                  // title: context.read<MusicHallViewModel>().bannerModel.data![index].title!,
+                  title: "",
+                  url: context.read<MusicHallViewModel>().bannerModel.data?[index].h5url ?? "https://y.qq.com/",
                 ));
           },
           autoplayDelay: 6000,
@@ -46,8 +47,8 @@ class BannerWidget extends StatelessWidget {
                 child: FadeInImage.assetNetwork(
                   placeholder: "assets/images/0.gif",
                   image: context.watch<MusicHallViewModel>().bannerModel.data == null
-                      ? "http://pic1.win4000.com/wallpaper/4/5670d6c78a446.jpg"
-                      : context.watch<MusicHallViewModel>().bannerModel.data![index].imagePath!,
+                      ? "https://img0.baidu.com/it/u=1321929678,3997416803&fm=26&fmt=auto   "
+                      : context.watch<MusicHallViewModel>().bannerModel.data![index].picUrl!,
                   fit: BoxFit.fill,
                 ),
               ),

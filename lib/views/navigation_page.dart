@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_music/provider/click_effect_provider.dart';
+import 'package:flutter_music/util/native/native_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
@@ -35,54 +36,55 @@ class _NavigationPageState extends State<NavigationPage> {
     navModel.initSC(context);
     context.read<PlayBarViewModel>().initViewModel();
     return ClickEffectWidget(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: ScrollConfiguration(
-          behavior: OverScrollBehavior(),
-          child: Stack(
-            // fit: StackFit.expand,
-            alignment: Alignment.center,
-            children: <Widget>[
-              PageView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: context.watch<NavViewModel>().pageController,
-                onPageChanged: (i) => navModel.pageTo(i),
-                children: <Widget>[
-                  MusicHallPage(),
-                  MVPage(),
-                  PersonPage(),
-                ],
-              ),
-              Positioned(
-                bottom: 42.w + MediaQuery.of(context).padding.bottom / 2,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 45.w,
-                  child: Consumer<NavViewModel>(
-                    builder: (_, NavViewModel navModel, __) {
-                      return ListView(
-                        controller: navModel.sc,
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                              width:
-                                  MediaQuery.of(context).size.width - 50.w),
-                          PlayBarWidget(),
-                          Container(width: 60.w),
-                        ],
-                      );
-                    },
+      child: WillPopScope(
+        onWillPop: () async => NativeUtil.backToDesktop(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: ScrollConfiguration(
+            behavior: OverScrollBehavior(),
+            child: Stack(
+              // fit: StackFit.expand,
+              alignment: Alignment.center,
+              children: <Widget>[
+                PageView(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: context.watch<NavViewModel>().pageController,
+                  onPageChanged: (i) => navModel.pageTo(i),
+                  children: <Widget>[
+                    MusicHallPage(),
+                    MVPage(),
+                    PersonPage(),
+                  ],
+                ),
+                Positioned(
+                  bottom: 42.w + MediaQuery.of(context).padding.bottom / 2,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 45.w,
+                    child: Consumer<NavViewModel>(
+                      builder: (_, NavViewModel navModel, __) {
+                        return ListView(
+                          controller: navModel.sc,
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Container(width: MediaQuery.of(context).size.width - 50.w),
+                            PlayBarWidget(),
+                            Container(width: 60.w),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              bottomBar(navModel, context),
-              // CustomPaint(
-              //   foregroundPainter: BubblePaintWidget(_path),
-              //   // painter: BubblePaintWidget(_points),
-              // ),
-              // PlayBarWidget(model, widget.model),
-            ],
+                bottomBar(navModel, context),
+                // CustomPaint(
+                //   foregroundPainter: BubblePaintWidget(_path),
+                //   // painter: BubblePaintWidget(_points),
+                // ),
+                // PlayBarWidget(model, widget.model),
+              ],
+            ),
           ),
         ),
       ),
@@ -98,12 +100,9 @@ class _NavigationPageState extends State<NavigationPage> {
           // color: Colors.white,
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
-          boxShadow: [
-            BoxShadow(color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2))
-          ],
+          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2))],
         ),
-        padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom.w / 2)),
+        padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom.w / 2)),
         width: AppUtils.getWidth(),
         child: Stack(
           alignment: Alignment.center,
@@ -138,9 +137,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     children: [
                       Icon(
                         navModel.itemList[index].icon,
-                        color: navModel.itemList[index].isActive
-                            ? Colors.white
-                            : Colors.grey,
+                        color: navModel.itemList[index].isActive ? Colors.white : Colors.grey,
                         size: 22.sp,
                       ),
                       SizedBox(width: 10.w, height: 45.w),
