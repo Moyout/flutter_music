@@ -5,7 +5,7 @@ class SearchBarWidget extends StatelessWidget {
   final String title;
   final Widget? widget;
 
-  SearchBarWidget({this.title = "", this.widget});
+  const SearchBarWidget({this.title = "", this.widget,Key?key}):super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SearchBarWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            "$title",
+            title,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: Theme.of(context).textTheme.bodyText2!.fontSize! + 4.sp,
@@ -25,7 +25,7 @@ class SearchBarWidget extends StatelessWidget {
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () => RouteUtil.push(context, SearchPage()),
+              onTap: () => RouteUtil.push(context, const SearchPage()),
               child: Container(
                 margin: EdgeInsets.only(left: 20.w, right: 20.w),
                 height: 30.w,

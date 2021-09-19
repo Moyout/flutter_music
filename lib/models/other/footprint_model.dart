@@ -12,6 +12,6 @@ class FootprintModel {
   FootprintModel(
     this.assetImage, {
     this.isSelect = false,
-    this.clickEffect = ClickEffect.Image,
+    this.clickEffect = ClickEffect.image,
   });
 }

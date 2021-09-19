@@ -6,7 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class MyRefreshWidget extends StatelessWidget {
   final Widget? child;
 
-  MyRefreshWidget({this.child});
+  const MyRefreshWidget({this.child, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +14,12 @@ class MyRefreshWidget extends StatelessWidget {
       headerBuilder: () => CustomHeader(
         builder: (BuildContext context, RefreshStatus? mode) {
           Widget body;
-          if (mode == RefreshStatus.idle)
+          if (mode == RefreshStatus.idle) {
             body = Row(
               mainAxisSize: MainAxisSize.min,
-              children: [Icon(Icons.arrow_downward_outlined), Text("下拉刷新")],
+              children: const [Icon(Icons.arrow_downward_outlined), Text("下拉刷新")],
             );
-          else if (mode == RefreshStatus.refreshing)
+          } else if (mode == RefreshStatus.refreshing) {
             body = Image.asset(
               "assets/images/logo.webp",
               width: 80.w,
@@ -27,25 +27,26 @@ class MyRefreshWidget extends StatelessWidget {
               color: Theme.of(context).dividerColor,
               fit: BoxFit.cover,
             );
-          else if (mode == RefreshStatus.failed)
+          } else if (mode == RefreshStatus.failed) {
             body = Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: const [
                 Icon(Icons.report_rounded),
                 Text("请稍后再试"),
               ],
             );
-          else if (mode == RefreshStatus.canRefresh)
+          } else if (mode == RefreshStatus.canRefresh) {
             body = Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: const [
                 Icon(Icons.arrow_upward_outlined),
                 Text("释放刷新"),
               ],
             );
-          else
-            body = Text("No more Data");
-          return Container(
+          } else {
+            body = const Text("No more Data");
+          }
+          return SizedBox(
             height: 50.0.w,
             child: Center(child: body),
           );
@@ -55,29 +56,30 @@ class MyRefreshWidget extends StatelessWidget {
       footerBuilder: () => CustomFooter(
         builder: (BuildContext context, LoadStatus? mode) {
           Widget body;
-          if (mode == LoadStatus.idle)
+          if (mode == LoadStatus.idle) {
             body = Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: const [
                 Icon(Icons.arrow_upward_rounded),
                 Text("上滑加载更多"),
               ],
             );
-          else if (mode == LoadStatus.loading)
-            body = CupertinoActivityIndicator();
-          else if (mode == LoadStatus.failed)
-            body = Text("加载失败");
-          else if (mode == LoadStatus.canLoading)
+          } else if (mode == LoadStatus.loading) {
+            body = const CupertinoActivityIndicator();
+          } else if (mode == LoadStatus.failed) {
+            body = const Text("加载失败");
+          } else if (mode == LoadStatus.canLoading) {
             body = Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: const [
                 Icon(Icons.arrow_downward_rounded),
                 Text("释放加载"),
               ],
             );
-          else
-            body = Text("No more Data");
-          return Container(
+          } else {
+            body = const Text("No more Data");
+          }
+          return SizedBox(
             height: 55.0,
             child: Center(child: body),
           );
@@ -86,7 +88,7 @@ class MyRefreshWidget extends StatelessWidget {
       headerTriggerDistance: 80.0,
       // header trigger refresh trigger distance
       footerTriggerDistance: 80.0,
-      springDescription: SpringDescription(stiffness: 170, damping: 16, mass: 1.9),
+      springDescription: const SpringDescription(stiffness: 170, damping: 16, mass: 1.9),
       // custom spring back animate,the props meaning see the flutter api
       maxOverScrollExtent: 50,
       //The maximum dragging range of the head. Set this property if a rush out of the view area occurs

@@ -35,7 +35,7 @@ class SearchViewModel extends ChangeNotifier {
           page++;
           searchRequest(textC.text, page: page);
           notifyListeners();
-          print("page=============================>$page");
+          debugPrint("page=============================>$page");
         }
       });
       notifyListeners();
@@ -98,7 +98,7 @@ class SearchViewModel extends ChangeNotifier {
 
   ///存储搜索历史
   void saveHistorySearch(String value) {
-    if (value.trim().length > 0) {
+    if (value.trim().isNotEmpty) {
       if (!searchHistoryList.contains(value)) {
         if (searchHistoryList.length >= 10) {
           searchHistoryList.removeLast();
@@ -162,10 +162,13 @@ class SearchViewModel extends ChangeNotifier {
     } else {
       isLoading = true;
       SearchMusicRequest.getSearchMusic(songName, p: page).then((value) {
-        if (value!.data!.song!.list!.length > 0) {
-          for (var item in value.data!.song!.list!) smModel!.data!.song!.list!.add(item);
-        } else
+        if (value!.data!.song!.list!.isNotEmpty) {
+          for (var item in value.data!.song!.list!) {
+            smModel!.data!.song!.list!.add(item);
+          }
+        } else {
           Toast.showBottomToast("已加载更多");
+        }
         isLoading = false;
         notifyListeners();
       });
@@ -191,23 +194,23 @@ class SearchViewModel extends ChangeNotifier {
 
     musicKeyModel = await MusicKeyRequest.getMusicVKey(songMid);
 
-    if (musicKeyModel!.req0!.data!.midurlinfo![0].purl!.length == 0)
+    if (musicKeyModel!.req0!.data!.midurlinfo![0].purl!.isEmpty) {
       Toast.showBotToast("此歌曲暂不支持播放");
-    else {
+    } else {
       ///***************************存储播放历史**********************************
 
       List<String> list = [];
       list = SpUtil.getStringList(PublicKeys.playHistory) ?? [];
       Map musicMap = {
-        PublicKeys.songmid: "$songMid",
-        PublicKeys.albumMid: albumMid.length > 0 ? albumMid : "",
-        PublicKeys.songName: "$songName",
-        PublicKeys.singer: "$singer",
-        PublicKeys.topid: "$topid",
+        PublicKeys.songmid: songMid,
+        PublicKeys.albumMid: albumMid.isNotEmpty ? albumMid : "",
+        PublicKeys.songName: songName,
+        PublicKeys.singer: singer,
+        PublicKeys.topid: topid,
       };
       if (!list.contains(jsonEncode(musicMap))) list.insert(0, jsonEncode(musicMap));
       await SpUtil.setStringList(PublicKeys.playHistory, list);
-      print(SpUtil.getStringList(PublicKeys.playHistory));
+      debugPrint("------------------------------------------->${SpUtil.getStringList(PublicKeys.playHistory)}");
 
       ///********************************end************************************
 
@@ -216,7 +219,7 @@ class SearchViewModel extends ChangeNotifier {
       // await SpUtil.setString(PublicKeys.nowPlayURL, _playUrl);
       await SpUtil.setStringList(PublicKeys.nowPlaySongDetails, [
         songMid, //songmid
-        albumMid.length > 0 ? albumMid : "", //播放图片
+        albumMid.isNotEmpty ? albumMid : "", //播放图片
         songName, //歌名
         singer, //歌手
         topid, //歌曲评论id
@@ -228,11 +231,12 @@ class SearchViewModel extends ChangeNotifier {
       }
       context.read<PlayBarViewModel>().onPlay(_playUrl);
 
-      if (albumMid.length > 0)
+      if (albumMid.isNotEmpty) {
         context.read<PlayBarViewModel>().picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000$albumMid.jpg";
-      else
+      } else {
         context.read<PlayBarViewModel>().picUrl =
             'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg';
+      }
       await LyricRequest.getLyric(songMid);
       AppUtils.getContext().read<PlayBarViewModel>().updatePlayDetails();
 
@@ -247,7 +251,7 @@ class SearchViewModel extends ChangeNotifier {
   Future<String?> onPlay(String songMid) async {
     musicKeyModel = await MusicKeyRequest.getMusicVKey(songMid);
     notifyListeners();
-    if (musicKeyModel!.req0!.data!.midurlinfo?[0].purl!.length == 0) {
+    if (musicKeyModel!.req0!.data!.midurlinfo![0].purl!.isEmpty) {
       Toast.showBotToast("此歌曲暂不支持播放");
       return null;
     } else {

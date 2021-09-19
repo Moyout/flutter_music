@@ -26,16 +26,16 @@ class MusicKeyModel {
     code = json['code'];
     ts = json['ts'];
     startTs = json['start_ts'];
-    req0 = json['req_0'] != null ? new Req0.fromJson(json['req_0']) : null;
+    req0 = json['req_0'] != null ? Req0.fromJson(json['req_0']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['ts'] = this.ts;
-    data['start_ts'] = this.startTs;
-    if (this.req0 != null) {
-      data['req_0'] = this.req0?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['ts'] = ts;
+    data['start_ts'] = startTs;
+    if (req0 != null) {
+      data['req_0'] = req0?.toJson();
     }
     return data;
   }
@@ -49,12 +49,12 @@ class Req0 {
 
   Req0.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
     if (this.data != null) {
       data['data'] = this.data?.toJson();
     }
@@ -96,7 +96,7 @@ class Data {
     if (json['midurlinfo'] != null) {
       midurlinfo = [];
       json['midurlinfo'].forEach((v) {
-        midurlinfo?.add(new Midurlinfo.fromJson(v));
+        midurlinfo?.add(Midurlinfo.fromJson(v));
       });
     }
     msg = json['msg'];
@@ -111,21 +111,21 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['expiration'] = this.expiration;
-    data['login_key'] = this.loginKey;
-    if (this.midurlinfo != null) {
-      data['midurlinfo'] = this.midurlinfo?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['expiration'] = expiration;
+    data['login_key'] = loginKey;
+    if (midurlinfo != null) {
+      data['midurlinfo'] = midurlinfo?.map((v) => v.toJson()).toList();
     }
-    data['msg'] = this.msg;
-    data['retcode'] = this.retcode;
-    data['servercheck'] = this.servercheck;
-    data['sip'] = this.sip;
-    data['testfile2g'] = this.testfile2g;
-    data['testfilewifi'] = this.testfilewifi;
-    data['thirdip'] = this.thirdip;
-    data['uin'] = this.uin;
-    data['verify_type'] = this.verifyType;
+    data['msg'] = msg;
+    data['retcode'] = retcode;
+    data['servercheck'] = servercheck;
+    data['sip'] = sip;
+    data['testfile2g'] = testfile2g;
+    data['testfilewifi'] = testfilewifi;
+    data['thirdip'] = thirdip;
+    data['uin'] = uin;
+    data['verify_type'] = verifyType;
     return data;
   }
 }
@@ -240,41 +240,41 @@ class Midurlinfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['auth_switch'] = this.authSwitch;
-    data['common_downfromtag'] = this.commonDownfromtag;
-    data['ekey'] = this.ekey;
-    data['errtype'] = this.errtype;
-    data['filename'] = this.filename;
-    data['flowfromtag'] = this.flowfromtag;
-    data['flowurl'] = this.flowurl;
-    data['hisbuy'] = this.hisbuy;
-    data['hisdown'] = this.hisdown;
-    data['isbuy'] = this.isbuy;
-    data['isonly'] = this.isonly;
-    data['onecan'] = this.onecan;
-    data['opi128kurl'] = this.opi128kurl;
-    data['opi192koggurl'] = this.opi192koggurl;
-    data['opi192kurl'] = this.opi192kurl;
-    data['opi30surl'] = this.opi30surl;
-    data['opi48kurl'] = this.opi48kurl;
-    data['opi96kurl'] = this.opi96kurl;
-    data['opiflackurl'] = this.opiflackurl;
-    data['p2pfromtag'] = this.p2pfromtag;
-    data['pdl'] = this.pdl;
-    data['pneed'] = this.pneed;
-    data['pneedbuy'] = this.pneedbuy;
-    data['premain'] = this.premain;
-    data['purl'] = this.purl;
-    data['qmdlfromtag'] = this.qmdlfromtag;
-    data['result'] = this.result;
-    data['songmid'] = this.songmid;
-    data['tips'] = this.tips;
-    data['uiAlert'] = this.uiAlert;
-    data['vip_downfromtag'] = this.vipDownfromtag;
-    data['vkey'] = this.vkey;
-    data['wififromtag'] = this.wififromtag;
-    data['wifiurl'] = this.wifiurl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['auth_switch'] = authSwitch;
+    data['common_downfromtag'] = commonDownfromtag;
+    data['ekey'] = ekey;
+    data['errtype'] = errtype;
+    data['filename'] = filename;
+    data['flowfromtag'] = flowfromtag;
+    data['flowurl'] = flowurl;
+    data['hisbuy'] = hisbuy;
+    data['hisdown'] = hisdown;
+    data['isbuy'] = isbuy;
+    data['isonly'] = isonly;
+    data['onecan'] = onecan;
+    data['opi128kurl'] = opi128kurl;
+    data['opi192koggurl'] = opi192koggurl;
+    data['opi192kurl'] = opi192kurl;
+    data['opi30surl'] = opi30surl;
+    data['opi48kurl'] = opi48kurl;
+    data['opi96kurl'] = opi96kurl;
+    data['opiflackurl'] = opiflackurl;
+    data['p2pfromtag'] = p2pfromtag;
+    data['pdl'] = pdl;
+    data['pneed'] = pneed;
+    data['pneedbuy'] = pneedbuy;
+    data['premain'] = premain;
+    data['purl'] = purl;
+    data['qmdlfromtag'] = qmdlfromtag;
+    data['result'] = result;
+    data['songmid'] = songmid;
+    data['tips'] = tips;
+    data['uiAlert'] = uiAlert;
+    data['vip_downfromtag'] = vipDownfromtag;
+    data['vkey'] = vkey;
+    data['wififromtag'] = wififromtag;
+    data['wifiurl'] = wifiurl;
     return data;
   }
 }

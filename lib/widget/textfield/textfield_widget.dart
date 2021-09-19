@@ -15,7 +15,7 @@ class TextFiledWidget extends StatelessWidget {
   final Function? onChanged;
   final Function? onTap;
 
-  TextFiledWidget(
+  const TextFiledWidget(
     this.textC, {
     this.maxLength = 11,
     this.prefixIcon,
@@ -29,7 +29,8 @@ class TextFiledWidget extends StatelessWidget {
     this.onSubmitted,
     this.onChanged,
     this.onTap,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class TextFiledWidget extends StatelessWidget {
         showCursor: showCursor,
         maxLength: maxLength,
         inputFormatters: inputFormatter,
-        style: TextStyle(letterSpacing: 2),
+        style: const TextStyle(letterSpacing: 2),
         onTap: () {
           if (onTap != null) onTap!();
         },
@@ -55,19 +56,17 @@ class TextFiledWidget extends StatelessWidget {
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon == null ? null : Icon(prefixIcon),
-          counter: Text(""),
+          counter: const Text(""),
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey),
+          hintStyle: const TextStyle(color: Colors.grey),
           helperText: helperText,
           helperStyle: Theme.of(context).brightness == Brightness.light
-              ? TextStyle(color: Colors.blue)
-              : TextStyle(color: Colors.white),
+              ? const TextStyle(color: Colors.blue)
+              : const TextStyle(color: Colors.white),
           // fillColor: Theme.of(context).dividerColor,
           filled: true,
-          contentPadding:
-              EdgeInsets.all(0).add(EdgeInsets.symmetric(horizontal: 15.w)),
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(100.w)),
+          contentPadding: const EdgeInsets.all(0).add(EdgeInsets.symmetric(horizontal: 15.w)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(100.w)),
         ),
       ),
     );

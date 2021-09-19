@@ -4,6 +4,8 @@ import 'package:flutter_music/views/play/play_page.dart';
 import 'package:flutter_music/widget/rotate_image/rotate_image_widget.dart';
 
 class PlayBarWidget extends StatelessWidget {
+  const PlayBarWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     PlayBarViewModel pbModel = context.watch<PlayBarViewModel>();
@@ -16,7 +18,7 @@ class PlayBarWidget extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            builder: (_) => PlayPage(),
+            builder: (_) => const PlayPage(),
           );
         },
         child: Container(
@@ -32,7 +34,7 @@ class PlayBarWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RotateImageWidget(),
+              const RotateImageWidget(),
               marquee(pbModel),
               playButton(pbModel, context),
             ],
@@ -48,20 +50,20 @@ class PlayBarWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             width: 160.w,
             child: Text(
-              pbModel.playDetails.length > 0 ? pbModel.playDetails[2] : " ",
+              pbModel.playDetails.isNotEmpty ? pbModel.playDetails[2] : " ",
               // "${pbModel.playDetails[2]}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 14.sp, color: Colors.black),
             ),
           ),
-          Container(
+          SizedBox(
             width: 160.w,
             child: Text(
-              pbModel.playDetails.length > 0 ? pbModel.playDetails[3] : " ",
+              pbModel.playDetails.isNotEmpty ? pbModel.playDetails[3] : " ",
               // "${pbModel.playDetails[3]}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -84,7 +86,7 @@ class PlayBarWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => pbModel.getNowPlayMusic(),
       behavior: HitTestBehavior.opaque,
-      child: Container(
+      child: SizedBox(
         // key: key,
         width: 40.w,
         height: 40.w,
@@ -107,7 +109,7 @@ class PlayBarWidget extends StatelessWidget {
                       ? pbModel.position!.inMilliseconds /
                           pbModel.duration!.inMilliseconds
                       : 0.0,
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                 ),
               ),
             ),
@@ -119,7 +121,7 @@ class PlayBarWidget extends StatelessWidget {
                 pbModel.isPlay
                     ? Icons.pause_circle_outline
                     : Icons.play_circle_outline,
-                color: BLUE_COLOR,
+                color: Colors.blue,
                 size: 32.w,
               ),
             ),

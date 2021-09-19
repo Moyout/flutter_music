@@ -16,7 +16,7 @@ class ClickEffectProvider extends ChangeNotifier {
   void initAnimationController(TickerProvider tickerProvider) {
     controller = AnimationController(
       vsync: tickerProvider,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     )..repeat();
   }
 
@@ -27,7 +27,7 @@ class ClickEffectProvider extends ChangeNotifier {
   }
 
   void onPointerMove(Offset offset) {
-    if (footprints.length > 0) {
+    if (footprints.isNotEmpty) {
       if ((offset.distance - footprints.last.offset.distance).abs() >= 20) {
         footprints.add(ClickEffectModel(offset));
         if (footprints.length > 10) footprints.removeAt(0);
@@ -61,7 +61,7 @@ class ClickEffectProvider extends ChangeNotifier {
   void setAssetImage({String assetImagesString = "assets/images/paw.png"}) async {
     ui.Image imageFrame;
     String assetsFootprintString = SpUtil.getString(PublicKeys.assetFootprintString) ?? "";
-    if (assetsFootprintString.length == 0) {
+    if (assetsFootprintString.isEmpty) {
       imageFrame = await getAssetUiImage(assetImagesString, width: 40, height: 40);
     } else {
       imageFrame = await getAssetUiImage(assetsFootprintString, width: 40, height: 40);

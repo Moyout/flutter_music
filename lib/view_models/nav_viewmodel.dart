@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_music/models/login/login_model.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/login/login_viewmodel.dart';
-import 'package:flutter_music/view_models/mv/mv_viewmodel.dart';
 import 'package:flutter_music/views/navigation_page.dart';
 
 class NavViewModel extends ChangeNotifier {
@@ -24,15 +23,15 @@ class NavViewModel extends ChangeNotifier {
   void pageTo(int index) async {
     if (index != navIndex) {
       pageController.jumpToPage(index);
-      itemList.forEach((element) {
+      for (var element in itemList) {
         element.isActive = false;
-      });
+      }
       itemList[index].isActive = true;
       navIndex = index;
       notifyListeners();
       if (index == 2) {
         String token = SpUtil.getString(PublicKeys.token) ?? "";
-        if (token.length > 0) {
+        if (token.isNotEmpty) {
           await LoginRequest.getLogin(headers: {"token": token}).then((value) {
             if (value.message == "Signature has expired") {
               BotToast.showText(text: "登录过期");
@@ -60,13 +59,13 @@ class NavViewModel extends ChangeNotifier {
         if (sc?.position.userScrollDirection == ScrollDirection.forward) {
           sc?.animateTo(
             0,
-            duration: Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 200),
             curve: Curves.linear,
           );
         } else if (sc?.position.userScrollDirection == ScrollDirection.reverse) {
           sc?.animateTo(
             MediaQuery.of(context).size.width - 110.w,
-            duration: Duration(milliseconds: 100),
+            duration: const Duration(milliseconds: 100),
             curve: Curves.bounceInOut,
           );
         }
@@ -74,7 +73,7 @@ class NavViewModel extends ChangeNotifier {
       WidgetsBinding.instance?.addPostFrameCallback((_) {
         sc?.animateTo(
           MediaQuery.of(context).size.width - 110.w,
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
           curve: Curves.bounceOut,
         );
       });
@@ -84,8 +83,7 @@ class NavViewModel extends ChangeNotifier {
   ///检查网络状态
   void checkNet() async {
     netMode = await Connectivity().checkConnectivity();
-    if (subscription == null) {
-      subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    subscription ??= Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
         if (result == ConnectivityResult.mobile) {
           Toast.showBottomToast("当前为流量连接,请注意使用");
         } else if (result == ConnectivityResult.wifi) {
@@ -95,6 +93,5 @@ class NavViewModel extends ChangeNotifier {
         netMode = result;
         notifyListeners();
       });
-    }
   }
 }

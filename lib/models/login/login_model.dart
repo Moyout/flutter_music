@@ -34,11 +34,11 @@ class LoginModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message.toString();
-    data['token_'] = this.token;
-    data['userName'] = this.userName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message.toString();
+    data['token_'] = token;
+    data['userName'] = userName;
     return data;
   }
 }

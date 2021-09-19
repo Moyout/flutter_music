@@ -12,7 +12,7 @@ import 'package:share_extend/share_extend.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PlayPageViewModel extends ChangeNotifier {
-  Color negColor = Color(0xffffffff); //取反色
+  Color negColor = const Color(0xffffffff); //取反色
   PaletteGenerator? paletteGenerator;
   TabController? tabC; //tab控制器
   AnimationController? recordC; //唱片控制器
@@ -42,22 +42,14 @@ class PlayPageViewModel extends ChangeNotifier {
   }
 
   void initViewModel(TickerProvider tickerProvider) {
-    if (tabC == null) {
-      tabC = TabController(length: 2, vsync: tickerProvider, initialIndex: 0);
-    }
-    if (sc == null) {
-      sc = ScrollController();
-    }
+    tabC ??= TabController(length: 2, vsync: tickerProvider, initialIndex: 0);
+    sc ??= ScrollController();
   }
 
   ///初始化动画控制器
   void initAnimationController(TickerProvider tickerProvider) {
-    if (recordC == null) {
-      recordC = AnimationController(duration: Duration(seconds: 10), vsync: tickerProvider);
-    }
-    if (animationC == null) {
-      animationC = AnimationController(duration: Duration(seconds: 1), vsync: tickerProvider);
-    }
+    recordC ??= AnimationController(duration: const Duration(seconds: 10), vsync: tickerProvider);
+    animationC ??= AnimationController(duration: const Duration(seconds: 1), vsync: tickerProvider);
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       if (recordC != null) {
         recordC!.addStatusListener((status) {
@@ -98,7 +90,7 @@ class PlayPageViewModel extends ChangeNotifier {
     List value = SpUtil.getStringList(PublicKeys.lyrics) ?? [];
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      if (value.length > 0) {
+      if (value.isNotEmpty) {
         for (int i = 0; i < value.length; i++) {
           if (value[i].indexOf("]") == 9) {
             lyrics.add(value[i].substring(10));
@@ -119,14 +111,14 @@ class PlayPageViewModel extends ChangeNotifier {
   ///歌词滚动
   void startLyric() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      if (AppUtils.getContext().read<PlayBarViewModel>().isPlay && sc!.hasClients && lyrics.length > 0) {
-        timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (AppUtils.getContext().read<PlayBarViewModel>().isPlay && sc!.hasClients && lyrics.isNotEmpty) {
+        timer = Timer.periodic(const Duration(seconds: 1), (timer) {
           if (timeInt.contains(AppUtils.getContext().read<PlayBarViewModel>().position!.inSeconds)) {
             if (timeInt.indexOf(AppUtils.getContext().read<PlayBarViewModel>().position!.inSeconds) > 0) {
               if (sc!.hasClients) {
                 sc?.animateTo(
                   ((timeInt.indexOf(AppUtils.getContext().read<PlayBarViewModel>().position!.inSeconds) + 1) * 50.0),
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                   curve: Curves.decelerate,
                 );
               }
@@ -141,7 +133,7 @@ class PlayPageViewModel extends ChangeNotifier {
 
   ///设置收藏
   Future<void> setCollect(List songDetails) async {
-    if (songDetails.length > 0) {
+    if (songDetails.isNotEmpty) {
       ///***************************存储收藏**********************************
       List<String> list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
       Map musicMap = {
@@ -150,10 +142,11 @@ class PlayPageViewModel extends ChangeNotifier {
         PublicKeys.songName: songDetails[2],
         PublicKeys.singer: songDetails[3],
       };
-      if (!list.contains(jsonEncode(musicMap)))
+      if (!list.contains(jsonEncode(musicMap))) {
         list.insert(0, jsonEncode(musicMap));
-      else
+      } else {
         list.remove(jsonEncode(musicMap));
+      }
       await SpUtil.setStringList(PublicKeys.collectMusic, list);
 
       ///********************************end************************************
@@ -164,7 +157,7 @@ class PlayPageViewModel extends ChangeNotifier {
 
   ///获取收藏
   Future<void> initGetCollect(List songDetails) async {
-    if (songDetails.length > 0)
+    if (songDetails.isNotEmpty) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         List<String> list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
         Map musicMap = {
@@ -176,6 +169,7 @@ class PlayPageViewModel extends ChangeNotifier {
         list.contains(jsonEncode(musicMap)) ? isLike = true : isLike = false;
         notifyListeners();
       });
+    }
   }
 
   ///下一首
@@ -183,8 +177,10 @@ class PlayPageViewModel extends ChangeNotifier {
     List<String> historyList = SpUtil.getStringList(PublicKeys.playHistory) ?? [];
     int index = 0;
     List<Map> list = [];
-    if (historyList.length > 0) {
-      historyList.forEach((element) => list.add(jsonDecode(element)));
+    if (historyList.isNotEmpty) {
+      for (var element in historyList) {
+        list.add(jsonDecode(element));
+      }
       for (; index < list.length; index++) {
         if (list[index]["songmid"] == AppUtils.getContext().read<PlayBarViewModel>().playDetails[0]) {
           await nextSong(index, list, isPre: isPre);
@@ -257,7 +253,8 @@ class PlayPageViewModel extends ChangeNotifier {
   ///下载歌曲
   Future<bool> downloadSong() async {
     if (Platform.isAndroid) {
-      print(await Permission.storage.isGranted);
+      await Permission.storage.isGranted;
+      // print(await Permission.storage.isGranted);
       if (await Permission.storage.request().isPermanentlyDenied) {
         openAppSettings();
       }
@@ -266,7 +263,7 @@ class PlayPageViewModel extends ChangeNotifier {
     // await NativeUtil.getPermission();
     if (Platform.isIOS) await Permission.photos.request().isGranted;
     if (!await getIsDownload(isCheck: true)) {
-      if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
+      if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.isNotEmpty) {
         String downloadUrl =
             await DownloadRequest.downloadSong(AppUtils.getContext().read<PlayBarViewModel>().playDetails[0]);
         Dio dio = Dio();
@@ -274,12 +271,14 @@ class PlayPageViewModel extends ChangeNotifier {
         ///临时文件
         Directory dir = await getTemporaryDirectory();
         String savePath = '';
-        if (Platform.isAndroid)
+        if (Platform.isAndroid) {
           savePath =
               "${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3";
-        if (Platform.isIOS)
+        }
+        if (Platform.isIOS) {
           savePath =
               "${dir.path}/music/${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3";
+        }
 
         await dio.download(downloadUrl, savePath, onReceiveProgress: (int count, int total) {
           downloadProgress = ((count / total) * 100).toInt();
@@ -290,17 +289,15 @@ class PlayPageViewModel extends ChangeNotifier {
           notifyListeners();
         }).catchError((e) {
           Toast.showBottomToast("下载错误\n$e");
-          print("下载错误$e");
-        }).whenComplete(() {
-          return getIsDownload;
-        });
+          debugPrint("下载错误$e");
+        }).whenComplete(() => getIsDownload);
       }
     }
     return getIsDownload();
   }
 
   Future<bool> getIsDownload({bool isCheck = false}) async {
-    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
+    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.isNotEmpty) {
       Directory dir = await getTemporaryDirectory();
       File file = Platform.isAndroid
           ? File(
@@ -311,8 +308,9 @@ class PlayPageViewModel extends ChangeNotifier {
       if (await file.exists()) {
         isDownload = true;
         if (isCheck) Toast.showBottomToast("已下载");
-      } else
+      } else {
         isDownload = false;
+      }
       notifyListeners();
     }
     return isDownload;
@@ -320,7 +318,7 @@ class PlayPageViewModel extends ChangeNotifier {
 
   ///分享歌曲
   Future<void> shareMusic() async {
-    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
+    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.isNotEmpty) {
       Directory dir = await getTemporaryDirectory();
       File file = Platform.isAndroid
           ? File(
@@ -328,9 +326,9 @@ class PlayPageViewModel extends ChangeNotifier {
           : File(
               "${dir.path}/music/${PublicKeys.musicRoot}${AppUtils.getContext().read<PlayBarViewModel>().playDetails[2].replaceAll("/", "\\")} - ${AppUtils.getContext().read<PlayBarViewModel>().playDetails[3].replaceAll("/", "\\")}.mp3");
 
-      if (await file.exists())
+      if (await file.exists()) {
         ShareExtend.share(file.path, "file");
-      else {
+      } else {
         downloadSong().then((value) async {
           if (value) await ShareExtend.share(file.path, "file");
         });
@@ -340,11 +338,11 @@ class PlayPageViewModel extends ChangeNotifier {
 
   ///歌曲弹幕
   Future<void> setBulletChat() async {
-    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.length > 0) {
+    if (AppUtils.getContext().read<PlayBarViewModel>().playDetails.isNotEmpty) {
       isBulletChat = !isBulletChat;
       if (isBulletChat) {
         getCommentList();
-        timer2 = Timer.periodic(Duration(milliseconds: 4000), (timer) {
+        timer2 = Timer.periodic(const Duration(milliseconds: 4000), (timer) {
           if (clModel!.comment?.commentlist?[index].avatarurl != null) {
             if (index == 24) {
               index = 0;
@@ -357,14 +355,17 @@ class PlayPageViewModel extends ChangeNotifier {
               );
               index++;
             }
-          } else
+          } else {
             getCommentList();
+          }
         });
-      } else
+      } else {
         timer2?.cancel();
+      }
       notifyListeners();
-    } else
+    } else {
       Toast.showBotToast("无播放歌曲");
+    }
   }
 
   void getCommentList() async {

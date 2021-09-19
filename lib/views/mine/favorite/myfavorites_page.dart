@@ -6,6 +6,8 @@ import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 
 class MyFavoritesPage extends StatelessWidget {
+  const MyFavoritesPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     List list = SpUtil.getStringList(PublicKeys.collectMusic) ?? [];
@@ -24,7 +26,7 @@ class MyFavoritesPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           elevation: 0,
           onPressed: () => RouteUtil.pop(context),
-          child: Text("返回"),
+          child: const Text("返回"),
         ),
         body: buildFavoritesList(list),
       ),
@@ -33,14 +35,16 @@ class MyFavoritesPage extends StatelessWidget {
 
   Widget buildFavoritesList(List favorites) {
     List decodeList = [];
-    favorites.forEach((element) => decodeList.add(jsonDecode(element)));
-    return decodeList.length == 0
-        ? Center(child: Text("空"))
+    for (var element in favorites) {
+      decodeList.add(jsonDecode(element));
+    }
+    return decodeList.isEmpty
+        ? const Center(child: Text("空"))
         : ScrollConfiguration(
             behavior: OverScrollBehavior(),
             child: CupertinoScrollbar(
               child: ListView.builder(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   itemExtent: 50.w,
                   itemCount: decodeList.length,
                   itemBuilder: (context, index) {

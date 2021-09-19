@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/physics.dart';
 import 'package:flutter_music/provider/provider_list.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/views/startup_page.dart';
 import 'package:flutter_music/widget/refresh/my_refresh.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 void main() {
   Provider.debugCheckInvalidValueType = null; //Provider 状态管理，同步数据
@@ -15,10 +13,12 @@ void main() {
   AppConfig.errorWidget(); //错误widget
   AppConfig.setPreferredOrientations(); //竖屏
 
-  runApp(MultiProvider(providers: providers, child: MyApp()));
+  runApp(MultiProvider(providers: providers, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.initialize(); //初始化屏幕适配
@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [BotToastNavigatorObserver()],
         debugShowCheckedModeBanner: false,
         title: 'Simple Music',
-        home: StartUpPage(),
+        home: const StartUpPage(),
         navigatorKey: AppUtils.navigatorKey,
         // initialRoute: '/',
-        routes: {},
+        routes: const {},
         themeMode: context.watch<SetViewModel>().isDark ? ThemeMode.dark : ThemeMode.light,
         theme: ThemeUtil.lightTheme(),
         darkTheme: ThemeUtil.darkTheme(),

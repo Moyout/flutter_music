@@ -1,9 +1,10 @@
 import 'package:flutter_music/util/app_util.dart';
 import 'package:flutter_music/util/tools.dart';
-import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 
 class RotateImageWidget extends StatefulWidget {
+  const RotateImageWidget({Key? key}) : super(key: key);
+
 
   @override
   _RotateImageWidgetState createState() => _RotateImageWidgetState();

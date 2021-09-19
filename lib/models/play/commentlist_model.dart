@@ -4,7 +4,7 @@ class CommentListRequest {
   static Future<CommentListModel?> getCommentList(String topid, {int page = 0}) async {
     String url =
         "https://c.y.qq.com/base/fcgi-bin/fcg_global_comment_h5.fcg?format=json&biztype=1&topid=$topid&cmd=8&pagenum=$page&pagesize=25";
-    var date = await BaseRequest().toGet("$url");
+    var date = await BaseRequest().toGet(url);
     CommentListModel clModel = CommentListModel.fromJson(date);
     return clModel;
   }
@@ -56,12 +56,12 @@ class CommentListModel {
     auth = json['auth'];
     blackuin = json['blackuin'];
     code = json['code'];
-    comment = json['comment'] != null ? new Comment.fromJson(json['comment']) : null;
+    comment = json['comment'] != null ? Comment.fromJson(json['comment']) : null;
     commentTip = json['comment_tip'];
-    hotComment = json['hot_comment'] != null ? new Comment.fromJson(json['hot_comment']) : null;
+    hotComment = json['hot_comment'] != null ? Comment.fromJson(json['hot_comment']) : null;
     lastscore = json['lastscore'];
     morecomment = json['morecomment'];
-    msgComment = json['msg_comment'] != null ? new MsgComment.fromJson(json['msg_comment']) : null;
+    msgComment = json['msg_comment'] != null ? MsgComment.fromJson(json['msg_comment']) : null;
     noCopyright = json['no_copyright'];
     showYuerenTip = json['showYuerenTip'];
     subcode = json['subcode'];
@@ -72,31 +72,31 @@ class CommentListModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['allow_comment'] = this.allowComment;
-    data['allow_song'] = this.allowSong;
-    data['auth'] = this.auth;
-    data['blackuin'] = this.blackuin;
-    data['code'] = this.code;
-    if (this.comment != null) {
-      data['comment'] = this.comment?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['allow_comment'] = allowComment;
+    data['allow_song'] = allowSong;
+    data['auth'] = auth;
+    data['blackuin'] = blackuin;
+    data['code'] = code;
+    if (comment != null) {
+      data['comment'] = comment?.toJson();
     }
-    data['comment_tip'] = this.commentTip;
-    if (this.hotComment != null) {
-      data['hot_comment'] = this.hotComment?.toJson();
+    data['comment_tip'] = commentTip;
+    if (hotComment != null) {
+      data['hot_comment'] = hotComment?.toJson();
     }
-    data['lastscore'] = this.lastscore;
-    data['morecomment'] = this.morecomment;
-    if (this.msgComment != null) {
-      data['msg_comment'] = this.msgComment?.toJson();
+    data['lastscore'] = lastscore;
+    data['morecomment'] = morecomment;
+    if (msgComment != null) {
+      data['msg_comment'] = msgComment?.toJson();
     }
-    data['no_copyright'] = this.noCopyright;
-    data['showYuerenTip'] = this.showYuerenTip;
-    data['subcode'] = this.subcode;
-    data['superadmin'] = this.superadmin;
-    data['taoge_topic'] = this.taogeTopic;
-    data['topic_name'] = this.topicName;
-    data['topid'] = this.topid;
+    data['no_copyright'] = noCopyright;
+    data['showYuerenTip'] = showYuerenTip;
+    data['subcode'] = subcode;
+    data['superadmin'] = superadmin;
+    data['taoge_topic'] = taogeTopic;
+    data['topic_name'] = topicName;
+    data['topid'] = topid;
     return data;
   }
 }
@@ -111,18 +111,18 @@ class Comment {
     if (json['commentlist'] != null) {
       commentlist = [];
       json['commentlist'].forEach((v) {
-        commentlist?.add(new Commentlist.fromJson(v));
+        commentlist?.add(Commentlist.fromJson(v));
       });
     }
     commenttotal = json['commenttotal'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.commentlist != null) {
-      data['commentlist'] = this.commentlist?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (commentlist != null) {
+      data['commentlist'] = commentlist?.map((v) => v.toJson()).toList();
     }
-    data['commenttotal'] = this.commenttotal;
+    data['commenttotal'] = commenttotal;
     return data;
   }
 }
@@ -212,7 +212,7 @@ class Commentlist {
     if (json['middlecommentcontent'] != null) {
       middlecommentcontent = [];
       json['middlecommentcontent'].forEach((v) {
-        middlecommentcontent?.add(new Middlecommentcontent.fromJson(v));
+        middlecommentcontent?.add(Middlecommentcontent.fromJson(v));
       });
     }
     nick = json['nick'];
@@ -236,41 +236,41 @@ class Commentlist {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['avatarurl'] = this.avatarurl;
-    data['commentid'] = this.commentid;
-    data['commit_state'] = this.commitState;
-    data['enable_delete'] = this.enableDelete;
-    data['encrypt_rootcommentuin'] = this.encryptRootcommentuin;
-    data['encrypt_uin'] = this.encryptUin;
-    data['identity_pic'] = this.identityPic;
-    data['identity_type'] = this.identityType;
-    data['is_hot'] = this.isHot;
-    data['is_hot_cmt'] = this.isHotCmt;
-    data['is_medal'] = this.isMedal;
-    data['is_stick'] = this.isStick;
-    data['ispraise'] = this.ispraise;
-    if (this.middlecommentcontent != null) {
-      data['middlecommentcontent'] = this.middlecommentcontent?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['avatarurl'] = avatarurl;
+    data['commentid'] = commentid;
+    data['commit_state'] = commitState;
+    data['enable_delete'] = enableDelete;
+    data['encrypt_rootcommentuin'] = encryptRootcommentuin;
+    data['encrypt_uin'] = encryptUin;
+    data['identity_pic'] = identityPic;
+    data['identity_type'] = identityType;
+    data['is_hot'] = isHot;
+    data['is_hot_cmt'] = isHotCmt;
+    data['is_medal'] = isMedal;
+    data['is_stick'] = isStick;
+    data['ispraise'] = ispraise;
+    if (middlecommentcontent != null) {
+      data['middlecommentcontent'] = middlecommentcontent?.map((v) => v.toJson()).toList();
     }
-    data['nick'] = this.nick;
-    data['permission'] = this.permission;
-    data['praisenum'] = this.praisenum;
-    data['root_enable_delete'] = this.rootEnableDelete;
-    data['root_identity_pic'] = this.rootIdentityPic;
-    data['root_identity_type'] = this.rootIdentityType;
-    data['root_is_stick'] = this.rootIsStick;
-    data['rootcommentcontent'] = this.rootcommentcontent;
-    data['rootcommentid'] = this.rootcommentid;
-    data['rootcommentnick'] = this.rootcommentnick;
-    data['rootcommentuin'] = this.rootcommentuin;
-    data['score'] = this.score;
-    data['taoge_topic'] = this.taogeTopic;
-    data['taoge_url'] = this.taogeUrl;
-    data['time'] = this.time;
-    data['uin'] = this.uin;
-    data['user_type'] = this.userType;
-    data['vipicon'] = this.vipicon;
+    data['nick'] = nick;
+    data['permission'] = permission;
+    data['praisenum'] = praisenum;
+    data['root_enable_delete'] = rootEnableDelete;
+    data['root_identity_pic'] = rootIdentityPic;
+    data['root_identity_type'] = rootIdentityType;
+    data['root_is_stick'] = rootIsStick;
+    data['rootcommentcontent'] = rootcommentcontent;
+    data['rootcommentid'] = rootcommentid;
+    data['rootcommentnick'] = rootcommentnick;
+    data['rootcommentuin'] = rootcommentuin;
+    data['score'] = score;
+    data['taoge_topic'] = taogeTopic;
+    data['taoge_url'] = taogeUrl;
+    data['time'] = time;
+    data['uin'] = uin;
+    data['user_type'] = userType;
+    data['vipicon'] = vipicon;
     return data;
   }
 }
@@ -319,38 +319,38 @@ class Middlecommentcontent {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['encrypt_replyeduin'] = this.encryptReplyeduin;
-    data['encrypt_replyuin'] = this.encryptReplyuin;
-    data['reply_identity_pic'] = this.replyIdentityPic;
-    data['reply_identity_type'] = this.replyIdentityType;
-    data['replyed_identity_pic'] = this.replyedIdentityPic;
-    data['replyed_identity_type'] = this.replyedIdentityType;
-    data['replyednick'] = this.replyednick;
-    data['replyeduin'] = this.replyeduin;
-    data['replynick'] = this.replynick;
-    data['replyuin'] = this.replyuin;
-    data['subcommentcontent'] = this.subcommentcontent;
-    data['subcommentid'] = this.subcommentid;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['encrypt_replyeduin'] = encryptReplyeduin;
+    data['encrypt_replyuin'] = encryptReplyuin;
+    data['reply_identity_pic'] = replyIdentityPic;
+    data['reply_identity_type'] = replyIdentityType;
+    data['replyed_identity_pic'] = replyedIdentityPic;
+    data['replyed_identity_type'] = replyedIdentityType;
+    data['replyednick'] = replyednick;
+    data['replyeduin'] = replyeduin;
+    data['replynick'] = replynick;
+    data['replyuin'] = replyuin;
+    data['subcommentcontent'] = subcommentcontent;
+    data['subcommentid'] = subcommentid;
     return data;
   }
 }
 
 class MsgComment {
-  Null? commentlist;
+  void  commentlist;
   int? commenttotal;
 
   MsgComment({this.commentlist, this.commenttotal});
 
   MsgComment.fromJson(Map<String, dynamic> json) {
-    commentlist = json['commentlist'];
+    commentlist = null;
     commenttotal = json['commenttotal'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['commentlist'] = this.commentlist;
-    data['commenttotal'] = this.commenttotal;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['commentlist'] = null;
+    data['commenttotal'] = commenttotal;
     return data;
   }
 }

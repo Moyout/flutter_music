@@ -8,8 +8,9 @@ class HotMusicRequest {
       HotMusicModel hotMusicModel = HotMusicModel.fromJson(date);
 
       return hotMusicModel;
-    } else
+    } else {
       return null;
+    }
   }
 }
 
@@ -50,31 +51,31 @@ class HotMusicModel {
     if (json['songlist'] != null) {
       songlist = [];
       json['songlist'].forEach((v) {
-        songlist?.add(new Songlist.fromJson(v));
+        songlist?.add(Songlist.fromJson(v));
       });
     }
-    topinfo = json['topinfo'] != null ? new Topinfo.fromJson(json['topinfo']) : null;
+    topinfo = json['topinfo'] != null ? Topinfo.fromJson(json['topinfo']) : null;
     totalSongNum = json['total_song_num'];
     updateTime = json['update_time'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['color'] = this.color;
-    data['comment_num'] = this.commentNum;
-    data['cur_song_num'] = this.curSongNum;
-    data['date'] = this.date;
-    data['day_of_year'] = this.dayOfYear;
-    data['song_begin'] = this.songBegin;
-    if (this.songlist != null) {
-      data['songlist'] = this.songlist?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['color'] = color;
+    data['comment_num'] = commentNum;
+    data['cur_song_num'] = curSongNum;
+    data['date'] = date;
+    data['day_of_year'] = dayOfYear;
+    data['song_begin'] = songBegin;
+    if (songlist != null) {
+      data['songlist'] = songlist?.map((v) => v.toJson()).toList();
     }
-    if (this.topinfo != null) {
-      data['topinfo'] = this.topinfo?.toJson();
+    if (topinfo != null) {
+      data['topinfo'] = topinfo?.toJson();
     }
-    data['total_song_num'] = this.totalSongNum;
-    data['update_time'] = this.updateTime;
+    data['total_song_num'] = totalSongNum;
+    data['update_time'] = updateTime;
     return data;
   }
 }
@@ -91,20 +92,20 @@ class Songlist {
   Songlist.fromJson(Map<String, dynamic> json) {
     frankingValue = json['Franking_value'];
     curCount = json['cur_count'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     inCount = json['in_count'];
     oldCount = json['old_count'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Franking_value'] = this.frankingValue;
-    data['cur_count'] = this.curCount;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Franking_value'] = frankingValue;
+    data['cur_count'] = curCount;
     if (this.data != null) {
       data['data'] = this.data?.toJson();
     }
-    data['in_count'] = this.inCount;
-    data['old_count'] = this.oldCount;
+    data['in_count'] = inCount;
+    data['old_count'] = oldCount;
     return data;
   }
 }
@@ -187,13 +188,13 @@ class Data {
     isonly = json['isonly'];
     label = json['label'];
     msgid = json['msgid'];
-    pay = json['pay'] != null ? new Pay.fromJson(json['pay']) : null;
-    preview = json['preview'] != null ? new Preview.fromJson(json['preview']) : null;
+    pay = json['pay'] != null ? Pay.fromJson(json['pay']) : null;
+    preview = json['preview'] != null ? Preview.fromJson(json['preview']) : null;
     rate = json['rate'];
     if (json['singer'] != null) {
       singer = [];
       json['singer'].forEach((v) {
-        singer?.add(new Singer.fromJson(v));
+        singer?.add(Singer.fromJson(v));
       });
     }
     size128 = json['size128'];
@@ -215,44 +216,44 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['albumdesc'] = this.albumdesc;
-    data['albumid'] = this.albumid;
-    data['albummid'] = this.albummid;
-    data['albumname'] = this.albumname;
-    data['alertid'] = this.alertid;
-    data['belongCD'] = this.belongCD;
-    data['cdIdx'] = this.cdIdx;
-    data['interval'] = this.interval;
-    data['isonly'] = this.isonly;
-    data['label'] = this.label;
-    data['msgid'] = this.msgid;
-    if (this.pay != null) {
-      data['pay'] = this.pay?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['albumdesc'] = albumdesc;
+    data['albumid'] = albumid;
+    data['albummid'] = albummid;
+    data['albumname'] = albumname;
+    data['alertid'] = alertid;
+    data['belongCD'] = belongCD;
+    data['cdIdx'] = cdIdx;
+    data['interval'] = interval;
+    data['isonly'] = isonly;
+    data['label'] = label;
+    data['msgid'] = msgid;
+    if (pay != null) {
+      data['pay'] = pay?.toJson();
     }
-    if (this.preview != null) {
-      data['preview'] = this.preview?.toJson();
+    if (preview != null) {
+      data['preview'] = preview?.toJson();
     }
-    data['rate'] = this.rate;
-    if (this.singer != null) {
-      data['singer'] = this.singer?.map((v) => v.toJson()).toList();
+    data['rate'] = rate;
+    if (singer != null) {
+      data['singer'] = singer?.map((v) => v.toJson()).toList();
     }
-    data['size128'] = this.size128;
-    data['size320'] = this.size320;
-    data['size5_1'] = this.size51;
-    data['sizeape'] = this.sizeape;
-    data['sizeflac'] = this.sizeflac;
-    data['sizeogg'] = this.sizeogg;
-    data['songid'] = this.songid;
-    data['songmid'] = this.songmid;
-    data['songname'] = this.songname;
-    data['songorig'] = this.songorig;
-    data['songtype'] = this.songtype;
-    data['strMediaMid'] = this.strMediaMid;
-    data['stream'] = this.stream;
-    data['switch'] = this.switch1;
-    data['type'] = this.type;
-    data['vid'] = this.vid;
+    data['size128'] = size128;
+    data['size320'] = size320;
+    data['size5_1'] = size51;
+    data['sizeape'] = sizeape;
+    data['sizeflac'] = sizeflac;
+    data['sizeogg'] = sizeogg;
+    data['songid'] = songid;
+    data['songmid'] = songmid;
+    data['songname'] = songname;
+    data['songorig'] = songorig;
+    data['songtype'] = songtype;
+    data['strMediaMid'] = strMediaMid;
+    data['stream'] = stream;
+    data['switch'] = switch1;
+    data['type'] = type;
+    data['vid'] = vid;
     return data;
   }
 }
@@ -289,15 +290,15 @@ class Pay {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['payalbum'] = this.payalbum;
-    data['payalbumprice'] = this.payalbumprice;
-    data['paydownload'] = this.paydownload;
-    data['payinfo'] = this.payinfo;
-    data['payplay'] = this.payplay;
-    data['paytrackmouth'] = this.paytrackmouth;
-    data['paytrackprice'] = this.paytrackprice;
-    data['timefree'] = this.timefree;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['payalbum'] = payalbum;
+    data['payalbumprice'] = payalbumprice;
+    data['paydownload'] = paydownload;
+    data['payinfo'] = payinfo;
+    data['payplay'] = payplay;
+    data['paytrackmouth'] = paytrackmouth;
+    data['paytrackprice'] = paytrackprice;
+    data['timefree'] = timefree;
     return data;
   }
 }
@@ -316,10 +317,10 @@ class Preview {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['trybegin'] = this.trybegin;
-    data['tryend'] = this.tryend;
-    data['trysize'] = this.trysize;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['trybegin'] = trybegin;
+    data['tryend'] = tryend;
+    data['trysize'] = trysize;
     return data;
   }
 }
@@ -338,10 +339,10 @@ class Singer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['mid'] = this.mid;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['mid'] = mid;
+    data['name'] = name;
     return data;
   }
 }
@@ -402,23 +403,23 @@ class Topinfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ListName'] = this.listName;
-    data['MacDetailPicUrl'] = this.macDetailPicUrl;
-    data['MacListPicUrl'] = this.macListPicUrl;
-    data['UpdateType'] = this.updateType;
-    data['albuminfo'] = this.albuminfo;
-    data['headPic_v12'] = this.headPicV12;
-    data['info'] = this.info;
-    data['listennum'] = this.listennum;
-    data['pic'] = this.pic;
-    data['picDetail'] = this.picDetail;
-    data['pic_album'] = this.picAlbum;
-    data['pic_h5'] = this.picH5;
-    data['pic_v11'] = this.picV11;
-    data['pic_v12'] = this.picV12;
-    data['topID'] = this.topID;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ListName'] = listName;
+    data['MacDetailPicUrl'] = macDetailPicUrl;
+    data['MacListPicUrl'] = macListPicUrl;
+    data['UpdateType'] = updateType;
+    data['albuminfo'] = albuminfo;
+    data['headPic_v12'] = headPicV12;
+    data['info'] = info;
+    data['listennum'] = listennum;
+    data['pic'] = pic;
+    data['picDetail'] = picDetail;
+    data['pic_album'] = picAlbum;
+    data['pic_h5'] = picH5;
+    data['pic_v11'] = picV11;
+    data['pic_v12'] = picV12;
+    data['topID'] = topID;
+    data['type'] = type;
     return data;
   }
 }

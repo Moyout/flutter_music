@@ -6,6 +6,8 @@ import 'package:flutter_music/views/mine/history/history_page.dart';
 import 'package:flutter_music/widget/common/route_animation.dart';
 
 class PlayDetailTab extends StatefulWidget {
+  const PlayDetailTab({Key? key}) : super(key: key);
+
   @override
   _PlayDetailTabState createState() => _PlayDetailTabState();
 }
@@ -39,61 +41,59 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: RotationTransition(
-                          turns: Tween(begin: 0.0, end: 1.0).animate(context.watch<PlayPageViewModel>().recordC!),
-                          child: Container(
-                            width: 220.w,
-                            height: 220.w,
-                            padding: EdgeInsets.all(45.w),
+                Stack(
+                  children: [
+                    Center(
+                      child: RotationTransition(
+                        turns: Tween(begin: 0.0, end: 1.0).animate(context.watch<PlayPageViewModel>().recordC!),
+                        child: Container(
+                          width: 220.w,
+                          height: 220.w,
+                          padding: EdgeInsets.all(45.w),
+                          clipBehavior: Clip.antiAlias,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(image: AssetImage("assets/images/record.png")),
+                          ),
+                          child: Material(
                             clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(image: AssetImage("assets/images/record.png")),
-                            ),
-                            child: Material(
-                              clipBehavior: Clip.antiAlias,
-                              shape: CircleBorder(),
-                              child: FadeInImage.assetNetwork(
-                                placeholder: "assets/images/singer.png",
-                                image: context.watch<PlayBarViewModel>().picUrl,
-                                fit: BoxFit.cover,
-                              ),
+                            shape: const CircleBorder(),
+                            child: FadeInImage.assetNetwork(
+                              placeholder: "assets/images/singer.png",
+                              image: context.watch<PlayBarViewModel>().picUrl,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: -10.w,
-                        right: 15.w,
-                        child: RotationTransition(
-                          alignment: Alignment(0.6, -0.7),
-                          // origin: Offset(10,20),
-                          turns: Tween(begin: -0.04, end: 0.02).animate(context.watch<PlayPageViewModel>().animationC!),
-                          child: Container(
-                            // color: Colors.red.withOpacity(0.5),
-                            height: 220.w,
-                            child: Image.asset("assets/images/record_rod.png", fit: BoxFit.cover),
-                          ),
+                    ),
+                    Positioned(
+                      top: -10.w,
+                      right: 15.w,
+                      child: RotationTransition(
+                        alignment: const Alignment(0.6, -0.7),
+                        // origin: Offset(10,20),
+                        turns: Tween(begin: -0.04, end: 0.02).animate(context.watch<PlayPageViewModel>().animationC!),
+                        child: SizedBox(
+                          // color: Colors.red.withOpacity(0.5),
+                          height: 220.w,
+                          child: Image.asset("assets/images/record_rod.png", fit: BoxFit.cover),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(height: 40.w),
                 Text(
-                  context.watch<PlayBarViewModel>().playDetails.length > 0
-                      ? "${context.watch<PlayBarViewModel>().playDetails[2]}"
+                  context.watch<PlayBarViewModel>().playDetails.isNotEmpty
+                      ? context.watch<PlayBarViewModel>().playDetails[2]
                       : "",
                   style: TextStyle(fontSize: 20.sp, color: context.watch<PlayPageViewModel>().negColor),
                 ),
                 SizedBox(height: 20.w),
                 Text(
-                  context.watch<PlayBarViewModel>().playDetails.length > 0
-                      ? "${context.watch<PlayBarViewModel>().playDetails[3]}"
+                  context.watch<PlayBarViewModel>().playDetails.isNotEmpty
+                      ? context.watch<PlayBarViewModel>().playDetails[3]
                       : "",
                   style: TextStyle(fontSize: 18.sp, color: context.watch<PlayPageViewModel>().negColor),
                 ),
@@ -143,7 +143,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                     Text(
                       pbModelR.position.toString().length < 8
                           ? "0:00"
-                          : "${pbModelR.position.toString().substring(2, 7)}",
+                          : pbModelR.position.toString().substring(2, 7),
                       style: TextStyle(
                         color: Colors.white,
                         letterSpacing: 1.2.w,
@@ -151,7 +151,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       height: 50.w,
                       width: AppUtils.getWidth() * 0.6.w,
                       child: Slider(
@@ -201,7 +201,7 @@ class _PlayDetailTabState extends State<PlayDetailTab> with TickerProviderStateM
                       size: 44.w,
                     ),
                     MyElevatedButton(
-                          () => RouteUtil.push(context, HistoryPage(), animation: RouteAnimation.popRight),
+                          () => RouteUtil.push(context, const HistoryPage(), animation: RouteAnimation.popRight),
                       Icons.menu,
                     ),
                   ],

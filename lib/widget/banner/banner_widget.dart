@@ -1,10 +1,11 @@
-import 'package:flutter_music/models/login/sign_model.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/music_hall/musichall_viewmodel.dart';
 import 'package:flutter_music/widget/webview/webview_widget.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 class BannerWidget extends StatelessWidget {
+  const BannerWidget({Key? key}) : super(key: key);
+
   // final List _list = [
   //   // "",
   //   // "",
@@ -16,7 +17,7 @@ class BannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       // color: Colors.grey,
       // width: AppUtils.getWidth() * 0.8.w,
       height: 180.w,

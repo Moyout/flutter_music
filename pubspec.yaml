@@ -17,6 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
+
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
@@ -33,11 +34,11 @@ dependencies:
   # Dio 网络请求
   dio: ^4.0.0
   # 状态管理
-  provider: ^5.0.0
+  provider: ^6.0.0
   # 本地持久化存储
   shared_preferences: any
   # 权限管理
-  permission_handler: ^7.0.0
+  permission_handler: ^8.1.6
   # Flare 动画
   flare_flutter: ^3.0.0
   # app图标
@@ -45,7 +46,7 @@ dependencies:
   # 异步锁
   synchronized: ^3.0.0
   # 音频播放器
-  audioplayers: ^0.19.1
+  audioplayers: ^0.20.1
   # 轮播图
   #  flutter_swiper: ^1.1.6 (非空安全)
   flutter_swiper_null_safety: ^1.0.2
@@ -61,7 +62,7 @@ dependencies:
   flutter_styled_toast: ^2.0.0
   # 下拉刷新
 #  pull_to_refresh: ^1.6.5
-  pull_to_refresh: 1.6.4-nullsafety.0
+  pull_to_refresh: ^2.0.0
   # 网络状态
   connectivity: ^3.0.3
   # 视频播放
@@ -71,7 +72,7 @@ dependencies:
   #  视频播放控制框
   #  chewie: 1.0.0  ()
   # 图片选择
-  image_picker: ^0.7.4
+  image_picker: ^0.8.4+1
   # 图片裁剪
   image_cropper: ^1.4.0
 
@@ -94,7 +95,7 @@ flutter_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_lints:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

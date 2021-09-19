@@ -6,11 +6,11 @@ import 'package:flutter_music/views/mine/favorite/myfavorites_page.dart';
 import 'package:flutter_music/views/mine/history/history_page.dart';
 import 'package:flutter_music/views/mine/login/login_page.dart';
 import 'package:flutter_music/views/mine/set/set_page.dart';
-import 'package:flutter_music/widget/bubble/bubble_paint.dart';
-
 import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
 
 class PersonPage extends StatefulWidget {
+  const PersonPage({Key? key}) : super(key: key);
+
   @override
   _PersonPageState createState() => _PersonPageState();
 }
@@ -21,28 +21,28 @@ class _PersonPageState extends State<PersonPage> {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(bottom: false, child: SearchBarWidget(title: "我的")),
+          const SafeArea(bottom: false, child: SearchBarWidget(title: "我的")),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               children: [
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.transparent,
                       elevation: 0,
-                      shape: CircleBorder(),
+                      shape: const CircleBorder(),
                     ),
                     child: context.watch<LoginViewModel>().isLogin
                         ? Container(
                             clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(shape: BoxShape.circle),
+                            decoration: const BoxDecoration(shape: BoxShape.circle),
                             child: Image.asset("assets/images/login.png",
                                 width: 100.w, height: 100.w, fit: BoxFit.cover),
                           )
                         : Icon(Icons.person_pin,
                             size: 100.w, color: Theme.of(context).dividerColor),
-                    onPressed: () => RouteUtil.push2(context, LoginPage()),
+                    onPressed: () => RouteUtil.push2(context, const LoginPage()),
                   ),
                 ),
                 if (context.watch<LoginViewModel>().isLogin)
@@ -50,7 +50,7 @@ class _PersonPageState extends State<PersonPage> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 12.w),
                       child: Text(
-                        "${context.watch<LoginViewModel>().userName}",
+                        context.watch<LoginViewModel>().userName,
                         style: TextStyle(fontSize: 14.sp),
                       ),
                     ),
@@ -61,19 +61,19 @@ class _PersonPageState extends State<PersonPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       MyElevatedButton(
-                        () => RouteUtil.push(context, HistoryPage(),
+                        () => RouteUtil.push(context, const HistoryPage(),
                             animation: RouteAnimation.popLeft),
                         Icons.history_outlined,
                         size: 44.w,
                       ),
                       MyElevatedButton(
-                        () => RouteUtil.push(context, MyFavoritesPage(),
+                        () => RouteUtil.push(context, const MyFavoritesPage(),
                             animation: RouteAnimation.popUp),
                         Icons.favorite,
                         size: 44.w,
                       ),
                       MyElevatedButton(
-                        () => RouteUtil.push(context, DownloadPage(),
+                        () => RouteUtil.push(context, const DownloadPage(),
                             animation: RouteAnimation.popRight),
                         Icons.download_rounded,
                         size: 44.w,
@@ -82,8 +82,8 @@ class _PersonPageState extends State<PersonPage> {
                   ),
                 ),
                 InkWell(
-                  customBorder: StadiumBorder(),
-                  onTap: () => RouteUtil.push(context, SetPage(),
+                  customBorder: const StadiumBorder(),
+                  onTap: () => RouteUtil.push(context, const SetPage(),
                       animation: RouteAnimation.popDown),
                   child: Container(
                     padding:
@@ -96,9 +96,9 @@ class _PersonPageState extends State<PersonPage> {
                           size: 24.w,
                         ),
                         SizedBox(width: 5.w),
-                        Text("设置"),
-                        Spacer(),
-                        Icon(Icons.chevron_right_rounded)
+                        const Text("设置"),
+                        const Spacer(),
+                        const Icon(Icons.chevron_right_rounded)
                       ],
                     ),
                   ),

@@ -9,6 +9,8 @@ import 'package:flutter_music/widget/search_bar/search_bar_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MusicHallPage extends StatefulWidget {
+  const MusicHallPage({Key? key}) : super(key: key);
+
   @override
   _MusicHallPageState createState() => _MusicHallPageState();
 }
@@ -41,7 +43,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           children: [
-            SafeArea(bottom: false, child: SearchBarWidget(title: "音乐馆")),
+            const SafeArea(bottom: false, child: SearchBarWidget(title: "音乐馆")),
             Expanded(
               child: SmartRefresher(
                 controller: context.watch<MusicHallViewModel>().rController,
@@ -51,11 +53,11 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                 },
                 child: SingleChildScrollView(
                   child: context.read<NavViewModel>().netMode == ConnectivityResult.none
-                      ? Center(child: Text("请检查网络", style: TextStyle(color: Colors.red)))
+                      ? const Center(child: Text("请检查网络", style: TextStyle(color: Colors.red)))
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            BannerWidget(),
+                            const BannerWidget(),
                             Column(
                               children: [
                                 Container(
@@ -63,7 +65,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                                   margin: EdgeInsets.only(top: 10.w),
                                   child: GestureDetector(
                                     onTap: () {
-                                      print("asd");
+                                      debugPrint("asd");
                                     },
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -80,7 +82,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                                 mHVModel.r17model.recomPlaylist?.data == null
                                     ? Padding(
                                         padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
-                                        child: Center(child: CircularProgressIndicator()),
+                                        child: const Center(child: CircularProgressIndicator()),
                                       )
                                     : Container(
                                         alignment: Alignment.center,
@@ -97,7 +99,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                                                     context,
                                                     SongSheetPage(mHVModel
                                                         .r17model.recomPlaylist!.data!.vHot![index].contentId!)),
-                                                child: Container(
+                                                child: SizedBox(
                                                   // height: 120.w,
                                                   width: 125.w,
                                                   // padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
@@ -168,7 +170,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                                 //   ),
                               ],
                             ),
-                            SizedBox(height: 50)
+                            SizedBox(height: 50.w)
                           ],
                         ),
                 ),

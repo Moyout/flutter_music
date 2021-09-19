@@ -1,10 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
 
 class SpUtil {
   static SpUtil? _singleton;
   static SharedPreferences? _prefs;
-  static Lock _lock = Lock();
+  static final Lock _lock = Lock();
 
   static Future<SpUtil> getInstance() async {
     if (_singleton == null) {
@@ -68,8 +69,8 @@ class SpUtil {
   }
 
   ///获取value
-  static dynamic? getValue(String key) {
-    print("取值${_prefs?.getStringList(key)}");
+  static dynamic  getValue(String key) {
+    debugPrint("取值${_prefs?.getStringList(key)}");
 
     if (_prefs == null) return null;
     return _prefs?.get(key);

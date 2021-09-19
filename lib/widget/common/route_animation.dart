@@ -68,8 +68,8 @@ class CustomRoute extends PageRouteBuilder {
                     return SlideTransition(
                       position: Tween<Offset>(
                               // 设置滑动的 X , Y 轴
-                              begin: Offset(-1.0, 0.0),
-                              end: Offset(0.0, 0.0))
+                              begin: const Offset(-1.0, 0.0),
+                              end: const Offset(0.0, 0.0))
                           .animate(CurvedAnimation(
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,
@@ -78,8 +78,8 @@ class CustomRoute extends PageRouteBuilder {
                     return SlideTransition(
                       position: Tween<Offset>(
                               // 设置滑动的 X , Y 轴
-                              begin: Offset(1.0, 0.0),
-                              end: Offset(0.0, 0.0))
+                              begin: const Offset(1.0, 0.0),
+                              end: const Offset(0.0, 0.0))
                           .animate(CurvedAnimation(
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,
@@ -88,8 +88,8 @@ class CustomRoute extends PageRouteBuilder {
                     return SlideTransition(
                       position: Tween<Offset>(
                               // 设置滑动的 X , Y 轴
-                              begin: Offset(0.0, 1.0),
-                              end: Offset(0.0, 0.0))
+                              begin: const Offset(0.0, 1.0),
+                              end: const Offset(0.0, 0.0))
                           .animate(CurvedAnimation(
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,
@@ -98,8 +98,8 @@ class CustomRoute extends PageRouteBuilder {
                     return SlideTransition(
                       position: Tween<Offset>(
                               // 设置滑动的 X , Y 轴
-                              begin: Offset(0.0, -1.0),
-                              end: Offset(0.0, 0.0))
+                              begin: const Offset(0.0, -1.0),
+                              end: const Offset(0.0, 0.0))
                           .animate(CurvedAnimation(
                               parent: animaton1, curve: Curves.fastOutSlowIn)),
                       child: child,

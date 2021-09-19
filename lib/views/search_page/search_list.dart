@@ -5,7 +5,9 @@ import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 class SearchList extends StatelessWidget {
   final SearchViewModel svModel;
 
-  const SearchList(this.svModel);
+  const SearchList(this.svModel,{Key? key}) : super(key: key);
+
+  // const SearchList(this.svModel);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +19,10 @@ class SearchList extends StatelessWidget {
         child: svModel.smModel?.data == null
             ? Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
-                child: Center(child: Text("空")),
+                child: const Center(child: Text("空")),
               )
-            : svModel.smModel?.data?.song?.list?.length == 0
-                ? Center(child: const Text("无结果"))
+            : svModel.smModel!.data!.song!.list!.isEmpty
+                ? const Center(child: Text("无结果"))
                 : Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -37,7 +39,7 @@ class SearchList extends StatelessWidget {
                                 margin: EdgeInsets.only(left: 20.w, top: 10.w),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.w),
-                                  child: albummid.length > 0
+                                  child: albummid.isNotEmpty
                                       ? FadeInImage.assetNetwork(
                                           placeholder: "assets/images/singer.png",
                                           image:
@@ -64,8 +66,8 @@ class SearchList extends StatelessWidget {
                                 child: Text(
                                   "${svModel.smModel?.data?.song?.list?[index].singer?[0]!.name} "
                                           "${svModel.smModel!.data!.song!.list![index].singer!.length > 1 ? "/${svModel.smModel!.data!.song!.list![index].singer![1]!.name}" : ""}" +
-                                      "${svModel.smModel!.data!.song!.list![index].albumname!.trim().length > 0 ? ""
-                                          "  - 《${svModel.smModel!.data!.song!.list![index].albumname!.trim()}》" : ""}",
+                                      (svModel.smModel!.data!.song!.list![index].albumname!.trim().isNotEmpty ? ""
+                                          "  - 《${svModel.smModel!.data!.song!.list![index].albumname!.trim()}》" : ""),
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(fontSize: 12.sp, color: Colors.grey),
                                 ),

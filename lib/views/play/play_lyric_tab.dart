@@ -3,6 +3,8 @@ import 'package:flutter_music/view_models/play/play_page_viewmodel.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class PlayLyricTab extends StatefulWidget {
+  const PlayLyricTab({Key? key}) : super(key: key);
+
   @override
   _PlayLyricTabState createState() => _PlayLyricTabState();
 }
@@ -27,7 +29,7 @@ class _PlayLyricTabState extends State<PlayLyricTab> {
   @override
   Widget build(BuildContext context) {
     return StyledToast(
-      locale: Locale.fromSubtags(),
+      locale: const Locale.fromSubtags(),
       child: Container(
         // color: Colors.red,
         alignment: Alignment.topCenter,
@@ -36,7 +38,7 @@ class _PlayLyricTabState extends State<PlayLyricTab> {
         child: Stack(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: ListWheelScrollView(
                 overAndUnderCenterOpacity: 0.4,
                 controller: context.watch<PlayPageViewModel>().sc,

@@ -5,14 +5,15 @@ import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 class MyBubble extends StatefulWidget {
   final Widget? child;
 
-  MyBubble({this.child});
+  const MyBubble({this.child,Key? key}) : super(key: key);
+
 
   @override
   _MyBubbleState createState() => _MyBubbleState();
 }
 
 class _MyBubbleState extends State<MyBubble> {
-  Offset offset = Offset(-20, -20);
+  Offset offset = const Offset(-20, -20);
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ class MusicHallViewModel extends ChangeNotifier {
   BannerModel bannerModel = BannerModel();
   RefreshController rController = RefreshController();
   PaletteGenerator? paletteGenerator;
-  Color bgColor = Color(0xffffffff);
+  Color bgColor = const Color(0xffffffff);
 
   ///初始化
   void initViewModel() {

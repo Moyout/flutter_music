@@ -20,14 +20,14 @@ class AppConfig {
             children: [
               Text(
                 "程序似乎崩溃了\n ${details.exception}",
-                style: TextStyle(fontFamily: ""),
+                style: const TextStyle(fontFamily: ""),
                 textAlign: TextAlign.center,
               ),
               ElevatedButton(
                   onPressed: () {
                     ///todo:上报
                   },
-                  child: Text("上报日志"))
+                  child: const Text("上报日志"))
             ],
           ),
         ),

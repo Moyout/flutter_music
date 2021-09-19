@@ -6,7 +6,7 @@ class MvRankListRequest {
     String map =
         '{"comm":{"ct":24,"cv":0},"request":{"method":"get_video_rank_list","param":{"rank_type":0,"area_type":0,"required":["vid","name","singers","cover_pic","pubdate"]},"module":"video.VideoRankServer"}}';
     String url = 'https://u.y.qq.com/cgi-bin/musicu.fcg?format=json&data=$map';
-    var date = await BaseRequest().toGet("$url", options: Options(responseType: ResponseType.plain));
+    var date = await BaseRequest().toGet(url, options: Options(responseType: ResponseType.plain));
     if (date != null) {
       MvRankListModel mrlModel = MvRankListModel.fromJson(date);
       return mrlModel;
@@ -27,16 +27,16 @@ class MvRankListModel {
     code = json['code'];
     ts = json['ts'];
     startTs = json['start_ts'];
-    request = json['request'] != null ? new Request.fromJson(json['request']) : null;
+    request = json['request'] != null ? Request.fromJson(json['request']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['ts'] = this.ts;
-    data['start_ts'] = this.startTs;
-    if (this.request != null) {
-      data['request'] = this.request?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['ts'] = ts;
+    data['start_ts'] = startTs;
+    if (request != null) {
+      data['request'] = request?.toJson();
     }
     return data;
   }
@@ -50,12 +50,12 @@ class Request {
 
   Request.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
     if (this.data != null) {
       data['data'] = this.data?.toJson();
     }
@@ -74,16 +74,16 @@ class Data {
     if (json['rank_list'] != null) {
       rankList = [];
       json['rank_list'].forEach((v) {
-        rankList?.add(new RankList.fromJson(v));
+        rankList?.add(RankList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['last_update'] = this.lastUpdate;
-    if (this.rankList != null) {
-      data['rank_list'] = this.rankList?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['last_update'] = lastUpdate;
+    if (rankList != null) {
+      data['rank_list'] = rankList?.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -97,21 +97,21 @@ class RankList {
   RankList({this.medal, this.rankData, this.videoInfo});
 
   RankList.fromJson(Map<String, dynamic> json) {
-    medal = json['medal'] != null ? new Medal.fromJson(json['medal']) : null;
-    rankData = json['rank_data'] != null ? new RankData.fromJson(json['rank_data']) : null;
-    videoInfo = json['video_info'] != null ? new VideoInfo.fromJson(json['video_info']) : null;
+    medal = json['medal'] != null ? Medal.fromJson(json['medal']) : null;
+    rankData = json['rank_data'] != null ? RankData.fromJson(json['rank_data']) : null;
+    videoInfo = json['video_info'] != null ? VideoInfo.fromJson(json['video_info']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.medal != null) {
-      data['medal'] = this.medal?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (medal != null) {
+      data['medal'] = medal?.toJson();
     }
-    if (this.rankData != null) {
-      data['rank_data'] = this.rankData?.toJson();
+    if (rankData != null) {
+      data['rank_data'] = rankData?.toJson();
     }
-    if (this.videoInfo != null) {
-      data['video_info'] = this.videoInfo?.toJson();
+    if (videoInfo != null) {
+      data['video_info'] = videoInfo?.toJson();
     }
     return data;
   }
@@ -126,21 +126,21 @@ class Medal {
   Medal({this.basic, this.isTop, this.medalId, this.record});
 
   Medal.fromJson(Map<String, dynamic> json) {
-    basic = json['basic'] != null ? new Basic.fromJson(json['basic']) : null;
+    basic = json['basic'] != null ? Basic.fromJson(json['basic']) : null;
     isTop = json['is_top'];
     medalId = json['medal_id'];
-    record = json['record'] != null ? new Record.fromJson(json['record']) : null;
+    record = json['record'] != null ? Record.fromJson(json['record']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.basic != null) {
-      data['basic'] = this.basic?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (basic != null) {
+      data['basic'] = basic?.toJson();
     }
-    data['is_top'] = this.isTop;
-    data['medal_id'] = this.medalId;
-    if (this.record != null) {
-      data['record'] = this.record?.toJson();
+    data['is_top'] = isTop;
+    data['medal_id'] = medalId;
+    if (record != null) {
+      data['record'] = record?.toJson();
     }
     return data;
   }
@@ -160,10 +160,10 @@ class Basic {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['pic_url'] = this.picUrl;
-    data['threshold'] = this.threshold;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['pic_url'] = picUrl;
+    data['threshold'] = threshold;
     return data;
   }
 }
@@ -174,7 +174,7 @@ class Record {
   String? gmid;
   int? medalId;
   String? name;
-  List<Null>? singers;
+  List<void>? singers;
 
   Record({this.costTimeS, this.gid, this.gmid, this.medalId, this.name, this.singers});
 
@@ -187,20 +187,20 @@ class Record {
     if (json['singers'] != null) {
       singers = [];
       json['singers'].forEach((v) {
-        singers?.add(v);
+        singers?.add(null);
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cost_time_s'] = this.costTimeS;
-    data['gid'] = this.gid;
-    data['gmid'] = this.gmid;
-    data['medal_id'] = this.medalId;
-    data['name'] = this.name;
-    if (this.singers != null) {
-      data['singers'] = this.singers?.map((v) => v).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cost_time_s'] = costTimeS;
+    data['gid'] = gid;
+    data['gmid'] = gmid;
+    data['medal_id'] = medalId;
+    data['name'] = name;
+    if (singers != null) {
+      data['singers'] = singers?.map((v) => v).toList();
     }
     return data;
   }
@@ -224,12 +224,12 @@ class RankData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['new_flag'] = this.newFlag;
-    data['rank'] = this.rank;
-    data['total_play'] = this.totalPlay;
-    data['trend'] = this.trend;
-    data['week_play'] = this.weekPlay;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['new_flag'] = newFlag;
+    data['rank'] = rank;
+    data['total_play'] = totalPlay;
+    data['trend'] = trend;
+    data['week_play'] = weekPlay;
     return data;
   }
 }
@@ -250,21 +250,21 @@ class VideoInfo {
     if (json['singers'] != null) {
       singers = [];
       json['singers'].forEach((v) {
-        singers?.add(new Singers.fromJson(v));
+        singers?.add(Singers.fromJson(v));
       });
     }
     vid = json['vid'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cover_pic'] = this.coverPic;
-    data['name'] = this.name;
-    data['pubdate'] = this.pubdate;
-    if (this.singers != null) {
-      data['singers'] = this.singers?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cover_pic'] = coverPic;
+    data['name'] = name;
+    data['pubdate'] = pubdate;
+    if (singers != null) {
+      data['singers'] = singers?.map((v) => v.toJson()).toList();
     }
-    data['vid'] = this.vid;
+    data['vid'] = vid;
     return data;
   }
 }
@@ -287,12 +287,12 @@ class Singers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['mid'] = this.mid;
-    data['name'] = this.name;
-    data['pic_mid'] = this.picMid;
-    data['picurl'] = this.picurl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['mid'] = mid;
+    data['name'] = name;
+    data['pic_mid'] = picMid;
+    data['picurl'] = picurl;
     return data;
   }
 }

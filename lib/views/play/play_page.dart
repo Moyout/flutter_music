@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter_music/util/tools.dart';
@@ -9,6 +8,8 @@ import 'package:flutter_music/views/play/play_lyric_tab.dart';
 import 'package:flutter_music/widget/button/myelevated_button.dart';
 
 class PlayPage extends StatefulWidget {
+  const PlayPage({Key? key}) : super(key: key);
+
   @override
   _PlayPageState createState() => _PlayPageState();
 }
@@ -35,13 +36,11 @@ class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin
         body: Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              child: FadeInImage.assetNetwork(
-                height: double.infinity,
-                placeholder: "assets/images/singer.png",
-                image: context.watch<PlayBarViewModel>().picUrl,
-                fit: BoxFit.cover,
-              ),
+            FadeInImage.assetNetwork(
+              height: double.infinity,
+              placeholder: "assets/images/singer.png",
+              image: context.watch<PlayBarViewModel>().picUrl,
+              fit: BoxFit.cover,
             ),
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
@@ -58,9 +57,9 @@ class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin
                             Icons.keyboard_arrow_down,
                             size: 34.w,
                           ),
-                          Spacer(),
+                          const Spacer(),
                           tabBar(),
-                          Spacer(),
+                          const Spacer(),
                           MyElevatedButton(
                             () => context.read<PlayPageViewModel>().shareMusic(),
                             const IconData(0xe6b6, fontFamily: "MyIcons"),
@@ -91,7 +90,7 @@ class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin
           // onTap: (v) => context.read<PlayPageViewModel>().tabC?.animateTo(v),
           labelPadding: EdgeInsets.symmetric(vertical: 10.w),
           controller: context.watch<PlayPageViewModel>().tabC,
-          tabs: [Text("详情"), Text("歌词")],
+          tabs: const [Text("详情"), Text("歌词")],
         ),
       ),
     );
@@ -103,7 +102,7 @@ class _PlayPageState extends State<PlayPage> with SingleTickerProviderStateMixin
         behavior: OverScrollBehavior(),
         child: TabBarView(
           controller: context.watch<PlayPageViewModel>().tabC,
-          children: [
+          children: const [
             PlayDetailTab(),
             PlayLyricTab(),
           ],

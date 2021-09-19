@@ -3,6 +3,8 @@ import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/view_models/startup_viewmodel.dart';
 
 class StartUpPage extends StatelessWidget {
+  const StartUpPage({Key? key}) : super(key: key);
+
   // final VoidCallback? setThemeMode;
   //
   // StartUpPage(this.setThemeMode);
@@ -19,7 +21,7 @@ class StartUpPage extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage("https://bing.ioliu.cn/v1/rand"),
+            image: const NetworkImage("https://bing.ioliu.cn/v1/rand"),
             colorFilter: ColorFilter.mode(
               Colors.white.withOpacity(0.5),
               BlendMode.srcOver,
@@ -30,7 +32,7 @@ class StartUpPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Spacer(),
+            const Spacer(),
             Container(
               // alignment: Alignment.center,
               margin: EdgeInsets.only(bottom: 50.w),
@@ -40,13 +42,11 @@ class StartUpPage extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            Container(
-              child: Image.asset(
-                "assets/images/logo2.png",
-                width: AppUtils.getWidth() / 2 - 20.w,
-              ),
+            Image.asset(
+              "assets/images/logo2.png",
+              width: AppUtils.getWidth() / 2 - 20.w,
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: EdgeInsets.only(bottom: 10.w, right: 30.w),
               child: Align(

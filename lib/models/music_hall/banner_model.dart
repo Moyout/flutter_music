@@ -26,18 +26,18 @@ class BannerModel {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(new Data.fromJson(v));
+        data?.add(Data.fromJson(v));
       });
     }
     result = json['result'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data?.map((v) => v.toJson()).toList();
     }
-    data['result'] = this.result;
+    data['result'] = result;
     return data;
   }
 }
@@ -56,10 +56,10 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['h5url'] = this.h5url;
-    data['picUrl'] = this.picUrl;
-    data['rid'] = this.rid;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['h5url'] = h5url;
+    data['picUrl'] = picUrl;
+    data['rid'] = rid;
     return data;
   }
 }

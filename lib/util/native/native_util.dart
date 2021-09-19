@@ -7,13 +7,13 @@ class NativeUtil {
 
   //获取权限
   static Future<bool> backToDesktop() async {
-    final MethodChannel platform = MethodChannel(backToDesktopChannelName);
+    const MethodChannel platform = MethodChannel(backToDesktopChannelName);
     //通知安卓返回,到手机桌面
     try {
       final bool out = await platform.invokeMethod('backToDesktop');
       if (out) debugPrint('返回桌面$out');
     } on PlatformException catch (e) {
-      print("返回桌面( ${e.toString()})");
+      debugPrint("返回桌面( ${e.toString()})");
     }
     return Future.value(false);
   }

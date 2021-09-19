@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:webview_flutter/platform_interface.dart';
@@ -75,11 +74,11 @@ class _WebViewWidgetState extends State<WebViewWidget> {
             });
           },
           onWebResourceError: (WebResourceError error) {
-            print("error.description----------------->${error.description}");
-            print("error.domain----------------->${error.domain}");
-            print("error.errorCode----------------->${error.errorCode}");
-            print("error.errorType----------------->${error.errorType}");
-            print("error.errorType----------------->${error.failingUrl}");
+            debugPrint("error.description----------------->${error.description}");
+            debugPrint("error.domain----------------->${error.domain}");
+            debugPrint("error.errorCode----------------->${error.errorCode}");
+            debugPrint("error.errorType----------------->${error.errorType}");
+            debugPrint("error.errorType----------------->${error.failingUrl}");
           },
         ),
       ),

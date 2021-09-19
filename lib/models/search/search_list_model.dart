@@ -31,7 +31,7 @@ class SearchMusicModel {
 
   SearchMusicModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     message = json['message'];
     notice = json['notice'];
     subcode = json['subcode'];
@@ -40,16 +40,16 @@ class SearchMusicModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
     if (this.data != null) {
       data['data'] = this.data?.toJson();
     }
-    data['message'] = this.message;
-    data['notice'] = this.notice;
-    data['subcode'] = this.subcode;
-    data['time'] = this.time;
-    data['tips'] = this.tips;
+    data['message'] = message;
+    data['notice'] = notice;
+    data['subcode'] = subcode;
+    data['time'] = time;
+    data['tips'] = tips;
     return data;
   }
 }
@@ -61,7 +61,7 @@ class Data {
   Semantic? semantic;
   Song? song;
   int? tab;
-  List<Null>? taglist;
+  List<void>? taglist;
   int? totaltime;
   Zhida? zhida;
 
@@ -80,40 +80,40 @@ class Data {
     keyword = json['keyword'];
     priority = json['priority'];
     if (json['qc'] != null) {
-      qc = this.qc;
+      qc = qc;
     }
     semantic = json['semantic'] != null
-        ? new Semantic.fromJson(json['semantic'])
+        ? Semantic.fromJson(json['semantic'])
         : null;
-    song = json['song'] != null ? new Song.fromJson(json['song']) : null;
+    song = json['song'] != null ? Song.fromJson(json['song']) : null;
     tab = json['tab'];
     if (json['taglist'] != null) {
-      taglist = this.taglist;
+      taglist = taglist;
     }
     totaltime = json['totaltime'];
-    zhida = json['zhida'] != null ? new Zhida.fromJson(json['zhida']) : null;
+    zhida = json['zhida'] != null ? Zhida.fromJson(json['zhida']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['keyword'] = this.keyword;
-    data['priority'] = this.priority;
-    if (this.qc != null) {
-      data['qc'] = this.qc?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['keyword'] = keyword;
+    data['priority'] = priority;
+    if (qc != null) {
+      data['qc'] = qc?.map((v) => v.toJson()).toList();
     }
-    if (this.semantic != null) {
-      data['semantic'] = this.semantic?.toJson();
+    if (semantic != null) {
+      data['semantic'] = semantic?.toJson();
     }
-    if (this.song != null) {
-      data['song'] = this.song?.toJson();
+    if (song != null) {
+      data['song'] = song?.toJson();
     }
-    data['tab'] = this.tab;
-    if (this.taglist != null) {
-      data['taglist'] = this.taglist;
+    data['tab'] = tab;
+    if (taglist != null) {
+      data['taglist'] = taglist;
     }
-    data['totaltime'] = this.totaltime;
-    if (this.zhida != null) {
-      data['zhida'] = this.zhida?.toJson();
+    data['totaltime'] = totaltime;
+    if (zhida != null) {
+      data['zhida'] = zhida?.toJson();
     }
     return data;
   }
@@ -140,13 +140,13 @@ class Semantic {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['curnum'] = this.curnum;
-    data['curpage'] = this.curpage;
-    if (this.list != null) {
-      data['list'] = this.list?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['curnum'] = curnum;
+    data['curpage'] = curpage;
+    if (list != null) {
+      data['list'] = list?.map((v) => v.toJson()).toList();
     }
-    data['totalnum'] = this.totalnum;
+    data['totalnum'] = totalnum;
     return data;
   }
 }
@@ -165,20 +165,20 @@ class Song {
     if (json['list'] != null) {
       list = [];
       json['list'].forEach((v) {
-        list?.add(new List1.fromJson(v));
+        list?.add(List1.fromJson(v));
       });
     }
     totalnum = json['totalnum'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['curnum'] = this.curnum;
-    data['curpage'] = this.curpage;
-    if (this.list != null) {
-      data['list'] = this.list?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['curnum'] = curnum;
+    data['curpage'] = curpage;
+    if (list != null) {
+      data['list'] = list?.map((v) => v.toJson()).toList();
     }
-    data['totalnum'] = this.totalnum;
+    data['totalnum'] = totalnum;
     return data;
   }
 }
@@ -193,7 +193,7 @@ class List1 {
   int? cdIdx;
   int? chinesesinger;
   String? docid;
-  List<Null>? grp;
+  List<void>? grp;
   int? interval;
   int? isonly;
   String? lyric;
@@ -282,7 +282,7 @@ class List1 {
     chinesesinger = json['chinesesinger'];
     docid = json['docid'];
     if (json['grp'] != null) {
-      grp = this.grp;
+      grp = grp;
     }
     interval = json['interval'];
     isonly = json['isonly'];
@@ -292,15 +292,15 @@ class List1 {
     msgid = json['msgid'];
     newStatus = json['newStatus'];
     nt = json['nt'];
-    pay = json['pay'] != null ? new Pay.fromJson(json['pay']) : null;
+    pay = json['pay'] != null ? Pay.fromJson(json['pay']) : null;
     preview =
-        json['preview'] != null ? new Preview.fromJson(json['preview']) : null;
+        json['preview'] != null ? Preview.fromJson(json['preview']) : null;
     pubtime = json['pubtime'];
     pure = json['pure'];
     if (json['singer'] != null) {
       singer = [];
       json['singer'].forEach((v) {
-        singer?.add(new Singer.fromJson(v));
+        singer?.add(Singer.fromJson(v));
       });
     }
     size128 = json['size128'];
@@ -325,57 +325,57 @@ class List1 {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['albumid'] = this.albumid;
-    data['albummid'] = this.albummid;
-    data['albumname'] = this.albumname;
-    data['albumname_hilight'] = this.albumnameHilight;
-    data['alertid'] = this.alertid;
-    data['belongCD'] = this.belongCD;
-    data['cdIdx'] = this.cdIdx;
-    data['chinesesinger'] = this.chinesesinger;
-    data['docid'] = this.docid;
-    if (this.grp != null) {
-      data['grp'] = this.grp;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['albumid'] = albumid;
+    data['albummid'] = albummid;
+    data['albumname'] = albumname;
+    data['albumname_hilight'] = albumnameHilight;
+    data['alertid'] = alertid;
+    data['belongCD'] = belongCD;
+    data['cdIdx'] = cdIdx;
+    data['chinesesinger'] = chinesesinger;
+    data['docid'] = docid;
+    if (grp != null) {
+      data['grp'] = grp;
     }
-    data['interval'] = this.interval;
-    data['isonly'] = this.isonly;
-    data['lyric'] = this.lyric;
-    data['lyric_hilight'] = this.lyricHilight;
-    data['media_mid'] = this.mediaMid;
-    data['msgid'] = this.msgid;
-    data['newStatus'] = this.newStatus;
-    data['nt'] = this.nt;
-    if (this.pay != null) {
-      data['pay'] = this.pay?.toJson();
+    data['interval'] = interval;
+    data['isonly'] = isonly;
+    data['lyric'] = lyric;
+    data['lyric_hilight'] = lyricHilight;
+    data['media_mid'] = mediaMid;
+    data['msgid'] = msgid;
+    data['newStatus'] = newStatus;
+    data['nt'] = nt;
+    if (pay != null) {
+      data['pay'] = pay?.toJson();
     }
-    if (this.preview != null) {
-      data['preview'] = this.preview?.toJson();
+    if (preview != null) {
+      data['preview'] = preview?.toJson();
     }
-    data['pubtime'] = this.pubtime;
-    data['pure'] = this.pure;
-    if (this.singer != null) {
-      data['singer'] = this.singer?.map((v) => v!.toJson()).toList();
+    data['pubtime'] = pubtime;
+    data['pure'] = pure;
+    if (singer != null) {
+      data['singer'] = singer?.map((v) => v!.toJson()).toList();
     }
-    data['size128'] = this.size128;
-    data['size320'] = this.size320;
-    data['sizeape'] = this.sizeape;
-    data['sizeflac'] = this.sizeflac;
-    data['sizeogg'] = this.sizeogg;
-    data['songid'] = this.songid;
-    data['songmid'] = this.songmid;
-    data['songname'] = this.songname;
-    data['songname_hilight'] = this.songnameHilight;
-    data['strMediaMid'] = this.strMediaMid;
-    data['stream'] = this.stream;
-    data['switch'] = this.switch1;
-    data['t'] = this.t;
-    data['tag'] = this.tag;
-    data['type'] = this.type;
-    data['ver'] = this.ver;
-    data['vid'] = this.vid;
-    data['format'] = this.format;
-    data['songurl'] = this.songurl;
+    data['size128'] = size128;
+    data['size320'] = size320;
+    data['sizeape'] = sizeape;
+    data['sizeflac'] = sizeflac;
+    data['sizeogg'] = sizeogg;
+    data['songid'] = songid;
+    data['songmid'] = songmid;
+    data['songname'] = songname;
+    data['songname_hilight'] = songnameHilight;
+    data['strMediaMid'] = strMediaMid;
+    data['stream'] = stream;
+    data['switch'] = switch1;
+    data['t'] = t;
+    data['tag'] = tag;
+    data['type'] = type;
+    data['ver'] = ver;
+    data['vid'] = vid;
+    data['format'] = format;
+    data['songurl'] = songurl;
     return data;
   }
 }
@@ -409,14 +409,14 @@ class Pay {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['payalbum'] = this.payalbum;
-    data['payalbumprice'] = this.payalbumprice;
-    data['paydownload'] = this.paydownload;
-    data['payinfo'] = this.payinfo;
-    data['payplay'] = this.payplay;
-    data['paytrackmouth'] = this.paytrackmouth;
-    data['paytrackprice'] = this.paytrackprice;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['payalbum'] = payalbum;
+    data['payalbumprice'] = payalbumprice;
+    data['paydownload'] = paydownload;
+    data['payinfo'] = payinfo;
+    data['payplay'] = payplay;
+    data['paytrackmouth'] = paytrackmouth;
+    data['paytrackprice'] = paytrackprice;
     return data;
   }
 }
@@ -435,10 +435,10 @@ class Preview {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['trybegin'] = this.trybegin;
-    data['tryend'] = this.tryend;
-    data['trysize'] = this.trysize;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['trybegin'] = trybegin;
+    data['tryend'] = tryend;
+    data['trysize'] = trysize;
     return data;
   }
 }
@@ -459,11 +459,11 @@ class Singer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['mid'] = this.mid;
-    data['name'] = this.name;
-    data['name_hilight'] = this.nameHilight;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['mid'] = mid;
+    data['name'] = name;
+    data['name_hilight'] = nameHilight;
     return data;
   }
 }
@@ -480,9 +480,9 @@ class Zhida {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['chinesesinger'] = this.chinesesinger;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['chinesesinger'] = chinesesinger;
+    data['type'] = type;
     return data;
   }
 }

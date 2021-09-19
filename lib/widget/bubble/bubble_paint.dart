@@ -13,7 +13,7 @@ import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 /// [ordinaryImage]普通图片效果
 ///[waterRipple] 水波纹效果
 enum ClickEffect {
-  Image,
+  image,
   waterRipple,
 }
 
@@ -25,10 +25,11 @@ class BubblePaint extends CustomPainter {
 
   BubblePaint(this.path, {this.assetImageFrame, required this.controller});
 
+  @override
   void paint(Canvas canvas, Size size) {
     AppUtils.getContext().read<SetViewModel>().footprints.forEach((FootprintModel footItem) {
       if (footItem.clickEffect == ClickEffect.waterRipple && footItem.isSelect) {
-        path.forEach((ClickEffectModel item) {
+        for (var item in path) {
           // canvas.drawPoints(PointMode.points, [item.offset], item.paint..strokeWidth=20.w);
           canvas.drawCircle(item.offset, 10.w * controller.value, item.paint);
           canvas.drawCircle(
@@ -40,11 +41,11 @@ class BubblePaint extends CustomPainter {
           );
           // return ;
           // canvas.drawImage(assetImageFrame!, item.offset.translate(-20, -20), item.paint);
-        });
+        }
       } else if (footItem.isSelect) {
-        path.forEach((ClickEffectModel item) {
+        for (ClickEffectModel item in path) {
           canvas.drawImage(assetImageFrame!, item.offset.translate(-20, -20), item.paint);
-        });
+        }
       }
     });
     // path.forEach((item) {
@@ -52,7 +53,7 @@ class BubblePaint extends CustomPainter {
     //   // return ;
     //   canvas.drawImage(assetImageFrame!, item.offset.translate(-20, -20), item.paint);
     // });
-    if (path.length != 0) {
+    if (path.isNotEmpty) {
       bool opc = path.first.opacityChange(controller);
       if (opc) {
         path.removeAt(0);

@@ -56,9 +56,9 @@ class Toast {
           children: [
             Container(
               clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(shape: BoxShape.circle),
+              decoration: const BoxDecoration(shape: BoxShape.circle),
               child: Image.network(
-                "$avatarUrl",
+                avatarUrl,
                 width: 45.w,
                 height: 45.w,
                 fit: BoxFit.cover,
@@ -72,7 +72,7 @@ class Toast {
                   maxWidth: MediaQueryData.fromWindow(window).size.width - 120.w,
                 ),
                 child: Text(
-                  "$text",
+                  text,
                   style: TextStyle(
                     color: Theme.of(AppUtils.getContext()).dividerColor,
                     fontSize: 16.sp,
@@ -89,12 +89,12 @@ class Toast {
       curve: Curves.easeIn,
       position: StyledToastPosition.left,
       dismissOtherToast: false,
-      startOffset: Offset(0, 4),
-      endOffset: Offset(0, 2),
+      startOffset: const Offset(0, 4),
+      endOffset: const Offset(0, 2),
       reverseAnimation: StyledToastAnimation.slideToTopFade,
       animation: StyledToastAnimation.slideFromBottom,
-      animDuration: Duration(milliseconds: 3000),
-      duration: Duration(milliseconds: 6000),
+      animDuration: const Duration(milliseconds: 3000),
+      duration: const Duration(milliseconds: 6000),
     );
   }
 

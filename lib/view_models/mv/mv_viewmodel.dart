@@ -20,9 +20,9 @@ class MvViewModel extends ChangeNotifier {
 
   void initBoolList() {
     isBoolList.clear();
-    mvrModel!.request!.data!.rankList!.forEach((element) {
+    for (var _ in mvrModel!.request!.data!.rankList!) {
       isBoolList.add(false);
-    });
+    }
   }
 
   ///获取MV榜
@@ -44,7 +44,7 @@ class MvViewModel extends ChangeNotifier {
   void loadMore() {
     if (count != 20) {
       count += 4;
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         reController.loadComplete();
       });
       if (count == 20) Toast.showBottomToast("已加载全部");

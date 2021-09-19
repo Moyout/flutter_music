@@ -7,7 +7,7 @@ import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
 
 class BaseRequest {
-  static BaseRequest _instance = BaseRequest._internal();
+  static final BaseRequest _instance = BaseRequest._internal();
   Dio? dio;
 
   // CancelToken cancelToken = CancelToken();
@@ -25,45 +25,46 @@ class BaseRequest {
     // if (dio?.interceptors.length == 0) {
       dio?.interceptors.add(InterceptorsWrapper(
         onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-          print("\n================== 请求数据 ==========================");
-          print("url = ${options.uri.toString()}");
-          print("headers = ${options.headers}");
-          print("params = ${options.data}");
+          debugPrint("\n================== 请求数据 ==========================");
+          debugPrint("url = ${options.uri.toString()}");
+          debugPrint("headers = ${options.headers}");
+          debugPrint("params = ${options.data}");
           handler.next(options);
           Toast.showLoadingToast(seconds: 10, clickClose: false);
           // cancelToken.cancel();
         },
         onResponse: (Response response, ResponseInterceptorHandler handler) {
-          print("\n================== 响应数据 ==========================");
-          print("code = ${response.statusCode}");
-          print("data = ${response.data}");
-          print("\n");
+          debugPrint("\n================== 响应数据 ==========================");
+          debugPrint("code = ${response.statusCode}");
+          debugPrint("data = ${response.data}");
+          debugPrint("\n");
           handler.next(response);
           Toast.closeLoading();
         },
         onError: (DioError e, ErrorInterceptorHandler handler) async {
-          print("\n================== 错误响应数据 ======================");
-          print("type = ${e.type}");
-          print("message = ${e.message}");
-          print("\n");
+          debugPrint("\n================== 错误响应数据 ======================");
+          debugPrint("type = ${e.type}");
+          debugPrint("message = ${e.message}");
+          debugPrint("\n");
           handler.next(e);
 
           // Toast.showBotToast(e.message);
 
           /*error统一处理*/
-          if (e.type == DioErrorType.connectTimeout)
+          if (e.type == DioErrorType.connectTimeout) {
             Toast.showBotToast("连接超时");
-          else if (e.type == DioErrorType.sendTimeout)
+          } else if (e.type == DioErrorType.sendTimeout) {
             Toast.showBotToast("请求超时");
-          else if (e.type == DioErrorType.receiveTimeout)
+          } else if (e.type == DioErrorType.receiveTimeout) {
             Toast.showBotToast("响应超时");
-          else if (e.type == DioErrorType.response)
+          } else if (e.type == DioErrorType.response) {
             Toast.showBotToast("出现异常");
-          else if (e.type == DioErrorType.cancel)
+          } else if (e.type == DioErrorType.cancel) {
             Toast.showBotToast("请求取消");
-          else
+          } else {
             Toast.showBotToast("请求错误");
-          Future.delayed(Duration(milliseconds: 1000), () {
+          }
+          Future.delayed(const Duration(milliseconds: 1000), () {
             Toast.closeLoading();
           });
         },
@@ -77,7 +78,7 @@ class BaseRequest {
     Map<String, dynamic>? parameters,
     Options? options,
   }) async {
-    var result;
+    dynamic result;
     if (AppUtils.getContext().read<NavViewModel>().netMode == ConnectivityResult.none) {
       Toast.showBotToast("请检查网络");
     } else {
@@ -88,7 +89,7 @@ class BaseRequest {
       try {
         result = await jsonDecode(response?.data);
       } catch (e) {
-        print("=========jsonDecode 错误" + e.toString());
+        debugPrint("=========jsonDecode 错误" + e.toString());
         result = response?.data;
       }
     }
@@ -114,7 +115,7 @@ class BaseRequest {
         data: data,
       )
           .catchError((e) {
-        print("=======post错误========================>$e");
+        debugPrint("=======post错误========================>$e");
       });
       // print("################${response.data}");
     }
@@ -132,14 +133,14 @@ class BaseRequest {
         savePath,
         onReceiveProgress: (int count, int total) {
           //进度
-          print("${(count / total).toStringAsFixed(2)}");
+          debugPrint((count / total).toStringAsFixed(2));
           progress = (count / total).toStringAsFixed(2);
         },
         // cancelToken: CancelToken(),//取消操作
       );
       return progress;
     } on DioError catch (e) {
-      print('downloadFile error---------$e');
+      debugPrint('downloadFile error---------$e');
       return response;
     }
   }

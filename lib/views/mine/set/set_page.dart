@@ -5,6 +5,8 @@ import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/widget/appbar/my_appbar.dart';
 
 class SetPage extends StatefulWidget {
+  const SetPage({Key? key}) : super(key: key);
+
   @override
   _SetPageState createState() => _SetPageState();
 }
@@ -27,7 +29,7 @@ class _SetPageState extends State<SetPage> {
             child: Column(
               children: [
                 ListTile(
-                  title: Text("日/夜间模式"),
+                  title: const Text("日/夜间模式"),
                   onTap: () => context.read<SetViewModel>().setThemeMode(),
                   trailing: SizedBox(
                     width: 80.w,
@@ -38,7 +40,7 @@ class _SetPageState extends State<SetPage> {
                   ),
                 ),
                 ListTile(
-                  title: Text("头像"),
+                  title: const Text("头像"),
                   onTap: () => context.read<SetViewModel>().setAvatar(),
                   trailing: SizedBox(
                     child: context.watch<SetViewModel>().croppedFile != null
@@ -52,7 +54,7 @@ class _SetPageState extends State<SetPage> {
                 //   onChanged: (v) => context.read<SetViewModel>().setListenAndSave(),
                 // ),
                 SwitchListTile(
-                  title: Text("开启足迹效果"),
+                  title: const Text("开启足迹效果"),
                   value: context.watch<SetViewModel>().openPaw,
                   onChanged: (v) => context.read<SetViewModel>().setPaw(),
                 ),

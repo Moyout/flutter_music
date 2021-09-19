@@ -38,23 +38,23 @@ class SongSheetDetailedModel {
     cdnum = json['cdnum'];
     if (json['cdlist'] != null) {
       cdlist = [];
-      json['cdlist'].forEach((v) { cdlist?.add(new Cdlist.fromJson(v)); });
+      json['cdlist'].forEach((v) { cdlist?.add(Cdlist.fromJson(v)); });
     }
     realcdnum = json['realcdnum'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['subcode'] = this.subcode;
-    data['accessed_plaza_cache'] = this.accessedPlazaCache;
-    data['accessed_favbase'] = this.accessedFavbase;
-    data['login'] = this.login;
-    data['cdnum'] = this.cdnum;
-    if (this.cdlist != null) {
-      data['cdlist'] = this.cdlist?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['subcode'] = subcode;
+    data['accessed_plaza_cache'] = accessedPlazaCache;
+    data['accessed_favbase'] = accessedFavbase;
+    data['login'] = login;
+    data['cdnum'] = cdnum;
+    if (cdlist != null) {
+      data['cdlist'] = cdlist?.map((v) => v.toJson()).toList();
     }
-    data['realcdnum'] = this.realcdnum;
+    data['realcdnum'] = realcdnum;
     return data;
   }
 }
@@ -137,7 +137,7 @@ class Cdlist {
     isdj = json['isdj'];
     if (json['tags'] != null) {
       tags = [];
-      json['tags'].forEach((v) { tags?.add(new Tags.fromJson(v)); });
+      json['tags'].forEach((v) { tags?.add(Tags.fromJson(v)); });
     }
     songnum = json['songnum'];
     songids = json['songids'];
@@ -151,7 +151,7 @@ class Cdlist {
     curSongNum = json['cur_song_num'];
     if (json['songlist'] != null) {
       songlist = [];
-      json['songlist'].forEach((v) { songlist?.add(new Songlist.fromJson(v)); });
+      json['songlist'].forEach((v) { songlist?.add(Songlist.fromJson(v)); });
     }
     visitnum = json['visitnum'];
     cmtnum = json['cmtnum'];
@@ -161,55 +161,55 @@ class Cdlist {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['disstid'] = this.disstid;
-    data['dir_show'] = this.dirShow;
-    data['owndir'] = this.owndir;
-    data['dirid'] = this.dirid;
-    data['coveradurl'] = this.coveradurl;
-    data['dissid'] = this.dissid;
-    data['login'] = this.login;
-    data['uin'] = this.uin;
-    data['encrypt_uin'] = this.encryptUin;
-    data['dissname'] = this.dissname;
-    data['logo'] = this.logo;
-    data['pic_mid'] = this.picMid;
-    data['album_pic_mid'] = this.albumPicMid;
-    data['pic_dpi'] = this.picDpi;
-    data['isAd'] = this.isAd;
-    data['desc'] = this.desc;
-    data['ctime'] = this.ctime;
-    data['mtime'] = this.mtime;
-    data['headurl'] = this.headurl;
-    data['ifpicurl'] = this.ifpicurl;
-    data['nick'] = this.nick;
-    data['nickname'] = this.nickname;
-    data['type'] = this.type;
-    data['singerid'] = this.singerid;
-    data['singermid'] = this.singermid;
-    data['isvip'] = this.isvip;
-    data['isdj'] = this.isdj;
-    if (this.tags != null) {
-      data['tags'] = this.tags?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['disstid'] = disstid;
+    data['dir_show'] = dirShow;
+    data['owndir'] = owndir;
+    data['dirid'] = dirid;
+    data['coveradurl'] = coveradurl;
+    data['dissid'] = dissid;
+    data['login'] = login;
+    data['uin'] = uin;
+    data['encrypt_uin'] = encryptUin;
+    data['dissname'] = dissname;
+    data['logo'] = logo;
+    data['pic_mid'] = picMid;
+    data['album_pic_mid'] = albumPicMid;
+    data['pic_dpi'] = picDpi;
+    data['isAd'] = isAd;
+    data['desc'] = desc;
+    data['ctime'] = ctime;
+    data['mtime'] = mtime;
+    data['headurl'] = headurl;
+    data['ifpicurl'] = ifpicurl;
+    data['nick'] = nick;
+    data['nickname'] = nickname;
+    data['type'] = type;
+    data['singerid'] = singerid;
+    data['singermid'] = singermid;
+    data['isvip'] = isvip;
+    data['isdj'] = isdj;
+    if (tags != null) {
+      data['tags'] = tags?.map((v) => v.toJson()).toList();
     }
-    data['songnum'] = this.songnum;
-    data['songids'] = this.songids;
-    data['songtypes'] = this.songtypes;
-    data['disstype'] = this.disstype;
-    data['dir_pic_url2'] = this.dirPicUrl2;
-    data['song_update_time'] = this.songUpdateTime;
-    data['song_update_num'] = this.songUpdateNum;
-    data['total_song_num'] = this.totalSongNum;
-    data['song_begin'] = this.songBegin;
-    data['cur_song_num'] = this.curSongNum;
-    if (this.songlist != null) {
-      data['songlist'] = this.songlist?.map((v) => v.toJson()).toList();
+    data['songnum'] = songnum;
+    data['songids'] = songids;
+    data['songtypes'] = songtypes;
+    data['disstype'] = disstype;
+    data['dir_pic_url2'] = dirPicUrl2;
+    data['song_update_time'] = songUpdateTime;
+    data['song_update_num'] = songUpdateNum;
+    data['total_song_num'] = totalSongNum;
+    data['song_begin'] = songBegin;
+    data['cur_song_num'] = curSongNum;
+    if (songlist != null) {
+      data['songlist'] = songlist?.map((v) => v.toJson()).toList();
     }
-    data['visitnum'] = this.visitnum;
-    data['cmtnum'] = this.cmtnum;
-    data['buynum'] = this.buynum;
-    data['scoreavage'] = this.scoreavage;
-    data['scoreusercount'] = this.scoreusercount;
+    data['visitnum'] = visitnum;
+    data['cmtnum'] = cmtnum;
+    data['buynum'] = buynum;
+    data['scoreavage'] = scoreavage;
+    data['scoreusercount'] = scoreusercount;
     return data;
   }
 }
@@ -228,10 +228,10 @@ class Tags {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['pid'] = this.pid;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['pid'] = pid;
     return data;
   }
 }
@@ -291,62 +291,62 @@ class Songlist {
     ov = json['ov'];
     if (json['singer'] != null) {
       singer = [];
-      json['singer'].forEach((v) { singer?.add(new Singer.fromJson(v)); });
+      json['singer'].forEach((v) { singer?.add(Singer.fromJson(v)); });
     }
-    album = json['album'] != null ? new Album.fromJson(json['album']) : null;
-    mv = json['mv'] != null ? new Mv.fromJson(json['mv']) : null;
-    ksong = json['ksong'] != null ? new Ksong.fromJson(json['ksong']) : null;
-    file = json['file'] != null ? new File.fromJson(json['file']) : null;
-    volume = json['volume'] != null ? new Volume.fromJson(json['volume']) : null;
-    pay = json['pay'] != null ? new Pay.fromJson(json['pay']) : null;
-    action = json['action'] != null ? new Action.fromJson(json['action']) : null;
+    album = json['album'] != null ? Album.fromJson(json['album']) : null;
+    mv = json['mv'] != null ? Mv.fromJson(json['mv']) : null;
+    ksong = json['ksong'] != null ? Ksong.fromJson(json['ksong']) : null;
+    file = json['file'] != null ? File.fromJson(json['file']) : null;
+    volume = json['volume'] != null ? Volume.fromJson(json['volume']) : null;
+    pay = json['pay'] != null ? Pay.fromJson(json['pay']) : null;
+    action = json['action'] != null ? Action.fromJson(json['action']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    data['songtype'] = this.songtype;
-    data['mid'] = this.mid;
-    data['name'] = this.name;
-    data['title'] = this.title;
-    data['subtitle'] = this.subtitle;
-    data['interval'] = this.interval;
-    data['isonly'] = this.isonly;
-    data['language'] = this.language;
-    data['genre'] = this.genre;
-    data['index_cd'] = this.indexCd;
-    data['index_album'] = this.indexAlbum;
-    data['status'] = this.status;
-    data['fnote'] = this.fnote;
-    data['url'] = this.url;
-    data['time_public'] = this.timePublic;
-    data['tid'] = this.tid;
-    data['sa'] = this.sa;
-    data['ov'] = this.ov;
-    if (this.singer != null) {
-      data['singer'] = this.singer?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['songtype'] = songtype;
+    data['mid'] = mid;
+    data['name'] = name;
+    data['title'] = title;
+    data['subtitle'] = subtitle;
+    data['interval'] = interval;
+    data['isonly'] = isonly;
+    data['language'] = language;
+    data['genre'] = genre;
+    data['index_cd'] = indexCd;
+    data['index_album'] = indexAlbum;
+    data['status'] = status;
+    data['fnote'] = fnote;
+    data['url'] = url;
+    data['time_public'] = timePublic;
+    data['tid'] = tid;
+    data['sa'] = sa;
+    data['ov'] = ov;
+    if (singer != null) {
+      data['singer'] = singer?.map((v) => v.toJson()).toList();
     }
-    if (this.album != null) {
-      data['album'] = this.album?.toJson();
+    if (album != null) {
+      data['album'] = album?.toJson();
     }
-    if (this.mv != null) {
-      data['mv'] = this.mv?.toJson();
+    if (mv != null) {
+      data['mv'] = mv?.toJson();
     }
-    if (this.ksong != null) {
-      data['ksong'] = this.ksong?.toJson();
+    if (ksong != null) {
+      data['ksong'] = ksong?.toJson();
     }
-    if (this.file != null) {
-      data['file'] = this.file?.toJson();
+    if (file != null) {
+      data['file'] = file?.toJson();
     }
-    if (this.volume != null) {
-      data['volume'] = this.volume?.toJson();
+    if (volume != null) {
+      data['volume'] = volume?.toJson();
     }
-    if (this.pay != null) {
-      data['pay'] = this.pay?.toJson();
+    if (pay != null) {
+      data['pay'] = pay?.toJson();
     }
-    if (this.action != null) {
-      data['action'] = this.action?.toJson();
+    if (action != null) {
+      data['action'] = action?.toJson();
     }
     return data;
   }
@@ -368,11 +368,11 @@ class Singer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['mid'] = this.mid;
-    data['name'] = this.name;
-    data['title'] = this.title;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['mid'] = mid;
+    data['name'] = name;
+    data['title'] = title;
     return data;
   }
 }
@@ -397,13 +397,13 @@ class Album {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['mid'] = this.mid;
-    data['pmid'] = this.pmid;
-    data['name'] = this.name;
-    data['title'] = this.title;
-    data['subtitle'] = this.subtitle;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['mid'] = mid;
+    data['pmid'] = pmid;
+    data['name'] = name;
+    data['title'] = title;
+    data['subtitle'] = subtitle;
     return data;
   }
 }
@@ -420,9 +420,9 @@ class Mv {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vid'] = this.vid;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['vid'] = vid;
     return data;
   }
 }
@@ -439,9 +439,9 @@ class Ksong {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['mid'] = this.mid;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['mid'] = mid;
     return data;
   }
 }
@@ -494,27 +494,27 @@ class File {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['media_mid'] = this.mediaMid;
-    data['size_try'] = this.sizeTry;
-    data['b_30s'] = this.b30s;
-    data['e_30s'] = this.e30s;
-    data['try_begin'] = this.tryBegin;
-    data['try_end'] = this.tryEnd;
-    data['size_24aac'] = this.size24aac;
-    data['size_48aac'] = this.size48aac;
-    data['size_96aac'] = this.size96aac;
-    data['size_192aac'] = this.size192aac;
-    data['size_192ogg'] = this.size192ogg;
-    data['size_128mp3'] = this.size128mp3;
-    data['size_320mp3'] = this.size320mp3;
-    data['size_aac'] = this.sizeAac;
-    data['size_ogg'] = this.sizeOgg;
-    data['size_128'] = this.size128;
-    data['size_320'] = this.size320;
-    data['size_ape'] = this.sizeApe;
-    data['size_flac'] = this.sizeFlac;
-    data['size_dts'] = this.sizeDts;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['media_mid'] = mediaMid;
+    data['size_try'] = sizeTry;
+    data['b_30s'] = b30s;
+    data['e_30s'] = e30s;
+    data['try_begin'] = tryBegin;
+    data['try_end'] = tryEnd;
+    data['size_24aac'] = size24aac;
+    data['size_48aac'] = size48aac;
+    data['size_96aac'] = size96aac;
+    data['size_192aac'] = size192aac;
+    data['size_192ogg'] = size192ogg;
+    data['size_128mp3'] = size128mp3;
+    data['size_320mp3'] = size320mp3;
+    data['size_aac'] = sizeAac;
+    data['size_ogg'] = sizeOgg;
+    data['size_128'] = size128;
+    data['size_320'] = size320;
+    data['size_ape'] = sizeApe;
+    data['size_flac'] = sizeFlac;
+    data['size_dts'] = sizeDts;
     return data;
   }
 }
@@ -533,10 +533,10 @@ class Volume {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['gain'] = this.gain;
-    data['peak'] = this.peak;
-    data['lra'] = this.lra;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['gain'] = gain;
+    data['peak'] = peak;
+    data['lra'] = lra;
     return data;
   }
 }
@@ -563,14 +563,14 @@ class Pay {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pay_month'] = this.payMonth;
-    data['price_track'] = this.priceTrack;
-    data['price_album'] = this.priceAlbum;
-    data['pay_play'] = this.payPlay;
-    data['pay_down'] = this.payDown;
-    data['pay_status'] = this.payStatus;
-    data['time_free'] = this.timeFree;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pay_month'] = payMonth;
+    data['price_track'] = priceTrack;
+    data['price_album'] = priceAlbum;
+    data['pay_play'] = payPlay;
+    data['pay_down'] = payDown;
+    data['pay_status'] = payStatus;
+    data['time_free'] = timeFree;
     return data;
   }
 }
@@ -593,12 +593,12 @@ class Action {
     }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['switch'] = this.switch1;
-    data['msgid'] = this.msgid;
-    data['msgpay'] = this.msgpay;
-    data['alert'] = this.alert;
-    data['icons'] = this.icons;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['switch'] = switch1;
+    data['msgid'] = msgid;
+    data['msgpay'] = msgpay;
+    data['alert'] = alert;
+    data['icons'] = icons;
     return data;
     }
 }

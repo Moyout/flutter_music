@@ -98,24 +98,22 @@ class _CupertinoControlsState extends State<CupertinoControls> with SingleTicker
   }
 
   AnimatedOpacity _buildHeader() {
-    return new AnimatedOpacity(
+    return AnimatedOpacity(
       opacity: _hideStuff ? 0.0 : 1.0,
-      duration: new Duration(milliseconds: 300),
-      child: new Container(
+      duration: const Duration(milliseconds: 300),
+      child: Container(
         color: Colors.white.withOpacity(0.1),
         height: 34,
-        child: new Row(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            new IconButton(
+            IconButton(
               onPressed: _onExpandCollapse,
-              icon: new Icon(Icons.chevron_left),
+              icon: const Icon(Icons.chevron_left),
             ),
-            new Text(
+            Text(
               widget.title,
-              style: new TextStyle(
-                fontSize: 18.0,
-              ),
+              style: const TextStyle(fontSize: 18.0),
             ),
           ],
         ),
@@ -659,7 +657,7 @@ class _PlaybackSpeedDialog extends StatelessWidget {
     Key? key,
     required List<double> speeds,
     required double selected,
-  })   : _speeds = speeds,
+  })  : _speeds = speeds,
         _selected = selected,
         super(key: key);
 

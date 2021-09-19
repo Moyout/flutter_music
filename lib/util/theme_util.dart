@@ -16,7 +16,7 @@ class ThemeUtil {
           fontFamily: "FZKT",
         ),
       ),
-      iconTheme: IconThemeData(color: Colors.black),
+      iconTheme: const IconThemeData(color: Colors.black),
       dividerColor: Colors.blueGrey,
       brightness: Brightness.light,
     );
@@ -35,10 +35,10 @@ class ThemeUtil {
           fontFamily: "FZKT",
         ),
       ),
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.white),
       dividerColor: Colors.white,
       brightness: Brightness.dark,
-      dialogTheme: DialogTheme(),
+      dialogTheme: const DialogTheme(),
 
       // elevatedButtonTheme: ElevatedButtonThemeData(
       //   style: ButtonStyle(

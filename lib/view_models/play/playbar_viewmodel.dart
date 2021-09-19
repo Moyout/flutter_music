@@ -23,7 +23,7 @@ class PlayBarViewModel extends ChangeNotifier {
   void init(TickerProvider tickerProvider) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (controller == null) {
-        controller = AnimationController(duration: Duration(seconds: 10), vsync: tickerProvider);
+        controller = AnimationController(duration: const Duration(seconds: 10), vsync: tickerProvider);
         initRotateImage();
         notifyListeners();
       }
@@ -64,7 +64,7 @@ class PlayBarViewModel extends ChangeNotifier {
       //完成
       audioPlayer?.onPlayerCompletion.listen((event) {
         position = duration;
-        print("播放结束");
+        debugPrint("播放结束");
         isPlay = false;
         controller?.stop();
         audioPlayer?.pause();
@@ -75,17 +75,18 @@ class PlayBarViewModel extends ChangeNotifier {
       });
       //播放错误操作
       audioPlayer?.onPlayerError.listen((msg) {
-        print('audioPlayer error :::::::::::::::::::::::: $msg');
-        duration = Duration(seconds: 0);
-        position = Duration(seconds: 0);
+        debugPrint('audioPlayer error :::::::::::::::::::::::: $msg');
+        duration = const Duration(seconds: 0);
+        position = const Duration(seconds: 0);
         notifyListeners();
       });
     }
     playDetails = SpUtil.getStringList(PublicKeys.nowPlaySongDetails)!;
-    if (playDetails.length > 0) {
+    if (playDetails.isNotEmpty) {
       // picUrl = playDetails[1];
-      if (playDetails[1].length > 0)
+      if (playDetails[1].isNotEmpty) {
         picUrl = "https://y.gtimg.cn/music/photo_new/T002R300x300M000${playDetails[1]}.jpg";
+      }
       // notifyListeners();
     }
   }
@@ -110,7 +111,7 @@ class PlayBarViewModel extends ChangeNotifier {
     // print( AppUtils.getContext().read<MvViewModel>().vpController.value);
      if (audioPlayer?.state == null||audioPlayer?.state==PlayerState.STOPPED) {
     // if (audioPlayer?.state == null) {
-      if (playDetails.length > 0) {
+      if (playDetails.isNotEmpty) {
         AppUtils.getContext().read<SearchViewModel>().onPlay(playDetails[0]).then((value) {
           if (value != null) {
             onPlay(value);
@@ -145,7 +146,7 @@ class PlayBarViewModel extends ChangeNotifier {
       controller?.stop();
       audioPlayer?.pause();
     } else {
-      await audioPlayer?.play("$playUrl", isLocal: false);
+      await audioPlayer?.play(playUrl, isLocal: false);
       isPlay = true;
       controller?.forward();
     }
@@ -160,7 +161,7 @@ class PlayBarViewModel extends ChangeNotifier {
         audioPlayer?.seek(Duration(milliseconds: position.round()));
         notifyListeners();
       } catch (e) {
-        print("-------------------拉动进度条错误------------------------>$e");
+        debugPrint("-------------------拉动进度条错误------------------------>$e");
       }
     }
   }

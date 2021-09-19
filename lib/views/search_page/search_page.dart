@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_music/provider/click_effect_provider.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 import 'package:flutter_music/views/search_page/hot_search_list.dart';
@@ -10,6 +9,8 @@ import 'package:flutter_music/widget/bubble/click_effect_widget.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -34,18 +35,16 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
           onWillPop: () async => context.read<SearchViewModel>().onWillPopScope(),
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            body: Container(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  bodyWidget(),
-                  searchWidget(context),
-                  Positioned(
-                    bottom: MediaQueryData.fromWindow(window).padding.bottom.w + 2.w,
-                    child: PlayBarWidget(),
-                  ),
-                ],
-              ),
+            body: Stack(
+              alignment: Alignment.center,
+              children: [
+                bodyWidget(),
+                searchWidget(context),
+                Positioned(
+                  bottom: MediaQueryData.fromWindow(window).padding.bottom.w + 2.w,
+                  child: const PlayBarWidget(),
+                ),
+              ],
             ),
           ),
         ),
@@ -63,9 +62,9 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
         child: ListView(
           controller: svModelW.listExternalController,
           // physics: BouncingScrollPhysics(),
-          physics: svModelW.tabController?.index == 0 ? BouncingScrollPhysics() : NeverScrollableScrollPhysics(),
+          physics: svModelW.tabController?.index == 0 ? const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
           children: [
-            if (svModelW.searchHistoryList.length > 0 && svModelW.tabController!.index == 0)
+            if (svModelW.searchHistoryList.isNotEmpty && svModelW.tabController!.index == 0)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -77,7 +76,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                           "最近搜索",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         GestureDetector(
                           onTap: () {
                             showCupertinoDialog(
@@ -125,7 +124,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                                     : Colors.white,
                             padding: EdgeInsets.symmetric(horizontal: 5.w),
                             label: Text(
-                              "${svModelR.searchHistoryList[index]}",
+                              svModelR.searchHistoryList[index],
                               style: TextStyle(
                                 color: Theme.of(context).brightness == Brightness.dark
                                     ? svModelW.searchHistoryListBool[index]
@@ -154,14 +153,14 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                   padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 15.w),
                   child: Text(
                     svModelR.tabController?.index == 0 ? "热门音乐TOP" : "搜索结果",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
                 if (svModelW.tabController != null)
-                  Container(
+                  SizedBox(
                     height: 10 * 62.w,
                     child: TabBarView(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       controller: svModelW.tabController,
                       children: [
                         HotSearchList(svModelW),
@@ -218,7 +217,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                             counterText: "",
                             contentPadding: EdgeInsets.fromLTRB(0, 0, 15.w, 15.w),
                             border: InputBorder.none,
-                            suffixIcon: svModel.textC.text.length == 0
+                            suffixIcon: svModel.textC.text.isEmpty
                                 ? null
                                 : GestureDetector(
                                     onTap: () => svModel.clearText(),

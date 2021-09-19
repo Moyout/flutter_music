@@ -7,12 +7,13 @@ class MyElevatedButton extends StatelessWidget {
   final double? size;
   final Color? color;
 
-  MyElevatedButton(this.onPressed, this.icon, {this.size = 24, this.color, this.onLongPress});
+  const MyElevatedButton(this.onPressed, this.icon, {this.size = 24, this.color, this.onLongPress, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onLongPress: onLongPress ?? null,
+      onLongPress: onLongPress,
       style: ElevatedButton.styleFrom(
         primary: Colors.transparent,
         onPrimary: Colors.transparent,
@@ -21,7 +22,7 @@ class MyElevatedButton extends StatelessWidget {
         shadowColor: Colors.white,
         elevation: 0,
       ),
-      onPressed: onPressed ?? null,
+      onPressed: onPressed,
       child: Icon(icon, color: color ?? Theme.of(context).dividerColor, size: size?.w),
     );
   }

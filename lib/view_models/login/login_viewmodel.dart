@@ -77,7 +77,7 @@ class LoginViewModel extends ChangeNotifier {
     if (teddyStatus != "hands_up") {
       teddyStatus = "fail";
       notifyListeners();
-      await Future.delayed(Duration(milliseconds: 1500), () {
+      await Future.delayed(const Duration(milliseconds: 1500), () {
         teddyStatus = "idle";
       });
     }
@@ -88,11 +88,12 @@ class LoginViewModel extends ChangeNotifier {
     if (teddyStatus == "hands_up") {
       teddyStatus = "hands_down";
       notifyListeners();
-      await Future.delayed(Duration(milliseconds: 1500), () {
+      await Future.delayed(const Duration(milliseconds: 1500), () {
         teddyStatus = "test";
       });
-    } else
+    } else {
       teddyStatus = "test";
+    }
     notifyListeners();
   }
 
@@ -100,7 +101,7 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> setTeddyStatus() async {
     if (teddyStatus == "hands_up") {
       teddyStatus = "hands_down";
-      await Future.delayed(Duration(milliseconds: 1500), () {
+      await Future.delayed(const Duration(milliseconds: 1500), () {
         teddyStatus = "idle";
       });
       notifyListeners();
@@ -121,8 +122,9 @@ class LoginViewModel extends ChangeNotifier {
         await SendCodeRequest.sendCode(textEmailC.text).then((value) {
           BotToast.showText(text: value.message.toString());
         });
-      } else
+      } else {
         BotToast.showText(text: "请输入完整信息");
+      }
     });
   }
 
@@ -142,10 +144,11 @@ class LoginViewModel extends ChangeNotifier {
           BotToast.showText(text: value.message.toString());
           if (value.message == "注册成功") tabController?.animateTo(1);
         });
-      } else
+      } else {
         BotToast.showText(text: "请输入完整信息");
+      }
     } else {
-      if (textC.text.length > 0 && textPswC.text.length >= 6) {
+      if (textC.text.isNotEmpty && textPswC.text.length >= 6) {
         await LoginRequest.getLogin(
                 userName: textC.text, passWord: textPswC.text)
             .then((value) async {
@@ -157,7 +160,7 @@ class LoginViewModel extends ChangeNotifier {
             isLogin = true;
             userName = value.userName ?? "";
             await SpUtil.setString(PublicKeys.token, value.token ?? "");
-            await Future.delayed(Duration(milliseconds: 1500), () {
+            await Future.delayed(const Duration(milliseconds: 1500), () {
               RouteUtil.pop(AppUtils.getContext());
             });
             notifyListeners();
@@ -165,8 +168,9 @@ class LoginViewModel extends ChangeNotifier {
             setTeddyFail();
           }
         });
-      } else
+      } else {
         BotToast.showText(text: "请输入完整信息");
+      }
     }
   }
 }

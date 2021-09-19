@@ -5,13 +5,8 @@ class MyCupertinoDialog extends StatelessWidget {
   final String title, content, yes, no;
   final VoidCallback? onYes;
 
-  const MyCupertinoDialog({
-    this.onYes,
-    this.title = "标题",
-    this.content = "",
-    this.yes = "确认",
-    this.no = "取消",
-  });
+  const MyCupertinoDialog({this.onYes, this.title = "标题", this.content = "", this.yes = "确认", this.no = "取消", Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,11 @@ import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
 class SongSheetPage extends StatefulWidget {
   final int contentId;
 
-  SongSheetPage(this.contentId);
+  const SongSheetPage(this.contentId, {Key? key}) : super(key: key);
+
+  // final int contentId;
+  //
+  // SongSheetPage(this.contentId);
 
   @override
   _SongSheetPageState createState() => _SongSheetPageState();
@@ -50,7 +54,7 @@ class _SongSheetPageState extends State<SongSheetPage> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [mHVModel.bgColor, Theme.of(context).scaffoldBackgroundColor],
-              stops: [0.5, 1],
+              stops: const [0.5, 1],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -66,17 +70,17 @@ class _SongSheetPageState extends State<SongSheetPage> {
                     width: 140.w,
                     height: 130.w,
                     fit: BoxFit.fitWidth,
-                    errorBuilder: (context, object, p) => Text('Failed to load image'),
+                    errorBuilder: (context, object, p) => const Text('Failed to load image'),
                   ),
                 ),
                 Positioned(
                   top: 40.w,
                   right: 20.w,
-                  child: Container(
+                  child: SizedBox(
                     width: 180.w,
                     child: CupertinoContextMenu(
-                      actions: [
-                        const SizedBox(),
+                      actions: const [
+                        SizedBox(),
                       ],
                       child: Material(
                         color: Colors.transparent,
@@ -106,7 +110,7 @@ class _SongSheetPageState extends State<SongSheetPage> {
                 Positioned(
                   right: 20.w,
                   top: 140.w,
-                  child: Container(
+                  child: SizedBox(
                     width: 180.w,
                     height: 70.w,
                     // color: Colors.grey,
@@ -155,7 +159,7 @@ class _SongSheetPageState extends State<SongSheetPage> {
             contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
             leading: Padding(
               padding: EdgeInsets.all(8.0.w),
-              child: Text("${index + 1}", style: TextStyle(fontFamily: "")),
+              child: Text("${index + 1}", style: const TextStyle(fontFamily: "")),
             ),
             subtitle: Text(
               "${mHVModel.ssdModel.cdlist![0].songlist?[index].singer?[0].name}",
@@ -165,11 +169,11 @@ class _SongSheetPageState extends State<SongSheetPage> {
               "${mHVModel.ssdModel.cdlist![0].songlist?[index].name}",
               style: TextStyle(fontSize: 14.sp),
             ),
-            selected: context.watch<PlayBarViewModel>().playDetails.length > 0
+            selected: context.watch<PlayBarViewModel>().playDetails.isNotEmpty
                 ? context.watch<PlayBarViewModel>().playDetails[0] == mHVModel.ssdModel.cdlist![0].songlist![index].mid
                 : false,
             trailing: context.watch<PlayBarViewModel>().isPlay
-                ? context.watch<PlayBarViewModel>().playDetails.length > 0
+                ? context.watch<PlayBarViewModel>().playDetails.isNotEmpty
                     ? (context.watch<PlayBarViewModel>().playDetails[0] ==
                             mHVModel.ssdModel.cdlist![0].songlist![index].mid
                         ? Image.asset("assets/images/playing.webp", width: 20.w, height: 20.w)

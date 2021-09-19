@@ -72,7 +72,7 @@ class _MaterialControlsState extends State<MaterialControls> with SingleTickerPr
           child: Column(
             children: <Widget>[
               // 在全屏时才显示
-              chewieController.isFullScreen ? _buildHeader() : new Container(),
+              chewieController.isFullScreen ? _buildHeader() : Container(),
               if (_latestValue.isBuffering)
                 const Expanded(
                   child: Center(
@@ -90,24 +90,22 @@ class _MaterialControlsState extends State<MaterialControls> with SingleTickerPr
   }
 
   AnimatedOpacity _buildHeader() {
-    return new AnimatedOpacity(
+    return AnimatedOpacity(
       opacity: _hideStuff ? 0.0 : 1.0,
-      duration: new Duration(milliseconds: 300),
-      child: new Container(
+      duration: const Duration(milliseconds: 300),
+      child: Container(
         color: Colors.white.withOpacity(0.1),
         height: barHeight,
-        child: new Row(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            new IconButton(
+            IconButton(
               onPressed: _onExpandCollapse,
-              icon: new Icon(Icons.chevron_left),
+              icon: const Icon(Icons.chevron_left),
             ),
-            new Text(
+            Text(
               widget.title,
-              style: new TextStyle(
-                fontSize: 18.0,
-              ),
+              style: const TextStyle(fontSize: 18.0),
             ),
           ],
         ),
@@ -453,8 +451,8 @@ class _MaterialControlsState extends State<MaterialControls> with SingleTickerPr
           },
           colors: chewieController.materialProgressColors ??
               ChewieProgressColors(
-                  playedColor: Theme.of(context).accentColor,
-                  handleColor: Theme.of(context).accentColor,
+                  playedColor: Theme.of(context).colorScheme.copyWith().secondary,
+                  handleColor: Theme.of(context).colorScheme.copyWith().secondary,
                   bufferedColor: Theme.of(context).backgroundColor,
                   backgroundColor: Theme.of(context).disabledColor),
         ),
@@ -468,7 +466,7 @@ class _PlaybackSpeedDialog extends StatelessWidget {
     Key? key,
     required List<double> speeds,
     required double selected,
-  })   : _speeds = speeds,
+  })  : _speeds = speeds,
         _selected = selected,
         super(key: key);
 

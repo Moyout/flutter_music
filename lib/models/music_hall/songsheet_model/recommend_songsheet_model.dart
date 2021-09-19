@@ -27,16 +27,16 @@ class RecommendSongSheetModel {
     code = json['code'].toString();
     ts = json['ts'];
     startTs = json['start_ts'];
-    recomPlaylist = json['recomPlaylist'] != null ? new RecomPlaylist.fromJson(json['recomPlaylist']) : null;
+    recomPlaylist = json['recomPlaylist'] != null ? RecomPlaylist.fromJson(json['recomPlaylist']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['ts'] = this.ts;
-    data['start_ts'] = this.startTs;
-    if (this.recomPlaylist != null) {
-      data['recomPlaylist'] = this.recomPlaylist?.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['ts'] = ts;
+    data['start_ts'] = startTs;
+    if (recomPlaylist != null) {
+      data['recomPlaylist'] = recomPlaylist?.toJson();
     }
     return data;
   }
@@ -50,12 +50,12 @@ class RecomPlaylist {
 
   RecomPlaylist.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
     if (this.data != null) {
       data['data'] = this.data?.toJson();
     }
@@ -74,16 +74,16 @@ class Data {
     if (json['v_hot'] != null) {
       vHot = [];
       json['v_hot'].forEach((v) {
-        vHot?.add(new VHot.fromJson(v));
+        vHot?.add(VHot.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page'] = this.page;
-    if (this.vHot != null) {
-      data['v_hot'] = this.vHot?.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page'] = page;
+    if (vHot != null) {
+      data['v_hot'] = vHot?.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -154,26 +154,26 @@ class VHot {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['album_pic_mid'] = this.albumPicMid;
-    data['content_id'] = this.contentId;
-    data['cover'] = this.cover;
-    data['creator'] = this.creator;
-    data['edge_mark'] = this.edgeMark;
-    data['id'] = this.id;
-    data['is_dj'] = this.isDj;
-    data['is_vip'] = this.isVip;
-    data['jump_url'] = this.jumpUrl;
-    data['listen_num'] = this.listenNum;
-    data['pic_mid'] = this.picMid;
-    data['rcmdcontent'] = this.rcmdcontent;
-    data['rcmdtemplate'] = this.rcmdtemplate;
-    data['rcmdtype'] = this.rcmdtype;
-    data['singerid'] = this.singerid;
-    data['title'] = this.title;
-    data['tjreport'] = this.tjreport;
-    data['type'] = this.type;
-    data['username'] = this.username;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['album_pic_mid'] = albumPicMid;
+    data['content_id'] = contentId;
+    data['cover'] = cover;
+    data['creator'] = creator;
+    data['edge_mark'] = edgeMark;
+    data['id'] = id;
+    data['is_dj'] = isDj;
+    data['is_vip'] = isVip;
+    data['jump_url'] = jumpUrl;
+    data['listen_num'] = listenNum;
+    data['pic_mid'] = picMid;
+    data['rcmdcontent'] = rcmdcontent;
+    data['rcmdtemplate'] = rcmdtemplate;
+    data['rcmdtype'] = rcmdtype;
+    data['singerid'] = singerid;
+    data['title'] = title;
+    data['tjreport'] = tjreport;
+    data['type'] = type;
+    data['username'] = username;
     return data;
   }
 }

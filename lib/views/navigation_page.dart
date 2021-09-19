@@ -1,6 +1,4 @@
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_music/provider/click_effect_provider.dart';
 import 'package:flutter_music/util/native/native_util.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/nav_viewmodel.dart';
@@ -12,6 +10,8 @@ import 'package:flutter_music/widget/bubble/click_effect_widget.dart';
 import 'package:flutter_music/widget/play_bar/playbar_widget.dart';
 
 class NavigationPage extends StatefulWidget {
+  const NavigationPage({Key? key}) : super(key: key);
+
   @override
   _NavigationPageState createState() => _NavigationPageState();
 }
@@ -47,10 +47,10 @@ class _NavigationPageState extends State<NavigationPage> {
               alignment: Alignment.center,
               children: <Widget>[
                 PageView(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: context.watch<NavViewModel>().pageController,
                   onPageChanged: (i) => navModel.pageTo(i),
-                  children: <Widget>[
+                  children: const <Widget>[
                     MusicHallPage(),
                     MVPage(),
                     PersonPage(),
@@ -58,18 +58,18 @@ class _NavigationPageState extends State<NavigationPage> {
                 ),
                 Positioned(
                   bottom: 42.w + MediaQuery.of(context).padding.bottom / 2,
-                  child: Container(
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 45.w,
                     child: Consumer<NavViewModel>(
                       builder: (_, NavViewModel navModel, __) {
                         return ListView(
                           controller: navModel.sc,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           children: [
                             Container(width: MediaQuery.of(context).size.width - 50.w),
-                            PlayBarWidget(),
+                            const PlayBarWidget(),
                             Container(width: 60.w),
                           ],
                         );
@@ -100,7 +100,7 @@ class _NavigationPageState extends State<NavigationPage> {
           // color: Colors.white,
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.vertical(top: Radius.circular(25.w)),
-          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), offset: Offset(0, 2))],
+          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), offset: const Offset(0, 2))],
         ),
         padding: EdgeInsets.all(1.5.w).add(EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom.w / 2)),
         width: AppUtils.getWidth(),
@@ -113,7 +113,7 @@ class _NavigationPageState extends State<NavigationPage> {
                   : navModel.navIndex == 1
                       ? Alignment.center
                       : Alignment.centerRight,
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               child: Container(
                 width: 130.w,
                 height: 45.w,

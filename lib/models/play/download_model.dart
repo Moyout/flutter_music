@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 class DownloadRequest {
   static Future<String> downloadSong(String songmid) async {
     MusicKeyModel musicKeyModel = (await MusicKeyRequest.getMusicVKey(songmid))!;
-    if (musicKeyModel.req0!.data!.midurlinfo![0].purl!.length == 0) {
+    if (musicKeyModel.req0!.data!.midurlinfo![0].purl!.isEmpty) {
       Toast.showBotToast("暂不支持");
       return "";
     } else {

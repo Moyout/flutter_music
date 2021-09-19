@@ -12,8 +12,9 @@ class LyricRequest {
           Options(headers: {"Referer": "https://y.qq.com/portal/player.html"}),
     );
     LyricModel lyricModel = LyricModel.fromJson(response);
-    if (lyricModel.lyric != null)
+    if (lyricModel.lyric != null) {
       lyrics = Base64.decodeBase64(lyricModel.lyric.toString()).split("\n");
+    }
     SpUtil.setStringList(PublicKeys.lyrics, lyrics);
     return lyrics;
   }
@@ -37,12 +38,12 @@ class LyricModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['retcode'] = this.retcode;
-    data['code'] = this.code;
-    data['subcode'] = this.subcode;
-    data['lyric'] = this.lyric;
-    data['trans'] = this.trans;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['retcode'] = retcode;
+    data['code'] = code;
+    data['subcode'] = subcode;
+    data['lyric'] = lyric;
+    data['trans'] = trans;
     return data;
   }
 }

@@ -37,11 +37,11 @@ class SetViewModel extends ChangeNotifier {
       listenCache = SpUtil.getBool(PublicKeys.darkTheme) ?? false;
       openPaw = SpUtil.getBool(PublicKeys.openPaw) ?? false;
       assetsFootprintString = SpUtil.getString(PublicKeys.assetFootprintString) ?? "";
-      if (assetsFootprintString.length > 0) {
+      if (assetsFootprintString.isNotEmpty) {
         AppUtils.getContext().read<ClickEffectProvider>().setAssetImage(assetImagesString: assetsFootprintString);
-        footprints.forEach((item) {
+        for (var item in footprints) {
           if (item.assetImage == assetsFootprintString) item.isSelect = true;
-        });
+        }
       }
       notifyListeners();
     });
@@ -52,7 +52,7 @@ class SetViewModel extends ChangeNotifier {
     if (status == dayIdle) {
       status = switchNight;
       notifyListeners();
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       status = nightIdle;
       isDark = true;
       notifyListeners();
@@ -60,7 +60,7 @@ class SetViewModel extends ChangeNotifier {
     } else if (status == nightIdle) {
       status = switchDay;
       notifyListeners();
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       status = dayIdle;
       isDark = false;
       notifyListeners();
@@ -81,13 +81,13 @@ class SetViewModel extends ChangeNotifier {
     await SpUtil.setBool(PublicKeys.openPaw, openPaw);
     if (openPaw) {
       assetsFootprintString = SpUtil.getString(PublicKeys.assetFootprintString) ?? "";
-      print(assetsFootprintString);
-      if (assetsFootprintString.length == 0) {
+      debugPrint(assetsFootprintString);
+      if (assetsFootprintString.isEmpty) {
         assetsFootprintString = "assets/images/paw.png";
         await SpUtil.setString(PublicKeys.assetFootprintString, assetsFootprintString);
-        footprints.forEach((item) {
+        for (var item in footprints) {
           if (item.assetImage == assetsFootprintString) item.isSelect = true;
-        });
+        }
       } else {
         AppUtils.getContext().read<ClickEffectProvider>().setAssetImage(assetImagesString: assetsFootprintString);
       }
@@ -102,12 +102,12 @@ class SetViewModel extends ChangeNotifier {
 
   ///选择图片
   Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       image = File(pickedFile.path);
       test();
     } else {
-      print('No image selected.');
+      debugPrint('No image selected.');
     }
     notifyListeners();
   }
@@ -125,8 +125,8 @@ class SetViewModel extends ChangeNotifier {
         // CropAspectRatioPreset.ratio16x9
       ],
       // cropStyle: CropStyle.circle,
-      aspectRatio: CropAspectRatio(ratioY: 275, ratioX: 200),
-      androidUiSettings: AndroidUiSettings(
+      aspectRatio: const CropAspectRatio(ratioY: 275, ratioX: 200),
+      androidUiSettings: const AndroidUiSettings(
         toolbarTitle: '裁剪图片',
         toolbarColor: Colors.deepOrange,
         toolbarWidgetColor: Colors.white,
@@ -134,13 +134,15 @@ class SetViewModel extends ChangeNotifier {
         lockAspectRatio: true,
         hideBottomControls: false,
       ),
-      iosUiSettings: IOSUiSettings(minimumAspectRatio: 1.0),
+      iosUiSettings: const IOSUiSettings(minimumAspectRatio: 1.0),
     );
     notifyListeners();
   }
 
   Future<void> selectFootprint(int index) async {
-    footprints.forEach((FootprintModel item) => item.isSelect = false);
+    for (var item in footprints) {
+      item.isSelect = false;
+    }
     footprints[index].isSelect = true;
     await SpUtil.setString(PublicKeys.assetFootprintString, footprints[index].assetImage);
     AppUtils.getContext().read<ClickEffectProvider>().setAssetImage(assetImagesString: footprints[index].assetImage);

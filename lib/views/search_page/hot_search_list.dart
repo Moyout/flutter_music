@@ -4,8 +4,11 @@ import 'package:flutter_music/view_models/search/search_viewmodel.dart';
 
 class HotSearchList extends StatelessWidget {
   final SearchViewModel svModel;
+  const HotSearchList(this.svModel,{Key? key}) : super(key: key);
 
-  const HotSearchList(this.svModel);
+  // final SearchViewModel svModel;
+  //
+  // const HotSearchList(this.svModel);
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +20,11 @@ class HotSearchList extends StatelessWidget {
         child: svModel.hmModel?.songlist == null
             ? Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
-                child: Center(child: Text("空")),
+                child: const Center(child: Text("空")),
               )
             : ListView(
                 padding: EdgeInsets.zero,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemExtent: 62.w,
                 children: List.generate(10, (index) {
                   return ElevatedButton(
