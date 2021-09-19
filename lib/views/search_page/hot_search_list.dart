@@ -20,34 +20,83 @@ class HotSearchList extends StatelessWidget {
                 child: Center(child: Text("空")),
               )
             : ListView(
+                padding: EdgeInsets.zero,
                 physics: NeverScrollableScrollPhysics(),
-                itemExtent: 60.w,
+                itemExtent: 62.w,
                 children: List.generate(10, (index) {
-                  return ListTile(
-                    contentPadding: EdgeInsets.all(0),
-                    leading: Container(
-                      padding: EdgeInsets.only(left: 20.w, top: 10.w),
-                      child: Text(
-                        "${index + 1}",
-                        style: TextStyle(
-                          color: index == 0 || index == 1 || index == 2 ? Colors.deepOrange : Colors.grey,
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      onPrimary: Colors.blue
+                    ),
+                    onPressed: () => svModel.onHotSearchItem(svModel.hmModel!.songlist![index].data!.songname!),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 15.w, right: 20.w, top: 10.w, bottom: 10.w),
+                          child: Text(
+                            "${index + 1}",
+                            style: TextStyle(
+                              color: index == 0 || index == 1 || index == 2 ? Colors.deepOrange : Colors.grey,
+                            ),
+                          ),
                         ),
-                      ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              svModel.hmModel!.songlist![index].data!.songname!,
+                              style: TextStyle(
+                                color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            Text(
+                              "${svModel.hmModel!.songlist![index].data!.singer![0].name}" +
+                                  svModel.hmModel!.songlist![index].data!.albumdesc!,
+                              style: TextStyle(fontSize: 12.sp,
+                                color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    title: Text(
-                      svModel.hmModel!.songlist![index].data!.songname!,
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                    subtitle: Text(
-                      "${svModel.hmModel!.songlist![index].data!.singer![0].name}" +
-                          svModel.hmModel!.songlist![index].data!.albumdesc!,
-                      style: TextStyle(fontSize: 12.sp),
-                    ),
-                    onTap: () => svModel.onHotSearchItem(svModel.hmModel!.songlist![index].data!.songname!),
                   );
+                  // return ListTile(
+                  //   // selected: true,
+                  //    contentPadding: EdgeInsets.zero,
+                  //   leading: Container(
+                  //     padding: EdgeInsets.only(left: 20.w, top: 10.w),
+                  //     child: Text(
+                  //       "${index + 1}",
+                  //       style: TextStyle(
+                  //         color: index == 0 || index == 1 || index == 2 ? Colors.deepOrange : Colors.grey,
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   title: Text(
+                  //     svModel.hmModel!.songlist![index].data!.songname!,
+                  //     style: TextStyle(
+                  //       color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+                  //       fontSize: 14.sp,
+                  //     ),
+                  //   ),
+                  //   subtitle: Container(
+                  //     // color: Colors.pink,
+                  //     margin:   EdgeInsets.only(bottom: 10.0),
+                  //     child: Text(
+                  //       "${svModel.hmModel!.songlist![index].data!.singer![0].name}" +
+                  //           svModel.hmModel!.songlist![index].data!.albumdesc!,
+                  //       style: TextStyle(fontSize: 12.sp),
+                  //     ),
+                  //   ),
+                  //   onTap: () => svModel.onHotSearchItem(svModel.hmModel!.songlist![index].data!.songname!),
+                  // );
                 }),
               ),
       ),

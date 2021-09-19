@@ -104,10 +104,17 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                       runSpacing: 10.w,
                       children: List.generate(svModelW.searchHistoryList.length, (index) {
                         return GestureDetector(
-                          onPanDown: (_) => svModelR.onPanDown(index),
-                          onPanCancel: () => svModelR.onPanCancel(index),
-                          onHorizontalDragCancel: () => false,
+                          behavior: HitTestBehavior.opaque,
+                          onVerticalDragUpdate: (_) => svModelR.onPanCancel(index),
+                          onHorizontalDragUpdate: (_) => svModelR.onPanCancel(index),
+                          onLongPressMoveUpdate: (_) => false,
                           onTap: () => false,
+                          onTapDown: (_) => svModelR.onPanDown(index),
+                          onTapUp: (_) {
+                            svModelR.onPanCancel(index);
+                            svModelR.onTapUp(index);
+                          },
+                          onLongPressUp: () => svModelR.onPanCancel(index),
                           child: Chip(
                             backgroundColor: Theme.of(context).brightness == Brightness.dark
                                 ? svModelW.searchHistoryListBool[index]
@@ -152,7 +159,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                 ),
                 if (svModelW.tabController != null)
                   Container(
-                    height: 10 * 60.w,
+                    height: 10 * 62.w,
                     child: TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       controller: svModelW.tabController,

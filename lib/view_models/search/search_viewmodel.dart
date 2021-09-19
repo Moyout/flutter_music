@@ -65,18 +65,28 @@ class SearchViewModel extends ChangeNotifier {
   }
 
   void onPanDown(int index) {
+    KeyboardUtil.closeKeyboardUtil();
     searchHistoryListBool[index] = true;
     textC.text = searchHistoryList[index];
     page = 1;
     smModel = null;
 
+    // WidgetsBinding.instance?.addPostFrameCallback((_) {
+    //   tabController?.animateTo(1);
+    // });
+    // WidgetsBinding.instance?.addPostFrameCallback((_) {
+    //   searchRequest(searchHistoryList[index]);
+    // });
+    notifyListeners();
+  }
+
+  void onTapUp(int index) {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       tabController?.animateTo(1);
     });
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       searchRequest(searchHistoryList[index]);
     });
-    notifyListeners();
   }
 
   void onPanCancel(int index) {
@@ -209,7 +219,7 @@ class SearchViewModel extends ChangeNotifier {
         albumMid.length > 0 ? albumMid : "", //播放图片
         songName, //歌名
         singer, //歌手
-        topid,//歌曲评论id
+        topid, //歌曲评论id
       ]);
 
       if (context.read<PlayBarViewModel>().isPlay) {
