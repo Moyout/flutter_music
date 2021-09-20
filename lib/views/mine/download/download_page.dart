@@ -5,6 +5,19 @@ class DownloadPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ClickEffectWidget(child: Scaffold());
+    return ClickEffectWidget(
+      child: Scaffold(
+        body: Container(
+
+        ),
+        floatingActionButton: FloatingActionButton(
+          elevation: 0,
+          onPressed: () {
+            RouteUtil.pop(context);
+          },
+          child: const Text("返回"),
+        ),
+      ),
+    );
   }
 }

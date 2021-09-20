@@ -1,13 +1,55 @@
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/view_models/startup_viewmodel.dart';
+import 'package:flutter_music/views/mine/set/set_page.dart';
+import 'package:flutter_music/views/search_page/search_page.dart';
+import 'package:quick_actions/quick_actions.dart';
 
-class StartUpPage extends StatelessWidget {
+class StartUpPage extends StatefulWidget {
   const StartUpPage({Key? key}) : super(key: key);
 
-  // final VoidCallback? setThemeMode;
-  //
-  // StartUpPage(this.setThemeMode);
+  @override
+  State<StartUpPage> createState() => _StartUpPageState();
+}
+
+class _StartUpPageState extends State<StartUpPage> {
+  String shortcut = 'no action set';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    const QuickActions quickActions = QuickActions();
+    quickActions.initialize((String shortcutType) {
+      setState(() {
+        shortcut = shortcutType;
+      });
+      RouteUtil.push(context, const SearchPage());
+      debugPrint("shortcut------------------------>$shortcut");
+    });
+
+    quickActions.setShortcutItems(<ShortcutItem>[
+      // NOTE: This first action icon will only work on iOS.
+      // In a real world project keep the same file name for both platforms.
+      const ShortcutItem(
+        type: 'action_one',
+        localizedTitle: 'Action one',
+        icon: 'AppIcon',
+      ),
+      // NOTE: This second action icon will only work on Android.
+      // In a real world project keep the same file name for both platforms.
+      const ShortcutItem(type: 'action_two', localizedTitle: 'Action two1', icon: 'ic_launcher'),
+      const ShortcutItem(type: 'action_two2', localizedTitle: 'Action two2', icon: 'ic_launcher2'),
+      const ShortcutItem(type: 'action_two3', localizedTitle: '搜索歌曲', icon: 'launcher_icon'),
+    ]).then((value) {
+      setState(() {
+        if (shortcut == 'no action set') {
+          shortcut = 'actions ready';
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

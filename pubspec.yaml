@@ -78,7 +78,7 @@ dependencies:
 
   # webview
   webview_flutter: ^2.0.12
-
+  quick_actions: ^0.6.0+7
 #  path_provider: ^1.6.22
 #  path_provider_windows: ^0.0.4
 #  shared_preferences_windows: any
