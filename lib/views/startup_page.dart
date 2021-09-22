@@ -1,7 +1,6 @@
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/view_models/startup_viewmodel.dart';
-import 'package:flutter_music/views/mine/set/set_page.dart';
 import 'package:flutter_music/views/search_page/search_page.dart';
 import 'package:quick_actions/quick_actions.dart';
 

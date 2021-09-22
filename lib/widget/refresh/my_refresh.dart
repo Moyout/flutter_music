@@ -80,12 +80,13 @@ class MyRefreshWidget extends StatelessWidget {
             body = const Text("No more Data");
           }
           return SizedBox(
-            height: 55.0,
+            height: 55.0.w,
             child: Center(child: body),
           );
         },
       ),
-      headerTriggerDistance: 80.0,
+
+      headerTriggerDistance: 80.0.w,
       // header trigger refresh trigger distance
       footerTriggerDistance: 80.0,
       springDescription: const SpringDescription(stiffness: 170, damping: 16, mass: 1.9),

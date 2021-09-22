@@ -6,22 +6,23 @@ import 'package:flutter_music/models/search/music_key_model.dart';
 import 'package:flutter_music/models/search/search_list_model.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/play/playbar_viewmodel.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SearchViewModel extends ChangeNotifier {
-  ScrollController listController = ScrollController();
-  ScrollController listExternalController = ScrollController();
+
+  RefreshController rC = RefreshController();
   TextEditingController textC = TextEditingController();
   List<bool> searchHistoryListBool = [];
   List<String> searchHistoryList = [];
   HotMusicModel? hmModel;
   SearchMusicModel? smModel;
   MusicKeyModel? musicKeyModel;
-  TabController? tabController;
-  bool isLoading = false;
+  bool isSearchList = false;
   int page = 1;
 
   ///初始化ViewModel
   Future<void> initViewModel() async {
+    isSearchList = false;
     textC.clear();
     searchHistoryList = SpUtil.getStringList(PublicKeys.searchHistoryList) ?? [];
     searchHistoryListBool.clear();
@@ -29,30 +30,35 @@ class SearchViewModel extends ChangeNotifier {
       searchHistoryListBool.add(false);
     }
     hmModel = await HotMusicRequest.getHotMusic();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      listController.addListener(() {
-        if (listController.position.maxScrollExtent == listController.position.pixels) {
-          page++;
-          searchRequest(textC.text, page: page);
-          notifyListeners();
-          debugPrint("page=============================>$page");
-        }
-      });
-      notifyListeners();
-    });
     notifyListeners();
   }
 
   ///初始化tab控制器
-  void initTabController(TickerProvider tickerProvider) {
+  void initTabController() {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      if (tabController == null) {
-        tabController = TabController(initialIndex: 0, length: 2, vsync: tickerProvider);
-        notifyListeners();
-      } else {
-        if (tabController?.index != 0) tabController?.animateTo(0);
-      }
+      notifyListeners();
     });
+  }
+
+  ///下拉刷新
+  Future<void> onRefresh() async {
+    if (!isSearchList) {
+      hmModel = await HotMusicRequest.getHotMusic().whenComplete(() => rC.refreshToIdle());
+    } else {
+      smModel = null;
+      await searchRequest(textC.text, page: 1).whenComplete(() => rC.refreshToIdle());
+      notifyListeners();
+    }
+
+    notifyListeners();
+  }
+
+  ///上拉加载
+ void onLoading() async {
+    page++;
+    debugPrint("onLoading------------>$page");
+    await searchRequest(textC.text, page: page).whenComplete(() => rC.loadComplete());
+    notifyListeners();
   }
 
   ///清除搜索框
@@ -60,7 +66,7 @@ class SearchViewModel extends ChangeNotifier {
     textC.clear();
     page = 1;
     smModel = null;
-    tabController?.animateTo(0);
+    isSearchList = false;
     notifyListeners();
   }
 
@@ -80,24 +86,26 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onTapUp(int index) {
+  Future<void> onTapUp(int index) async {
+    smModel = null;
+    await searchRequest(searchHistoryList[index], page: 1);
+    isSearchList = true;
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      tabController?.animateTo(1);
-    });
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      searchRequest(searchHistoryList[index]);
+    // searchRequest(searchHistoryList[index]);
+    notifyListeners();
     });
   }
 
   void onPanCancel(int index) {
     searchHistoryListBool[index] = false;
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      notifyListeners();
-    });
+    // WidgetsBinding.instance?.addPostFrameCallback((_) {
+    notifyListeners();
+    // });
   }
 
   ///存储搜索历史
   void saveHistorySearch(String value) {
+
     if (value.trim().isNotEmpty) {
       if (!searchHistoryList.contains(value)) {
         if (searchHistoryList.length >= 10) {
@@ -111,11 +119,7 @@ class SearchViewModel extends ChangeNotifier {
       page = 1;
       smModel = null;
       searchRequest(value);
-
-      ///搜索列表
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        tabController?.animateTo(1);
-      });
+      isSearchList = true;
       notifyListeners();
     }
 
@@ -124,6 +128,7 @@ class SearchViewModel extends ChangeNotifier {
 
   ///点击每条热搜
   void onHotSearchItem(String songName) {
+    isSearchList = true;
     textC.text = songName;
     KeyboardUtil.closeKeyboardUtil();
     if (!searchHistoryList.contains(songName)) {
@@ -136,18 +141,14 @@ class SearchViewModel extends ChangeNotifier {
       SpUtil.setStringList(PublicKeys.searchHistoryList, searchHistoryList);
     }
     smModel = null;
-    searchRequest(songName);
+    searchRequest(songName, page: 1);
 
-    ///搜索列表
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      tabController?.animateTo(1);
-      notifyListeners();
-    });
     notifyListeners();
   }
 
   ///清除搜索历史
   void clearSearchHistory() {
+    isSearchList = false;
     searchHistoryList.clear();
     searchHistoryListBool.clear();
     SpUtil.setStringList(PublicKeys.searchHistoryList, []);
@@ -157,11 +158,10 @@ class SearchViewModel extends ChangeNotifier {
   ///加载更多
   Future<void> searchRequest(String songName, {int page = 1}) async {
     if (smModel == null) {
-      page = 1;
+      this.page = 1;
       smModel = await SearchMusicRequest.getSearchMusic(songName);
     } else {
-      isLoading = true;
-      SearchMusicRequest.getSearchMusic(songName, p: page).then((value) {
+      await SearchMusicRequest.getSearchMusic(songName, p: page).then((value) {
         if (value!.data!.song!.list!.isNotEmpty) {
           for (var item in value.data!.song!.list!) {
             smModel!.data!.song!.list!.add(item);
@@ -169,7 +169,6 @@ class SearchViewModel extends ChangeNotifier {
         } else {
           Toast.showBottomToast("已加载更多");
         }
-        isLoading = false;
         notifyListeners();
       });
     }
@@ -262,12 +261,18 @@ class SearchViewModel extends ChangeNotifier {
 
   ///监听返回
   bool onWillPopScope() {
-    if (tabController?.index == 0) {
-      return true;
-    } else {
-      tabController?.animateTo(0);
+    if (isSearchList) {
+      isSearchList = false;
       notifyListeners();
       return false;
     }
+    return true;
+    // if (!isSearchList) {
+    //   return true;
+    // } else {
+    //   isSearchList = false;
+    //   notifyListeners();
+    //   return false;
+    // }
   }
 }

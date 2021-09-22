@@ -6,9 +6,17 @@ class MyElevatedButton extends StatelessWidget {
   final IconData? icon;
   final double? size;
   final Color? color;
+  final EdgeInsetsGeometry? padding;
 
-  const MyElevatedButton(this.onPressed, this.icon, {this.size = 24, this.color, this.onLongPress, Key? key})
-      : super(key: key);
+  const MyElevatedButton(
+    this.onPressed,
+    this.icon, {
+    this.size = 24,
+    this.color,
+    this.onLongPress,
+    this.padding = const EdgeInsets.all(15.0),
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +26,7 @@ class MyElevatedButton extends StatelessWidget {
         primary: Colors.transparent,
         onPrimary: Colors.transparent,
         shape: const CircleBorder(),
-        padding: EdgeInsets.all(15.w),
+        padding: padding,
         shadowColor: Colors.white,
         elevation: 0,
       ),

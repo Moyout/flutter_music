@@ -12,10 +12,10 @@ class SearchList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      padding: EdgeInsets.symmetric(horizontal: 0.w),
       child: Material(
         clipBehavior: Clip.antiAlias,
-        borderRadius: BorderRadius.circular(12.w),
+        // borderRadius: BorderRadius.circular(12.w),
         child: svModel.smModel?.data == null
             ? Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 20.w),
@@ -24,12 +24,13 @@ class SearchList extends StatelessWidget {
             : svModel.smModel!.data!.song!.list!.isEmpty
                 ? const Center(child: Text("无结果"))
                 : Column(
-                    mainAxisSize: MainAxisSize.min,
+                    // mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
                         child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
                           itemExtent: 75.w,
-                          controller: svModel.listController,
+                          // controller: svModel.listController,
                           itemCount: svModel.smModel?.data?.song?.list?.length,
                           itemBuilder: (_, index) {
                             String albummid = svModel.smModel!.data!.song!.list![index].albummid!.trim();
@@ -84,7 +85,7 @@ class SearchList extends StatelessWidget {
                           },
                         ),
                       ),
-                      svModel.isLoading ? const CupertinoActivityIndicator() : const SizedBox(),
+                      // svModel.isLoading ? const CupertinoActivityIndicator() : const SizedBox(),
                     ],
                   ),
       ),

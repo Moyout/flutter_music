@@ -19,7 +19,6 @@ class MusicHallViewModel extends ChangeNotifier {
     getBanner();
   }
 
-  ///获取[玩安卓]banner
   Future<void> getBanner() async {
     bannerModel = (await BannerModelRequest.getBannerList())!;
     notifyListeners();

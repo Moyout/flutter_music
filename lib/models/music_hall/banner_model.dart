@@ -52,7 +52,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     h5url = json['h5url'];
     picUrl = json['picUrl'];
-    rid = json['rid'];
+    rid = json['rid'].toString();
   }
 
   Map<String, dynamic> toJson() {
