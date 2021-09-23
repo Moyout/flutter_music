@@ -10,6 +10,7 @@ class LoginViewModel extends ChangeNotifier {
   TextEditingController textPswC = TextEditingController(); //密码
   TextEditingController textEmailC = TextEditingController(); //邮箱
   TextEditingController textCodeC = TextEditingController(); //验证码
+  LoginModel lModel = LoginModel();
   bool isHide = true; //是否显示输入文字
   String teddyStatus = "idle"; //flare动画
   TabController? tabController;
@@ -116,9 +117,7 @@ class LoginViewModel extends ChangeNotifier {
   void sendCode() {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       KeyboardUtil.closeKeyboardUtil();
-      if (isEmail(textEmailC.text) &&
-          textC.text.length >= 6 &&
-          textPswC.text.length >= 6) {
+      if (isEmail(textEmailC.text) && textC.text.length >= 6 && textPswC.text.length >= 6) {
         await SendCodeRequest.sendCode(textEmailC.text).then((value) {
           BotToast.showText(text: value.message.toString());
         });
@@ -149,25 +148,41 @@ class LoginViewModel extends ChangeNotifier {
       }
     } else {
       if (textC.text.isNotEmpty && textPswC.text.length >= 6) {
-        await LoginRequest.getLogin(
-                userName: textC.text, passWord: textPswC.text)
-            .then((value) async {
-          BotToast.showText(text: value.message.toString());
-          if (value.message == "登录成功!") {
-            teddyStatus = "success";
-            notifyListeners();
+        lModel = await LoginRequest.getLogin(userName: textC.text, passWord: textPswC.text);
+        BotToast.showText(text: lModel.message.toString());
+        if(lModel.message=="登录成功!"){
+          teddyStatus = "success";
+          notifyListeners();
+          isLogin = true;
+          userName = lModel.userName ?? "";
+          await SpUtil.setString(PublicKeys.token, lModel.token ?? "");
+          debugPrint("------------>token${SpUtil.getString(PublicKeys.token)}");
+              await Future.delayed(const Duration(milliseconds: 1500), () {
+                RouteUtil.pop(AppUtils.getContext());
+              });
+        }else{
+          setTeddyFail();
+        }
+        //     .then((value) async {
+        //   BotToast.showText(text: value.message.toString());
+        //   if (value.message == "登录成功!") {
+        //     teddyStatus = "success";
+        //     notifyListeners();
+        //
+        //     isLogin = true;
+        //     userName = value.userName ?? "";
+        //     await SpUtil.setString(PublicKeys.token, value.token ?? "");
+        //     BotToast.showText(text: "token::::::${value.token}");
+        //     debugPrint("------------>token${SpUtil.getString(PublicKeys.token)}");
+        //     await Future.delayed(const Duration(milliseconds: 1500), () {
+        //       RouteUtil.pop(AppUtils.getContext());
+        //     });
+        //     notifyListeners();
+        //   } else {
+        //     setTeddyFail();
+        //   }
+        // })
 
-            isLogin = true;
-            userName = value.userName ?? "";
-            await SpUtil.setString(PublicKeys.token, value.token ?? "");
-            await Future.delayed(const Duration(milliseconds: 1500), () {
-              RouteUtil.pop(AppUtils.getContext());
-            });
-            notifyListeners();
-          } else {
-            setTeddyFail();
-          }
-        });
       } else {
         BotToast.showText(text: "请输入完整信息");
       }

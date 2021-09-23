@@ -1,6 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/login/login_viewmodel.dart';
 import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
 import 'package:flutter_music/widget/appbar/my_appbar.dart';
 
@@ -39,15 +40,26 @@ class _SetPageState extends State<SetPage> {
                     ),
                   ),
                 ),
-                ListTile(
-                  title: const Text("头像"),
-                  onTap: () => context.read<SetViewModel>().setAvatar(),
-                  trailing: SizedBox(
-                    child: context.watch<SetViewModel>().croppedFile != null
-                        ? Image.file(context.watch<SetViewModel>().croppedFile!)
-                        : Icon(Icons.add_circle_outlined, size: 30.w),
+                if (context.watch<LoginViewModel>().isLogin)
+                  ListTile(
+                    title: const Text("头像"),
+                    onTap: () => context.read<SetViewModel>().setAvatar(),
+                    trailing: Container(
+                      margin: EdgeInsets.symmetric(vertical:2.w),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: Image.network(
+                        "${context.watch<LoginViewModel>().lModel.avatar}",
+                        width: 100.w,
+                        height: 100.w,
+                        fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                          return Image.asset("assets/images/login.png",
+                              width: 100.w, height: 100.w, fit: BoxFit.cover);
+                        },
+                      ),
+                    ),
                   ),
-                ),
                 // SwitchListTile(
                 //   title: Text("边听边存"),
                 //   value: context.watch<SetViewModel>().listenCache,

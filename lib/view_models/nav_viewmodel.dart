@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_music/models/login/login_model.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/login/login_viewmodel.dart';
+import 'package:flutter_music/views/mine/login/login_page.dart';
 import 'package:flutter_music/views/navigation_page.dart';
 
 class NavViewModel extends ChangeNotifier {
@@ -29,25 +31,34 @@ class NavViewModel extends ChangeNotifier {
       itemList[index].isActive = true;
       navIndex = index;
       notifyListeners();
-      if (index == 2) {
-        String token = SpUtil.getString(PublicKeys.token) ?? "";
-        if (token.isNotEmpty) {
-          await LoginRequest.getLogin(headers: {"token": token}).then((value) {
-            if (value.message == "Signature has expired") {
-              BotToast.showText(text: "登录过期");
-              SpUtil.remove(PublicKeys.token);
-              AppUtils.getContext().read<LoginViewModel>().isLogin = false;
-              notifyListeners();
-            } else {
-              AppUtils.getContext().read<LoginViewModel>().isLogin = true;
-              AppUtils.getContext().read<LoginViewModel>().userName = value.userName.toString();
-              notifyListeners();
-            }
-          });
-        }
+      if (navIndex == 2) {
+        await tokenLogin();
       }
 
+      notifyListeners();
+    }
+  }
 
+  ///token验证
+  Future<void> tokenLogin() async {
+    String token = SpUtil.getString(PublicKeys.token) ?? "";
+    if (token.isNotEmpty) {
+      LoginModel lModel = await LoginRequest.getLogin(headers: {"token": token});
+      if (lModel.code == "-1") {
+        BotToast.showText(text: "登录过期");
+        SpUtil.remove(PublicKeys.token);
+        AppUtils.getContext().read<LoginViewModel>().isLogin = false;
+        AppUtils.getContext().read<LoginViewModel>().lModel = LoginModel();
+        AppUtils.getContext().read<LoginViewModel>().notifyListeners();
+        // await Future.delayed(const Duration(milliseconds: 1000), () {
+        //   RouteUtil.push(AppUtils.getContext(),const LoginPage());
+        // });
+      } else {
+        AppUtils.getContext().read<LoginViewModel>().lModel = lModel;
+        AppUtils.getContext().read<LoginViewModel>().isLogin = true;
+        AppUtils.getContext().read<LoginViewModel>().userName = lModel.userName.toString();
+        AppUtils.getContext().read<LoginViewModel>().notifyListeners();
+      }
       notifyListeners();
     }
   }
@@ -84,14 +95,14 @@ class NavViewModel extends ChangeNotifier {
   void checkNet() async {
     netMode = await Connectivity().checkConnectivity();
     subscription ??= Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-        if (result == ConnectivityResult.mobile) {
-          Toast.showBottomToast("当前为流量连接,请注意使用");
-        } else if (result == ConnectivityResult.wifi) {
-        } else if (result == ConnectivityResult.none) {
-          Toast.showBottomToast("网络错误");
-        }
-        netMode = result;
-        notifyListeners();
-      });
+      if (result == ConnectivityResult.mobile) {
+        Toast.showBottomToast("当前为流量连接,请注意使用");
+      } else if (result == ConnectivityResult.wifi) {
+      } else if (result == ConnectivityResult.none) {
+        Toast.showBottomToast("网络错误");
+      }
+      netMode = result;
+      notifyListeners();
+    });
   }
 }

@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_music/common/keys/public_keys.dart';
 import 'package:flutter_music/models/other/footprint_model.dart';
 import 'package:flutter_music/provider/click_effect_provider.dart';
 import 'package:flutter_music/util/tools.dart';
+import 'package:flutter_music/view_models/login/login_viewmodel.dart';
+import 'package:flutter_music/view_models/nav_viewmodel.dart';
 import 'package:flutter_music/widget/bubble/bubble_paint.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -101,18 +104,19 @@ class SetViewModel extends ChangeNotifier {
   }
 
   ///选择图片
-  Future getImage() async {
+  Future<void> getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       image = File(pickedFile.path);
-      test();
+
+      cropFile();
     } else {
       debugPrint('No image selected.');
     }
     notifyListeners();
   }
 
-  test() async {
+  void cropFile() async {
     croppedFile = await ImageCropper.cropImage(
       sourcePath: image!.path,
       maxHeight: 200,
@@ -136,6 +140,15 @@ class SetViewModel extends ChangeNotifier {
       ),
       iosUiSettings: const IOSUiSettings(minimumAspectRatio: 1.0),
     );
+    if (image != null) {
+      String token = SpUtil.getString(PublicKeys.token) ?? "";
+      await BaseRequest().uploadFile(
+          "http://106.52.246.134:5000/user/${AppUtils.getContext().read<LoginViewModel>().userName}/photo/upload",
+          image!.path,
+          headers: {"token": token}, onSendProgress: (int count, int total) {
+        debugPrint("count------------------->$count\ntotal------------->$total");
+      }).whenComplete(() => AppUtils.getContext().read<NavViewModel>().tokenLogin());
+    }
     notifyListeners();
   }
 

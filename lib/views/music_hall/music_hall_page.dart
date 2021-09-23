@@ -74,7 +74,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                                           "推荐歌单",
                                           style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
                                         ),
-                                        Icon(Icons.chevron_right, size: 20.w)
+                                        // Icon(Icons.chevron_right, size: 20.w)
                                       ],
                                     ),
                                   ),
@@ -92,7 +92,8 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                                           runSpacing: 28.w,
                                           spacing: 10.w,
                                            children: [
-                                            ...List.generate(6,
+                                            ...List.generate(mHVModel
+                                                .r17model.recomPlaylist!.data!.vHot!.length,
                                                 (index) {
                                               return GestureDetector(
                                                 onTap: () => RouteUtil.push(
@@ -170,7 +171,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                                 //   ),
                               ],
                             ),
-                            SizedBox(height: 50.w)
+                            SizedBox(height: 60.w)
                           ],
                         ),
                 ),

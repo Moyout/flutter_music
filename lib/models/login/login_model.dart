@@ -10,7 +10,8 @@ class LoginRequest {
     Map<String, dynamic> map = {"userName": userName ?? "", "passWord": passWord ?? ""};
     var response = await BaseRequest().toPost(
       "http://106.52.246.134:5000/login",
-      data: FormData.fromMap(map),
+      // data: FormData.fromMap(map),
+      data: map,
       options: Options(headers: headers),
     );
     LoginModel lModel = LoginModel.fromJson(response);
@@ -23,14 +24,16 @@ class LoginModel {
   String? message;
   String? token;
   String? userName;
+  String? avatar;
 
-  LoginModel({this.code, this.message, this.token, this.userName});
+  LoginModel({this.code, this.message, this.token, this.userName,this.avatar});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     code = json['code'].toString();
     message = json['message'].toString();
     token = json['token_'];
     userName = json['userName'];
+    avatar = json['avatar'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class LoginModel {
     data['message'] = message.toString();
     data['token_'] = token;
     data['userName'] = userName;
+    data['avatar'] = avatar;
     return data;
   }
 }

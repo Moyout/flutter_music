@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       child: GestureDetector(
         onTap: () => lvModelR.onBlank(context),
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          // resizeToAvoidBottomInset: false,
           body: Column(
             children: [
               Container(

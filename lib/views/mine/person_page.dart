@@ -37,11 +37,18 @@ class _PersonPageState extends State<PersonPage> {
                         ? Container(
                             clipBehavior: Clip.antiAlias,
                             decoration: const BoxDecoration(shape: BoxShape.circle),
-                            child: Image.asset("assets/images/login.png",
-                                width: 100.w, height: 100.w, fit: BoxFit.cover),
+                            child: Image.network(
+                              "${context.watch<LoginViewModel>().lModel.avatar}",
+                              width: 100.w,
+                              height: 100.w,
+                              fit: BoxFit.cover,
+                              errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                return Image.asset("assets/images/login.png",
+                                    width: 100.w, height: 100.w, fit: BoxFit.cover);
+                              },
+                            ),
                           )
-                        : Icon(Icons.person_pin,
-                            size: 100.w, color: Theme.of(context).dividerColor),
+                        : Icon(Icons.person_pin, size: 100.w, color: Theme.of(context).dividerColor),
                     onPressed: () => RouteUtil.push2(context, const LoginPage()),
                   ),
                 ),
@@ -61,20 +68,17 @@ class _PersonPageState extends State<PersonPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       MyElevatedButton(
-                        () => RouteUtil.push(context, const HistoryPage(),
-                            animation: RouteAnimation.popLeft),
+                        () => RouteUtil.push(context, const HistoryPage(), animation: RouteAnimation.popLeft),
                         Icons.history_outlined,
                         size: 44.w,
                       ),
                       MyElevatedButton(
-                        () => RouteUtil.push(context, const MyFavoritesPage(),
-                            animation: RouteAnimation.popUp),
+                        () => RouteUtil.push(context, const MyFavoritesPage(), animation: RouteAnimation.popUp),
                         Icons.favorite,
                         size: 44.w,
                       ),
                       MyElevatedButton(
-                        () => RouteUtil.push(context, const DownloadPage(),
-                            animation: RouteAnimation.popRight),
+                        () => RouteUtil.push(context, const DownloadPage(), animation: RouteAnimation.popRight),
                         Icons.download_rounded,
                         size: 44.w,
                       )
@@ -83,11 +87,9 @@ class _PersonPageState extends State<PersonPage> {
                 ),
                 InkWell(
                   customBorder: const StadiumBorder(),
-                  onTap: () => RouteUtil.push(context, const SetPage(),
-                      animation: RouteAnimation.popDown),
+                  onTap: () => RouteUtil.push(context, const SetPage(), animation: RouteAnimation.popDown),
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.w, horizontal: 0.w),
+                    padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 0.w),
                     margin: EdgeInsets.symmetric(horizontal: 12.w),
                     child: Row(
                       children: [
