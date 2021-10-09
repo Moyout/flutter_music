@@ -5,7 +5,7 @@ class SearchBarWidget extends StatelessWidget {
   final String title;
   final Widget? widget;
 
-  const SearchBarWidget({this.title = "", this.widget,Key?key}):super(key: key);
+  const SearchBarWidget({this.title = "", this.widget, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,10 @@ class SearchBarWidget extends StatelessWidget {
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: Theme.of(context).textTheme.bodyText2!.fontSize! + 4.sp,
-            ),
+            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: Theme.of(context).textTheme.bodyText2!.fontSize! + 4.sp,
+                ),
           ),
           Expanded(
             child: GestureDetector(

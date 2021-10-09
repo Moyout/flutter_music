@@ -40,6 +40,7 @@ class _ClickEffectWidgetState extends State<ClickEffectWidget>
   Widget build(BuildContext context) {
     AppUtils.getContext().read<ClickEffectProvider>().controller.repeat();
     return Listener(
+
       onPointerDown: (PointerDownEvent pointerDownEvent) {
         context
             .read<ClickEffectProvider>()

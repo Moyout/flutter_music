@@ -19,9 +19,12 @@ class _PersonPageState extends State<PersonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: const SearchBarWidget(title: "我的"),
+      ),
       body: Column(
         children: [
-          const SafeArea(bottom: false, child: SearchBarWidget(title: "我的")),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.all(0),

@@ -31,9 +31,13 @@ class _MVPageState extends State<MVPage> with AutomaticKeepAliveClientMixin {
     MvViewModel mvModel = context.watch<MvViewModel>();
     super.build(context);
     return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: const SearchBarWidget(title: "MV榜"),
+      ),
       body: Column(
         children: [
-          const SafeArea(bottom: false, child: SearchBarWidget(title: "MV榜")),
+          // const SafeArea(bottom: false, child: SearchBarWidget(title: "MV榜")),
           Expanded(
             child: SmartRefresher(
               // enablePullDown: true,
@@ -78,7 +82,8 @@ class _MVPageState extends State<MVPage> with AutomaticKeepAliveClientMixin {
                                           Container(
                                             width: 8.w,
                                             height: 8.w,
-                                            decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+                                            decoration:
+                                                const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
                                           ),
                                           const Text("正在播放", style: TextStyle(color: Colors.white))
                                         ],

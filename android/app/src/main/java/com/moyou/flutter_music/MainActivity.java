@@ -23,7 +23,7 @@ public class MainActivity extends FlutterActivity {
         super.configureFlutterEngine(flutterEngine);
 //        getPermission(flutterEngine);
         FlutterMethodChannel flutterMethodChannel = new FlutterMethodChannel();
-        flutterMethodChannel.backToDesktop(flutterEngine,this);
+        flutterMethodChannel.backToDesktop(flutterEngine, this);
     }
 
 //    private void backToDesktop(FlutterEngine flutterEngine) {

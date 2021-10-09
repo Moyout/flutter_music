@@ -8,6 +8,7 @@ class Toast {
   //toast提示
   static showBotToast(String text, {int seconds = 3}) {
     return BotToast.showSimpleNotification(
+
       title: text,
       hideCloseButton: true,
       duration: Duration(seconds: seconds),
@@ -24,6 +25,7 @@ class Toast {
   }
 
   static showOnTap(String text, {Offset offset = Offset.zero}) {
+
     return BotToast.showText(
       text: text,
       align: Alignment(offset.dx / MediaQuery.of(AppUtils.getContext()).size.width,

@@ -6,6 +6,10 @@ class ThemeUtil {
   ///日间模式
   static ThemeData lightTheme() {
     return ThemeData(
+      appBarTheme: AppBarTheme(
+        color: Colors.grey[200],
+        elevation: 0,
+      ),
       fontFamily: "FZKT",
       primaryColor: Colors.white,
       scaffoldBackgroundColor: Colors.grey[200],
@@ -28,6 +32,10 @@ class ThemeUtil {
       fontFamily: "FZKT",
       primaryColor: Colors.white,
       scaffoldBackgroundColor: Colors.blueGrey,
+      appBarTheme: const AppBarTheme(
+        color: Colors.blueGrey,
+        elevation: 0,
+      ),
       textTheme: TextTheme(
         bodyText2: TextStyle(
           fontSize: 14.sp,
@@ -35,6 +43,7 @@ class ThemeUtil {
           fontFamily: "FZKT",
         ),
       ),
+
       iconTheme: const IconThemeData(color: Colors.white),
       dividerColor: Colors.white,
       brightness: Brightness.dark,
