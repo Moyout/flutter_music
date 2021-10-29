@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_music/provider/provider_list.dart';
 import 'package:flutter_music/util/tools.dart';
 import 'package:flutter_music/view_models/setting/set_centre_viewmodel.dart';
+import 'package:flutter_music/view_models/startup_viewmodel.dart';
+import 'package:flutter_music/views/search_page/search_page.dart';
 import 'package:flutter_music/views/startup_page.dart';
 import 'package:flutter_music/widget/refresh/my_refresh.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 void main() {
   Provider.debugCheckInvalidValueType = null; //Provider 状态管理，同步数据

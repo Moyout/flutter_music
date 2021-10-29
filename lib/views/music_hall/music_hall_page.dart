@@ -50,10 +50,7 @@ class _MusicHallPageState extends State<MusicHallPage> with AutomaticKeepAliveCl
                       floating: true,
                       pinned: true,
                       titleSpacing: 10.w,
-                      title: Text(
-                        "推荐歌单",
-                        style: TextStyle(fontSize: 18.sp),
-                      ),
+                      title: Text("推荐歌单", style: TextStyle(fontSize: 18.sp)),
                     ),
                     SliverToBoxAdapter(
                       child: mHVModel.r17model.recomPlaylist?.data == null
